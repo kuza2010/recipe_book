@@ -1,0 +1,38 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryCustom</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkCustom</item>
+        <item name="colorAccent">@color/colorAccentCustom</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDarkCustom</item>
+    </style>
+
+    <style name="AppCompatButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:backgroundTintMode">src_in</item>
+    </style>
+
+
+    <!---   BLUE BERRY STYLE   -->
+
+    <!--    Theme   -->
+    <style name="AppThemeBlueBerry" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/BPrimary</item>
+        <item name="colorPrimaryDark">@color/BDark</item>
+        <item name="colorAccent">@color/BAccent</item>
+        <item name="android:navigationBarColor">@color/BDark</item>
+    </style>
+
+
+    <style name="CategoryTextViewBlueBerryStyle">
+        <item name="android:textColor">@color/BTextViewCategoryNameTextColor</item>
+        <item name="android:textSize">@dimen/category_element_text_view_size</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+
+</resources>

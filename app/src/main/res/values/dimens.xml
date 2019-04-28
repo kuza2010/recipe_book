@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="login_form_margin">100dp</dimen>
+    <dimen name="remember_me_margin">20dp</dimen>
+
+    <dimen name="category_element_text_view_size">30sp</dimen>
+</resources>

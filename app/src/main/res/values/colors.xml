@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!--    By Danilin Artem     -->
+    <color name="colorPrimaryCustom">#408fb4</color>
+    <color name="colorPrimaryDarkCustom">#006284</color>
+    <color name="colorAccentCustom">#bddfef</color>
+    <color name="colorControlNormalCustom">#64566e</color>
+    <color name="colorErrorCustom">#860018</color>
+
+
+    <!-- blueberry -->
+    <color name="BBackground">@color/BPrimary</color>
+
+    <color name="BNavigationBarBackground">@color/BDark</color>
+    <color name="BNavigationBarItemBackground">@color/BControlNormal</color>
+    <color name="BNavigationBarItemSelectedStateBackground">@color/BError</color>
+
+    <!--    Category     -->
+    <color name="BTextViewCategoryNameTextColor">@color/BBlack</color>
+    <color name="BImageViewPreloadBackground">#8AAF82B6</color>
+    <color name="BGradientStartColor">#FFFFC2DE</color>
+    <color name="BGradientEndColor">#FF27003A</color>
+
+    <color name="BPrimary">#947081</color>
+    <color name="BDark">#3b1c2c</color>
+    <color name="BError">#A74117</color>
+    <color name="BAccent">#408fb4</color>
+    <color name="BControlNormal">#64566e</color>
+    <color name="BBlack">#27003A</color>
+
+</resources>

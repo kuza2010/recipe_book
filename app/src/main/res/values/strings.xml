@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Recipes</string>
+
+    <!---   Login activity  -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_btn_text">LOGIN</string>
+    <string name="create_account_btn_text">No account yet? Create one</string>
+    <string name="main_logo_content_description">Main app logo, by Artyom</string>
+
+    <!--    Navigation bar  -->
+    <string name="navigation_bar_recipes">Recipes</string>
+    <string name="navigation_bar_search">Search</string>
+    <string name="navigation_bar_profile">Profile</string>
+    <string name="each_category_element">each_category_element</string>
+
+</resources>
