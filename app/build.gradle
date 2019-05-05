@@ -26,6 +26,18 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.dagger/dagger
     implementation group: 'com.google.dagger', name: 'dagger', version: '2.21'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
+    //butterknife
+    implementation group: 'com.jakewharton', name: 'butterknife', version: '8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    //Gson
+    implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.5.0'
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/logging-interceptor
+    implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '3.11.0'
+
 
     //standart
     implementation fileTree(dir: 'libs', include: ['*.jar'])

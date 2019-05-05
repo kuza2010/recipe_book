@@ -1,6 +1,6 @@
 package com.example.myapplication.framework.dagger.modules;
 
-import com.example.myapplication.presentation.presenter.login_presenter.LoginPresenter;
+import com.example.myapplication.presentation.presenter.LoginPresenter;
 
 import dagger.Module;
 import dagger.Provides;

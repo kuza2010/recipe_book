@@ -7,8 +7,8 @@ public abstract class BasePresenter <View> {
         if (this.view != null)
             this.view = view;
     }
+
     public void unbind() {
         this.view = null;
     }
-
 }
