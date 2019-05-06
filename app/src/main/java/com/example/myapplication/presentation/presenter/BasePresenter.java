@@ -4,8 +4,7 @@ public abstract class BasePresenter <View> {
     protected View view;
 
     public void bind(View view) {
-        if (this.view != null)
-            this.view = view;
+        this.view = view;
     }
 
     public void unbind() {

@@ -5,34 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Categories {
-    @SerializedName("name")
-    private String name;
-    @SerializedName("data")
-    private String photo;
+    @SerializedName("categories")
+    private List<Category> categories;
 
-    public String getName() {
-        return name;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-//    private List<Category> categoryList;
-//
-//    public List<Category> getCategoryList() {
-//        return categoryList;
-//    }
-//
-//    public void setCategoryList(List<Category> categoryList) {
-//        this.categoryList = categoryList;
-//    }
 }

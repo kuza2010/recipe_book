@@ -4,14 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.myapplication.R;
+import com.example.myapplication.presentation.ui.fragments.CategoryFeedFragment;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.navigation_bar)
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        ButterKnife.bind(this);
 
         toolbar = getSupportActionBar();
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -36,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_songs:
                         toolbar.setTitle(FEED);
+
+                        CategoryFeedFragment feedFragment = new CategoryFeedFragment();
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.container,feedFragment);
+                        transaction.commit();
+
                         return true;
                     case R.id.navigation_albums:
                         toolbar.setTitle(SEARCH);

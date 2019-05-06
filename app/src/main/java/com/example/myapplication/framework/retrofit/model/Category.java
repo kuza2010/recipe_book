@@ -1,22 +1,26 @@
 package com.example.myapplication.framework.retrofit.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Category {
-    private String categoryName;
-    private String[] photo;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("data")
+    private String data;
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String[] getPhoto() {
-        return photo;
+    public String getData() {
+        return data;
     }
 
-    public void setPhoto(String[] photo) {
-        this.photo = photo;
+    public void setData(String data) {
+        this.data = data;
     }
 }

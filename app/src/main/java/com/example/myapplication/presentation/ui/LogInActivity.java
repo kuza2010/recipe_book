@@ -47,5 +47,4 @@ public class LogInActivity extends Activity implements LoginPresenter.LoginContr
         //TODO: validate login, password
         presenter.login();
     }
-
 }

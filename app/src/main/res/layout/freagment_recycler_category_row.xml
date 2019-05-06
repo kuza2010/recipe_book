@@ -5,7 +5,7 @@
     android:layout_height="250dp">
 
     <ImageView
-        android:id="@+id/category_element_text_view"
+        android:id="@+id/category_element_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
@@ -13,9 +13,11 @@
         android:background="@drawable/category_preload_background_gradient"/>
 
     <TextView
+        android:id="@+id/category_element_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:text="QWEQWEWQE"
         style="@style/CategoryTextViewBlueBerryStyle"/>
 
 </RelativeLayout>
