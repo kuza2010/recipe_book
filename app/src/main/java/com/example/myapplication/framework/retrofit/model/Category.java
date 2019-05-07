@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName;
 public class Category {
     @SerializedName("name")
     private String name;
-    @SerializedName("data")
-    private String data;
+    @SerializedName("image_id")
+    private Integer imageId;
 
     public String getName() {
         return name;
@@ -16,11 +16,11 @@ public class Category {
         this.name = name;
     }
 
-    public String getData() {
-        return data;
+    public Integer getImageId() {
+        return imageId;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setImageId(Integer imageId) {
+        this.imageId = imageId;
     }
 }

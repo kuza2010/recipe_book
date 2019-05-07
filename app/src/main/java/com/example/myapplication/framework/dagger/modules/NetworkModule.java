@@ -15,7 +15,7 @@ public class NetworkModule {
     @Provides
     public Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl("https://aktla0ske7.execute-api.eu-central-1.amazonaws.com/")
+                .baseUrl("https://vy5trnewne.execute-api.eu-central-1.amazonaws.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

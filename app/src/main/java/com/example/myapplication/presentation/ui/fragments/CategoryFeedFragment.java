@@ -1,19 +1,14 @@
 package com.example.myapplication.presentation.ui.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +17,8 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
-import com.example.myapplication.framework.retrofit.CategoryServiceImpl;
+import com.example.myapplication.framework.retrofit.services.category.CategoryServices;
+import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.model.Categories;
 import com.example.myapplication.framework.retrofit.model.Category;
 
@@ -40,7 +36,7 @@ public class CategoryFeedFragment extends Fragment {
     RecyclerView recyclerView;
 
     @Inject
-    CategoryServiceImpl categoryService;
+    CategoryServices categoryService;
 
     private List<Category> categoryList = new ArrayList<>();
     private CategoriesAdapter adapter;
@@ -49,12 +45,7 @@ public class CategoryFeedFragment extends Fragment {
     public CategoryFeedFragment() {
         Timber.d("fragment constructor");
         BaseApp.getComponent().inject(this);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                feetch();
-            }
-        }).start();
+        feetch();
     }
 
     @Override
@@ -80,16 +71,24 @@ public class CategoryFeedFragment extends Fragment {
 
     public void feetch() {
         Timber.e("categories download started!");
-        this.categoryList.addAll(categoryService.getCategories().getCategories());
-        Runnable myRunnable = new Runnable() {
+
+
+        categoryService.getCategories(new NetworkCallback<Categories>() {
             @Override
-            public void run() {
+            public void onResponse(Categories categories) {
+                Timber.e("categories download completed!");
+                CategoryFeedFragment.this.categoryList.addAll(categories.getCategories());
                 adapter.notifyDataSetChanged();
-            } // This is your code
-        };
-        mainHandler.post(myRunnable);
-        Timber.e("categories download completed!");
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Timber.e("Failed get categories");
+            }
+        });
     }
+
+
 
     public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
         private List<Category> list;
@@ -109,17 +108,16 @@ public class CategoryFeedFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int i) {
             Category category = list.get(i);
-            byte[] decodedString = Base64.decode(category.getData(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-            categoryViewHolder.image.setImageBitmap(decodedByte);
             categoryViewHolder.name.setText(category.getName());
         }
 
         @Override
         public int getItemCount() {
-            if (list != null)
+            if (list != null) {
+                Timber.i("categories item count = %s", list.size());
                 return list.size();
+            }
+            Timber.i("categories item count = 0");
             return 0;
         }
 

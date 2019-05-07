@@ -3,14 +3,10 @@ package com.example.myapplication.presentation.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 
 import com.example.myapplication.BaseApp;
-import com.example.myapplication.BuildConfig;
 import com.example.myapplication.R;
-import com.example.myapplication.framework.retrofit.CategoryServiceImpl;
-import com.example.myapplication.framework.retrofit.model.Categories;
 import com.example.myapplication.presentation.presenter.LoginPresenter;
 
 import javax.inject.Inject;
