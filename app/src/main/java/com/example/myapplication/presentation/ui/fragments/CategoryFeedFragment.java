@@ -115,7 +115,7 @@ public class CategoryFeedFragment extends Fragment {
             Timber.e("Start load image pos %s", i);
             imageServices
                     .getPicasso()
-                    .load(ImageServices.getUrlForImage(i == 0 || i >= 5 ? 1 : i + 1))
+                    .load(ImageServices.getUrlForImage(list.get(i).getImageId()))
                     .error(R.drawable.load_image_error)
                     .into(categoryViewHolder.image);
             categoryViewHolder.name.setText(category.getName());

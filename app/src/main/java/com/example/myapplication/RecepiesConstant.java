@@ -4,6 +4,7 @@ public class RecepiesConstant {
     //AWS
     public static final String BASE_URL="https://vy5trnewne.execute-api.eu-central-1.amazonaws.com/";
     public static final String IMAGE_API_URL="Prod/api/images/getimage";
+    public static final String IMAGE_PARAMETER="?image_id=";
 
 
     //Units

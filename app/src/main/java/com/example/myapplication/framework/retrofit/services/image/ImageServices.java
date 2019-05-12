@@ -28,6 +28,7 @@ import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.BASE_URL;
 import static com.example.myapplication.RecepiesConstant.IMAGE_API_URL;
+import static com.example.myapplication.RecepiesConstant.IMAGE_PARAMETER;
 
 @Singleton
 public class ImageServices {
@@ -56,7 +57,7 @@ public class ImageServices {
         StringBuilder builder = new StringBuilder();
         builder.append(BASE_URL);
         builder.append(IMAGE_API_URL);
-        builder.append("?imageId=" + imageId);
+        builder.append(IMAGE_PARAMETER + imageId);
 
         Timber.d("ImageService: create url: %s", builder.toString());
         return builder.toString();
