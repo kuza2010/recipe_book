@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.ui.main.MainActivity" />
+        <activity android:name=".presentation.ui.recipe.RecipeActivity" />
 
     </application>
 

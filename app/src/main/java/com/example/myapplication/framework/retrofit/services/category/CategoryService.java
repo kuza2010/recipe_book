@@ -1,4 +1,4 @@
-package com.example.myapplication.framework.retrofit;
+package com.example.myapplication.framework.retrofit.services.category;
 
 import com.example.myapplication.framework.retrofit.model.Categories;
 

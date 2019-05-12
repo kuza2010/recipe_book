@@ -1,9 +1,9 @@
 package com.example.myapplication;
 
-import static com.example.myapplication.presentation.ui.BaseToolbarActivity.ERROR;
-import static com.example.myapplication.presentation.ui.BaseToolbarActivity.PROFILE;
-import static com.example.myapplication.presentation.ui.BaseToolbarActivity.RECIPES;
-import static com.example.myapplication.presentation.ui.BaseToolbarActivity.SEARCH;
+import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.ERROR;
+import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.PROFILE;
+import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.RECIPES;
+import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.SEARCH;
 
 public class Utils {
 

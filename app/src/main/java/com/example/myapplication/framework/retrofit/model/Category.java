@@ -23,4 +23,12 @@ public class Category {
     public void setImageId(Integer imageId) {
         this.imageId = imageId;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                ", imageId=" + imageId +
+                '}';
+    }
 }

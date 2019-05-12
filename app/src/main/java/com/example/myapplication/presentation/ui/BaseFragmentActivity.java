@@ -1,10 +1,8 @@
 package com.example.myapplication.presentation.ui;
 
-import android.support.v7.app.AppCompatActivity;
-
 import java.util.LinkedList;
 
-public abstract class BaseFragmentActivity extends AppCompatActivity {
+public abstract class BaseFragmentActivity extends BaseToolbarActivity {
 
     protected LinkedList<String> createdFragments = new LinkedList<>();
 

@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:contentDescription="@string/each_category_element"
-        android:background="@drawable/category_preload_background_gradient"/>
+        android:background="@drawable/category_preload_background_gradient"
+        android:clickable="true"/>
 
     <TextView
         android:id="@+id/category_element_name"

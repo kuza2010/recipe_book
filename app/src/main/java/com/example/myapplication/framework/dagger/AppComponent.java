@@ -3,9 +3,11 @@ package com.example.myapplication.framework.dagger;
 import com.example.myapplication.framework.dagger.modules.ApplicationModule;
 import com.example.myapplication.framework.dagger.modules.NetworkModule;
 import com.example.myapplication.framework.dagger.modules.PresenterModule;
-import com.example.myapplication.presentation.ui.BaseToolbarActivity;
+import com.example.myapplication.presentation.presenter.main.MainPresenterImpl;
+import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
 import com.example.myapplication.presentation.ui.fragments.CategoryFeedFragment;
 import com.example.myapplication.presentation.ui.login.LogInActivity;
+import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
 
 import javax.inject.Singleton;
 
@@ -17,8 +19,11 @@ import dagger.Component;
         NetworkModule.class})
 public interface AppComponent {
 
-    void inject (BaseToolbarActivity activity);
+    void inject (BaseBottomNavigationActivity activity);
     void inject (LogInActivity activity);
+    void inject (RecipeActivity activity);
 
     void inject(CategoryFeedFragment categoryFeedFragment);
+
+   // void inject(MainPresenterImpl presenter);
 }
