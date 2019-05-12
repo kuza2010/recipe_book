@@ -1,6 +1,11 @@
 package com.example.myapplication.framework.dagger.modules;
 
-import com.example.myapplication.presentation.presenter.LoginPresenter;
+import com.example.myapplication.presentation.presenter.login.LoginPresenter;
+import com.example.myapplication.presentation.presenter.login.LoginPresenterImpl;
+import com.example.myapplication.presentation.ui.NavigationToolbarHelper;
+import com.example.myapplication.presentation.ui.NavigationToolbarHelperImpl;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -9,7 +14,15 @@ import dagger.Provides;
 public class PresenterModule {
 
     @Provides
-    public LoginPresenter provideLoginPresenter(){
-        return new LoginPresenter();
+    @Singleton
+    public LoginPresenter provideLoginPresenter() {
+        return new LoginPresenterImpl();
+    }
+
+
+    @Provides
+    @Singleton
+    public NavigationToolbarHelper provideNavigationToolbarHelper() {
+        return new NavigationToolbarHelperImpl();
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_categories"
+        android:id="@+id/navigation_recipes"
         android:icon="@drawable/baseline_cake_white_48"
         android:title="@string/navigation_bar_recipes"/>
 

@@ -1,8 +1,7 @@
 package com.example.myapplication.presentation.ui.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,10 +16,11 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
-import com.example.myapplication.framework.retrofit.services.category.CategoryServices;
-import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.model.Categories;
 import com.example.myapplication.framework.retrofit.model.Category;
+import com.example.myapplication.framework.retrofit.services.NetworkCallback;
+import com.example.myapplication.framework.retrofit.services.category.CategoryServices;
+import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,19 +31,26 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static com.example.myapplication.RecepiesConstant.CACHE;
+
 public class CategoryFeedFragment extends Fragment {
+
+    public static final String TAG = Fragment.class.getSimpleName();
+
     @BindView(R.id.recycler_view_category)
     RecyclerView recyclerView;
 
     @Inject
     CategoryServices categoryService;
+    @Inject
+    ImageServices imageServices;
+
 
     private List<Category> categoryList = new ArrayList<>();
     private CategoriesAdapter adapter;
-    private Handler mainHandler = new Handler(Looper.getMainLooper());
+
 
     public CategoryFeedFragment() {
-        Timber.d("fragment constructor");
         BaseApp.getComponent().inject(this);
         feetch();
     }
@@ -53,7 +60,6 @@ public class CategoryFeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_activity_recepies, container, false);
@@ -69,14 +75,13 @@ public class CategoryFeedFragment extends Fragment {
         return view;
     }
 
+
     public void feetch() {
-        Timber.e("categories download started!");
-
-
-        categoryService.getCategories(new NetworkCallback<Categories>() {
+        Timber.d("categories download started!");
+        categoryService.getCategories(CACHE, new NetworkCallback<Categories>() {
             @Override
             public void onResponse(Categories categories) {
-                Timber.e("categories download completed!");
+                Timber.d("download %s category", categories.getCategories().size());
                 CategoryFeedFragment.this.categoryList.addAll(categories.getCategories());
                 adapter.notifyDataSetChanged();
             }
@@ -87,7 +92,6 @@ public class CategoryFeedFragment extends Fragment {
             }
         });
     }
-
 
 
     public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
@@ -108,16 +112,19 @@ public class CategoryFeedFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int i) {
             Category category = list.get(i);
+            Timber.e("Start load image pos %s", i);
+            imageServices
+                    .getPicasso()
+                    .load(ImageServices.getUrlForImage(i == 0 || i >= 5 ? 1 : i + 1))
+                    .error(R.drawable.load_image_error)
+                    .into(categoryViewHolder.image);
             categoryViewHolder.name.setText(category.getName());
         }
 
         @Override
         public int getItemCount() {
-            if (list != null) {
-                Timber.i("categories item count = %s", list.size());
+            if (list != null)
                 return list.size();
-            }
-            Timber.i("categories item count = 0");
             return 0;
         }
 

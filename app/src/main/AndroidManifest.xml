@@ -16,14 +16,13 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-            android:name=".presentation.ui.LogInActivity">
+            android:name=".presentation.ui.login.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.ui.MainActivity">
-        </activity>
+        <activity android:name=".presentation.ui.main.MainActivity" />
 
     </application>
 

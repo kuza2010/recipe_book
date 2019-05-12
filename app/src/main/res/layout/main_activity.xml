@@ -6,24 +6,31 @@
     android:layout_height="match_parent"
     android:background="@color/BBackground">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/BBackground">
-    </FrameLayout>
+        android:orientation="vertical">
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/BNavigationBarBackground"
-        android:foreground="?attr/selectableItemBackground"
-        app:itemBackground="@color/BNavigationBarBackground"
-        app:itemIconTint="@drawable/selector_navigation_bar"
-        app:itemTextColor="@drawable/selector_navigation_bar"
-        app:menu="@menu/navigation">
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/BBackground">
+        </FrameLayout>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/BNavigationBarBackground"
+            android:foreground="?attr/selectableItemBackground"
+            app:itemBackground="@color/BNavigationBarBackground"
+            app:itemIconTint="@drawable/selector_navigation_bar"
+            app:itemTextColor="@drawable/selector_navigation_bar"
+            app:menu="@menu/navigation">
     </android.support.design.widget.BottomNavigationView>
+
+    </LinearLayout>
 
 </RelativeLayout>

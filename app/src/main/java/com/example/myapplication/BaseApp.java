@@ -1,8 +1,6 @@
 package com.example.myapplication;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.myapplication.framework.dagger.AppComponent;
 import com.example.myapplication.framework.dagger.DaggerAppComponent;
