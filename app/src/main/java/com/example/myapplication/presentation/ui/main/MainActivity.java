@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 
 import com.example.myapplication.R;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
-import com.example.myapplication.presentation.ui.fragments.CategoryFeedFragment;
 import com.example.myapplication.presentation.ui.fragments.TestFragments;
 
 import timber.log.Timber;

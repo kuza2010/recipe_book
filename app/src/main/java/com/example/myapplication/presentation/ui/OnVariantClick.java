@@ -1,4 +1,4 @@
-package com.example.myapplication.presentation.ui.fragments;
+package com.example.myapplication.presentation.ui;
 
 import com.example.myapplication.framework.retrofit.model.Category;
 

@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.widget.Toast;
 
 public class BaseToolbarActivity extends AppCompatActivity {
 
@@ -20,5 +22,11 @@ public class BaseToolbarActivity extends AppCompatActivity {
     protected void setTitle(@NonNull String title) {
         if (!title.isEmpty() && toolbar != null)
             toolbar.setTitle(title);
+    }
+
+    protected void popupToast(String message, int time){
+        Toast toast = Toast.makeText(this,message,time);
+        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+        toast.show();
     }
 }

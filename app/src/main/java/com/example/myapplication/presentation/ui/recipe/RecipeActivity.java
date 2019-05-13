@@ -2,6 +2,7 @@ package com.example.myapplication.presentation.ui.recipe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,11 +17,14 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
+import com.example.myapplication.Utils;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 import com.example.myapplication.framework.retrofit.services.recipe.RecipeServices;
+import com.example.myapplication.presentation.presenter.recipe.RecipePresenter;
+import com.example.myapplication.presentation.presenter.recipe.RecipePresenterImpl;
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 
 import java.util.ArrayList;
@@ -34,7 +38,7 @@ import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
 
-public class RecipeActivity extends BaseToolbarActivity {
+public class RecipeActivity extends BaseToolbarActivity implements RecipePresenter.RecipeContractView {
     public static final String TITLE = "toolbar_title";
 
     @BindView(R.id.recycler_view_recipes)
@@ -44,48 +48,11 @@ public class RecipeActivity extends BaseToolbarActivity {
     RecipeServices recipeServices;
     @Inject
     ImageServices imageServices;
+    @Inject
+    RecipePresenterImpl presenter;
 
     private RecipeAdapter adapter;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_activity);
-        doInject();
-
-        fetch();
-
-        setTitle(getIntent().getStringExtra(TITLE));
-
-        adapter = new RecipeAdapter();
-
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-    }
-
-    private void doInject(){
-        ButterKnife.bind(this);
-        BaseApp.getComponent().inject(this);
-    }
-
-
-    public void fetch() {
-        Timber.d("recipe download started!");
-        recipeServices.getRecipeByCategoryName("Супы",CACHE, new NetworkCallback<Recipes>() {
-            @Override
-            public void onResponse(Recipes recipes) {
-                Timber.d("download %s category", recipes.getRecipes().size());
-                adapter.setRecipeList(recipes.getRecipes());
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Timber.e("Failed get categories");
-            }
-        });
-    }
+    private String currentCategory;
 
     public static Intent getInstance(Context packageContext, String categoryName){
         Intent intent = new Intent(packageContext, RecipeActivity.class);
@@ -93,18 +60,84 @@ public class RecipeActivity extends BaseToolbarActivity {
         return intent;
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        currentCategory = getIntent().getStringExtra(TITLE);
+        setContentView(R.layout.recipe_activity);
+        doInject();
 
+        setTitle(currentCategory);
+        adapter = new RecipeAdapter();
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, Utils.dpToPx(this,8), true));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private void doInject(){
+        ButterKnife.bind(this);
+        BaseApp.getComponent().inject(this);
+        presenter.bind(this);
+
+        presenter.init(currentCategory);
+    }
+
+    @Override
+    public void updateRecipes(List<Recipe> recipeList) {
+        adapter.setRecipeList(recipeList);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.unbind();
+    }
+
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing;
+                }
+                outRect.bottom = spacing; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
+    }
 
     public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
         private List<Recipe> recipeList;
 
         public void setRecipeList(List<Recipe> recipeList) {
-            if (!this.recipeList.isEmpty())
-                this.recipeList.clear();
-
-            this.recipeList.addAll(recipeList);
-            notifyDataSetChanged();
+            this.recipeList.addAll(0, recipeList);
+            notifyItemRangeChanged(0, recipeList.size());
         }
 
         public RecipeAdapter() {
@@ -114,7 +147,7 @@ public class RecipeActivity extends BaseToolbarActivity {
         @NonNull
         @Override
         public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_by_category_recycler_row, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_recycler_row, viewGroup, false);
             return new RecipeViewHolder(view);
         }
 
@@ -133,6 +166,7 @@ public class RecipeActivity extends BaseToolbarActivity {
         public int getItemCount() {
             if (recipeList == null)
                 return 0;
+
             return recipeList.size();
         }
 

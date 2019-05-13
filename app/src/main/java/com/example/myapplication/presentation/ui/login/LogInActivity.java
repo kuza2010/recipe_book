@@ -8,6 +8,7 @@ import android.widget.Button;
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
 import com.example.myapplication.presentation.presenter.login.LoginPresenter;
+import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.example.myapplication.presentation.ui.main.MainActivity;
 
 import javax.inject.Inject;
@@ -16,7 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class LogInActivity extends Activity implements LoginPresenter.LoginContractView {
+public class LogInActivity extends BaseToolbarActivity implements LoginPresenter.LoginContractView {
 
     @Inject
     LoginPresenter presenter;

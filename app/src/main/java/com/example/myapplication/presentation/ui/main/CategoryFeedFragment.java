@@ -1,4 +1,4 @@
-package com.example.myapplication.presentation.ui.fragments;
+package com.example.myapplication.presentation.ui.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +20,7 @@ import com.example.myapplication.framework.retrofit.model.Category;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.category.CategoryServices;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
+import com.example.myapplication.presentation.ui.OnVariantClick;
 import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
 
 import java.util.ArrayList;

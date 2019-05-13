@@ -4,4 +4,7 @@
     <dimen name="remember_me_margin">20dp</dimen>
 
     <dimen name="category_element_text_view_size">30sp</dimen>
+
+    <dimen name="corner_radius">5dp</dimen>
+    <dimen name="recipe_activity_margin">5dp</dimen>
 </resources>

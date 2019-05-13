@@ -1,5 +1,7 @@
 package com.example.myapplication.framework.retrofit.services.recipe;
 
+import android.support.annotation.NonNull;
+
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.AbstractServices;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
@@ -22,7 +24,7 @@ public class RecipeServices extends AbstractServices {
     }
 
 
-    public void getRecipeByCategoryName(String categoryName, @Header("Cache-Control") String cacheControl, NetworkCallback<Recipes> networkCallback) {
+    public void getRecipeByCategoryName(@NonNull String categoryName, @Header("Cache-Control") String cacheControl, NetworkCallback<Recipes> networkCallback) {
         Call<Recipes> call = recipeService.getRecipeByCategoryName(cacheControl, categoryName);
         enqueue(call, networkCallback);
     }
