@@ -16,11 +16,11 @@ public abstract class AbstractServices {
                 return response.body();
             } else {
                 Timber.e("response failed");
-                throw new AWSException("responce failed");
+                throw new AWSException("response failed");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new AWSException("responce failed", e);
+            throw new AWSException("response failed", e);
         }
     }
 

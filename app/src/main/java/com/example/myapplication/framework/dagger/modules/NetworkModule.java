@@ -44,6 +44,7 @@ import static com.example.myapplication.RecepiesConstant.Mb;
 public class NetworkModule {
 
     @Provides
+    @Singleton
     public Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)

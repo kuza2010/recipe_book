@@ -125,7 +125,7 @@ public class CategoryFeedFragment extends Fragment implements OnVariantClick {
         @NonNull
         @Override
         public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.freagment_recycler_category_row, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.category_recycler_row, viewGroup, false);
             return new CategoryViewHolder(view);
         }
 
