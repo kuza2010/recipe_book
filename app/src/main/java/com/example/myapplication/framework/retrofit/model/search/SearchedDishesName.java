@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SearchedDishesName {
 
-    @SerializedName("dishes")
+    @SerializedName("recipes")
     private List<String> dishes = null;
 
     public List<String> getDishes() {
