@@ -23,4 +23,8 @@ public class RecepiesConstant {
     public static final int CALL_TIMEOUT = 60;
     public static final int CONNECTION_TIMEOUT = 10;
 
+
+
+    //Limits
+    public static final int LIMIT_SUGGEST = 4;
 }

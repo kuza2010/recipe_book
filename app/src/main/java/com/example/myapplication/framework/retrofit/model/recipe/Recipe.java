@@ -6,7 +6,7 @@ public class Recipe {
     @SerializedName("id_recipe")
     private Integer idRecipe;
 
-    @SerializedName("image_id")
+    @SerializedName("id_image")
     private Integer imageId;
 
     @SerializedName("name")

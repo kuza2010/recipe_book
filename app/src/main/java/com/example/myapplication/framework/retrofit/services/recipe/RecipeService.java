@@ -8,6 +8,6 @@ import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 public interface RecipeService {
-    @GET("Prod/api/recipes/getrecipebycategory")
+    @GET("Prod/api/recipes/getrecipesbycategory")
     Call<Recipes> getRecipeByCategoryName(@Header("Cache-Control")String header, @Query("category_name")String categoryName);
 }

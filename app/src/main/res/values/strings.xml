@@ -14,4 +14,7 @@
     <string name="navigation_bar_profile">Profile</string>
     <string name="each_category_element">each_category_element</string>
 
+    <!---   Search XML   -->
+    <string name="searchable_recipes">Recipes</string>
+
 </resources>

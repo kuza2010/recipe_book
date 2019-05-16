@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -16,6 +17,9 @@ public class MainActivity extends BaseBottomNavigationActivity {
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.main_activity);
         super.onCreate(savedInstanceState);
+
+        if((Intent.ACTION_SEARCH).equals(getIntent().getAction()))
+            Timber.d("Action search!");
     }
 
     @Override
