@@ -18,8 +18,11 @@ public class MainActivity extends BaseBottomNavigationActivity {
         setContentView(R.layout.main_activity);
         super.onCreate(savedInstanceState);
 
-        if((Intent.ACTION_SEARCH).equals(getIntent().getAction()))
+        if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             Timber.d("Action search!");
+        } else if (Intent.ACTION_VIEW.equals(getIntent().getAction())){
+            Timber.d("Action View!");
+        }
     }
 
     @Override
@@ -72,8 +75,8 @@ public class MainActivity extends BaseBottomNavigationActivity {
         } else
             getSupportFragmentManager().
                     beginTransaction().
-                    hide(currentFragment).
-                    show(navigableFragment).
+                    detach(currentFragment).
+                    attach(navigableFragment).
                     commitNow();
     }
 }

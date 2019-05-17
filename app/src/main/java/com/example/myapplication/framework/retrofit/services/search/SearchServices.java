@@ -6,10 +6,13 @@ import com.example.myapplication.framework.retrofit.model.search.SearchedDishesN
 import com.example.myapplication.framework.retrofit.services.AWSException;
 import com.example.myapplication.framework.retrofit.services.AbstractServices;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.Header;
 
@@ -17,6 +20,7 @@ import retrofit2.http.Header;
 public class SearchServices extends AbstractServices {
 
     private SearchService service;
+    private Call<SearchedDishesName>call;
 
     @Inject
     public SearchServices(@NonNull Retrofit retrofit) {
@@ -24,7 +28,7 @@ public class SearchServices extends AbstractServices {
     }
 
     public SearchedDishesName getDishesNameByPart(@Header("Cache-Control") String cache, String partOfName, int limit) throws AWSException {
-        Call<SearchedDishesName> call = service.getDishesName(cache, partOfName, limit);
+        call = service.getDishesName(cache, partOfName, limit);
         return execute(call);
     }
 }

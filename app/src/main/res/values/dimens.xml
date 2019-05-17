@@ -7,4 +7,7 @@
 
     <dimen name="corner_radius">5dp</dimen>
     <dimen name="recipe_activity_margin">5dp</dimen>
+    <dimen name="search_section_main_icon_size">200dp</dimen>
+
+    <dimen name="search_view_horizontal_margin">20dp</dimen>
 </resources>

@@ -24,9 +24,9 @@ import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.LIMIT_SUGGEST;
+import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 
 public class SearchProvider extends ContentProvider {
-
     @Inject
     SearchServices services;
 
@@ -36,7 +36,7 @@ public class SearchProvider extends ContentProvider {
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/records");
 
     @Inject
-    public SearchProvider(){
+    public SearchProvider() {
     }
 
     @Override
@@ -44,15 +44,16 @@ public class SearchProvider extends ContentProvider {
         return true;
     }
 
-
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         Timber.d("Selection args: %s", (Object[]) selectionArgs);
-        Timber.d("Selection: %s",selection);
-        Timber.d("Last path segment: %s",uri.getLastPathSegment());
+        Timber.d("Selection: %s", selection);
+        Timber.d("Last path segment: %s", uri.getLastPathSegment());
 
-        return getData(Objects.requireNonNull(selectionArgs)[0]);
+        if (selectionArgs == null)
+            return null;
+        return getData(selectionArgs[0]);
     }
 
     @Nullable
@@ -77,11 +78,16 @@ public class SearchProvider extends ContentProvider {
         return 0;
     }
 
-   private MatrixCursor getData(String partOfName) {
-        if(services==null)
+    private MatrixCursor getData(String partOfName) {
+        if (services == null)
             BaseApp.getComponent().inject(this);
 
-        MatrixCursor syggest = new MatrixCursor(matrixColumns);
+        if (partOfName == null || partOfName.length() < 3) {   //Deny request
+            Timber.d("deny request to get dishes, partOfName length is not correct.");
+            return null;
+        }
+
+        MatrixCursor suggest = new MatrixCursor(matrixColumns);
 
         try {
             Timber.d("start getDishes name by part!");
@@ -95,11 +101,10 @@ public class SearchProvider extends ContentProvider {
                 mRow[0] = "" + rowId++;
                 mRow[1] = name;
 
-                Timber.d("added to matrix cursor row = %s", mRow);
-                syggest.addRow(mRow);
+                suggest.addRow(mRow);
             }
-            Timber.d("suggest: %s",syggest);
-            return syggest;
+            Timber.d("suggest: %s", suggest);
+            return suggest;
         } catch (Exception e) {
             Timber.e("some exception %s", e.getMessage());
             return null;

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.widget.Toast;
 
-public class BaseToolbarActivity extends AppCompatActivity {
+public abstract class BaseToolbarActivity extends AppCompatActivity {
 
     private ActionBar toolbar;
 
