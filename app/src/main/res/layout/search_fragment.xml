@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/BBackground">
+
+    <!--    Need set to anchor for search view    -->
+    <ImageView
+        android:id="@+id/anchor"
+        android:layout_below="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="20dp">
+    </ImageView>
 
     <android.support.v7.widget.SearchView
         android:id="@+id/search_view"
@@ -12,8 +23,12 @@
         android:inputType="text"
         android:clickable="true"
         android:background="@drawable/find_view_background"
-        android:layout_marginHorizontal="@dimen/search_view_horizontal_margin"
         android:layout_marginVertical="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:focusedByDefault="false"
         app:queryHint="@string/search_query_hint">
     </android.support.v7.widget.SearchView>
 
@@ -46,27 +61,41 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/image_view_smile"
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"
-        android:layout_width="@dimen/search_section_main_icon_size"
-        android:layout_height="@dimen/search_section_main_icon_size"
-        android:alpha="0.2"
-        android:src="@drawable/search_main"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_relative_layout">
 
-    <TextView
-        android:id="@+id/text_view_hint"
+    <RelativeLayout
+        android:id="@+id/hint_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/image_view_smile"
-        android:layout_centerInParent="true"
-        android:text="@string/start_search"/>
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/image_view_smile"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/search_section_main_icon_size"
+            android:layout_height="@dimen/search_section_main_icon_size"
+            android:alpha="0.2"
+            android:src="@drawable/search_main"/>
+
+        <TextView
+            android:id="@+id/text_view_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_view_smile"
+            android:layout_centerHorizontal="true"
+            android:text="@string/start_search"/>
+        </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/search_relative_layout"
+        android:id="@+id/recycle_view_searched_recipes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/recipe_activity_margin">
     </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
 
 </RelativeLayout>

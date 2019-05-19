@@ -172,13 +172,13 @@ public class RecipeActivity extends BaseToolbarActivity implements RecipePresent
 
 
         public class RecipeViewHolder extends RecyclerView.ViewHolder{
-            private ImageView image;
-            private TextView name;
+            ImageView image;
+            TextView name;
 
-            public RecipeViewHolder(@NonNull View itemView) {
-                super(itemView);
-                image = itemView.findViewById(R.id.recipe_image_view);
-                name =  itemView.findViewById(R.id.recipe_name_text_view);
+            public RecipeViewHolder(View view) {
+                super(view);
+                image = view.findViewById(R.id.recipe_image_view);
+                name = view.findViewById(R.id.recipe_name_text_view);
             }
         }
 

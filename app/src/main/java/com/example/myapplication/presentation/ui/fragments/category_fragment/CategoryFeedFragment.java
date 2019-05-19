@@ -1,4 +1,4 @@
-package com.example.myapplication.presentation.ui.main;
+package com.example.myapplication.presentation.ui.fragments.category_fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
-import com.example.myapplication.framework.retrofit.model.Categories;
-import com.example.myapplication.framework.retrofit.model.Category;
+import com.example.myapplication.framework.retrofit.model.category.Categories;
+import com.example.myapplication.framework.retrofit.model.category.Category;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.category.CategoryServices;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;

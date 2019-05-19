@@ -1,20 +1,11 @@
 package com.example.myapplication.presentation.presenter.main;
 
-import com.example.myapplication.BaseApp;
-import com.example.myapplication.framework.retrofit.model.Categories;
-import com.example.myapplication.framework.retrofit.model.Category;
-import com.example.myapplication.framework.retrofit.services.NetworkCallback;
-import com.example.myapplication.framework.retrofit.services.category.CategoryServices;
-import com.example.myapplication.framework.retrofit.services.image.ImageServices;
+import com.example.myapplication.framework.retrofit.model.category.Category;
 import com.example.myapplication.presentation.presenter.AbstractBasePresenter;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import timber.log.Timber;
-
-import static com.example.myapplication.RecepiesConstant.CACHE;
 
 public class MainPresenterImpl extends AbstractBasePresenter<MainScreenPresenter.MainContractView>
         implements MainScreenPresenter<MainScreenPresenter.MainContractView> {

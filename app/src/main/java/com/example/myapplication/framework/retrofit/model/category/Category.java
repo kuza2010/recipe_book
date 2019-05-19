@@ -1,4 +1,4 @@
-package com.example.myapplication.framework.retrofit.model;
+package com.example.myapplication.framework.retrofit.model.category;
 
 import com.google.gson.annotations.SerializedName;
 

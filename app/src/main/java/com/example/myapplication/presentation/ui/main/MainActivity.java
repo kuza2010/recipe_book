@@ -1,12 +1,12 @@
 package com.example.myapplication.presentation.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.example.myapplication.R;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
-import com.example.myapplication.presentation.ui.fragments.TestFragmentSearch;
+import com.example.myapplication.presentation.ui.fragments.category_fragment.CategoryFeedFragment;
+import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchFragment;
 import com.example.myapplication.presentation.ui.fragments.TestFragments;
 
 import timber.log.Timber;
@@ -17,12 +17,6 @@ public class MainActivity extends BaseBottomNavigationActivity {
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.main_activity);
         super.onCreate(savedInstanceState);
-
-        if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-            Timber.d("Action search!");
-        } else if (Intent.ACTION_VIEW.equals(getIntent().getAction())){
-            Timber.d("Action View!");
-        }
     }
 
     @Override
@@ -33,7 +27,7 @@ public class MainActivity extends BaseBottomNavigationActivity {
                 fragment = new CategoryFeedFragment();
                 break;
             case SEARCH:
-                fragment = new TestFragmentSearch();
+                fragment = new SearchFragment();
                 break;
             case PROFILE:
                 Bundle b = new Bundle();

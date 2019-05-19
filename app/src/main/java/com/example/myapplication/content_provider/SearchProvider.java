@@ -1,84 +1,36 @@
 package com.example.myapplication.content_provider;
 
-import android.content.ContentProvider;
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.framework.retrofit.model.search.SearchedDishesName;
-import com.example.myapplication.framework.retrofit.services.AWSException;
-import com.example.myapplication.framework.retrofit.services.search.SearchService;
+import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
 
-import java.util.Objects;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import dagger.Lazy;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.LIMIT_SUGGEST;
-import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 
-public class SearchProvider extends ContentProvider {
-    @Inject
-    SearchServices services;
+@Singleton
+public class SearchProvider {
+    private final static String[] matrixColumns = {"_id", "suggest_text_1"};
 
-    private static String[] matrixColumns = {"_id", "suggest_text_1"};
-
-    public static String AUTHORITY = "com.example.myapplication.content_provider.SearchProvider";
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/records");
+    private SearchServices services;
 
     @Inject
-    public SearchProvider() {
+    public SearchProvider(SearchServices services) {
+        this.services = services;
     }
 
-    @Override
-    public boolean onCreate() {
-        return true;
-    }
-
-    @Nullable
-    @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        Timber.d("Selection args: %s", (Object[]) selectionArgs);
-        Timber.d("Selection: %s", selection);
-        Timber.d("Last path segment: %s", uri.getLastPathSegment());
-
-        if (selectionArgs == null)
-            return null;
-        return getData(selectionArgs[0]);
-    }
-
-    @Nullable
-    @Override
-    public String getType(@NonNull Uri uri) {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
-    }
-
-    @Override
-    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
-    }
-
-    @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
-    }
-
-    private MatrixCursor getData(String partOfName) {
+    public MatrixCursor getData(String partOfName) {
         if (services == null)
             BaseApp.getComponent().inject(this);
 
@@ -91,7 +43,7 @@ public class SearchProvider extends ContentProvider {
 
         try {
             Timber.d("start getDishes name by part!");
-            SearchedDishesName names = services.getDishesNameByPart(CACHE, partOfName, LIMIT_SUGGEST);
+            SearchedDishesName names = services.getRecipesNameByPart(CACHE, partOfName, LIMIT_SUGGEST);
             Timber.d("get dishes names, size: %s", names.getDishes().size());
 
             Object[] mRow = new Object[2];
@@ -109,5 +61,61 @@ public class SearchProvider extends ContentProvider {
             Timber.e("some exception %s", e.getMessage());
             return null;
         }
+    }
+
+    public void getSuggestion(String partOfName, final OnSuggestionCursorListener onSuggestionCursorListener) {
+        if (partOfName == null || partOfName.length() < 3) {   //Deny request
+            Timber.d("getSuggestion: deny request to get dishes, partOfName length is not correct.");
+            return;
+        }
+
+        services.cancelOrSkip();
+
+        services.getRecipesNameByPart(CACHE, partOfName, LIMIT_SUGGEST, new NetworkCallback<SearchedDishesName>() {
+            @Override
+            public void onResponse(SearchedDishesName body) {
+                Timber.i("onResponse: get dish size: %s", body.getDishes().size());
+                onSuggestionCursorListener.onCursorReceived(createCursor(body.getDishes()));
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Timber.e("onFailure: message %s", throwable.getMessage());
+            }
+        });
+    }
+
+    private Cursor createCursor(List<String> names) {
+        if(names.isEmpty())
+            return null;
+
+        MatrixCursor suggest = new MatrixCursor(matrixColumns);
+
+        Object[] mRow = new Object[2];
+        int rowId = 0;
+
+        for (String name : names) {
+            mRow[0] = "" + rowId++;
+            mRow[1] = name;
+            suggest.addRow(mRow);
+        }
+        Timber.d("create Cursor: %s", suggest);
+
+        return suggest;
+    }
+
+    /**
+     * This interface using to callback when
+     * receiving a cursor
+     */
+    public interface OnSuggestionCursorListener {
+
+        /**
+         * Called when cursor received
+         *
+         * @param cursor - cursor with names
+         *        null - no matches
+         */
+        void onCursorReceived(@Nullable Cursor cursor);
     }
 }

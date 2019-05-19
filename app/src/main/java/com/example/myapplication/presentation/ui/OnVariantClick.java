@@ -1,6 +1,6 @@
 package com.example.myapplication.presentation.ui;
 
-import com.example.myapplication.framework.retrofit.model.Category;
+import com.example.myapplication.framework.retrofit.model.category.Category;
 
 public interface OnVariantClick {
 

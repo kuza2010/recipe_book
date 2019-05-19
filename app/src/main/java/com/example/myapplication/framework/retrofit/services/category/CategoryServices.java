@@ -1,6 +1,6 @@
 package com.example.myapplication.framework.retrofit.services.category;
 
-import com.example.myapplication.framework.retrofit.model.Categories;
+import com.example.myapplication.framework.retrofit.model.category.Categories;
 import com.example.myapplication.framework.retrofit.services.AWSException;
 import com.example.myapplication.framework.retrofit.services.AbstractServices;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;

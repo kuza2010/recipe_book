@@ -55,22 +55,9 @@
             android:name=".presentation.ui.main.MainActivity"
             android:label="@string/app_name">
 
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-
         </activity>
 
         <activity android:name=".presentation.ui.recipe.RecipeActivity" />
-
-        <provider android:name=".content_provider.SearchProvider" android:authorities="com.example.myapplication.content_provider.SearchProvider" />
-
-        <meta-data android:name="android.app.default_searchable"
-            android:value=".Main" />
 
     </application>
 

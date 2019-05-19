@@ -1,12 +1,10 @@
 package com.example.myapplication.framework.retrofit.services.category;
 
-import com.example.myapplication.framework.retrofit.model.Categories;
+import com.example.myapplication.framework.retrofit.model.category.Categories;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 
 public interface CategoryService {
     @GET("Prod/api/categories/getcategories")

@@ -32,4 +32,7 @@
     <color name="BControlNormal">#64566e</color>
     <color name="BBlack">#27003A</color>
 
+    <!--    Search    -->
+    <color name="BSearchPopupBackground">#BAD2A7EC</color>
+
 </resources>

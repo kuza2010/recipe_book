@@ -72,34 +72,4 @@ public abstract class BaseBottomNavigationActivity extends BaseFragmentActivity 
             super.onBackPressed();
     }
 
-//    protected void createFragment(String tag) {
-//        Fragment fragment;
-//        switch (tag) {
-//            case RECIPES:
-//                fragment = new CategoryFeedFragment();
-//                break;
-//            case SEARCH:
-//                fragment = new TestFragments();
-//                break;
-//            case PROFILE:
-//                Bundle b = new Bundle();
-//                b.putString("Q", PROFILE);
-//                fragment = new TestFragments();
-//                fragment.setArguments(b);
-//                break;
-//            default:
-//                throw new IllegalStateException("Illegal fragment tag " + tag);
-//        }
-//
-//        getSupportFragmentManager().
-//                beginTransaction().
-//                add(R.id.container, fragment, tag).
-//                commitNow();
-//
-//        createdFragments.push(tag);
-//    }
-//
-//    protected abstract void navigateFragment(String tag, String current);
-//
-//    protected abstract void showFragment(String navigateTo, String current);
 }
