@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
@@ -37,9 +38,11 @@ import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
 
-public class SearchFragment extends Fragment implements QueryTextListener.Listener {
-    @Inject ImageServices imageServices;
-    @Inject SearchServices searchServices;
+public class SearchRecipeFragment extends Fragment implements QueryTextListener.Listener {
+    @Inject
+    ImageServices imageServices;
+    @Inject
+    SearchServices searchServices;
 
     @BindView(R.id.recycle_view_searched_recipes)
     RecyclerView recyclerView;
@@ -49,12 +52,14 @@ public class SearchFragment extends Fragment implements QueryTextListener.Listen
     ImageView imageView;
     @BindView(R.id.text_view_hint)
     TextView hintText;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private CustomCursorAdapter suggestionAdapter;
     private RecipeAdapter recyclerAdapter;
     private QueryTextListener queryListener;
 
-    public SearchFragment() {
+    public SearchRecipeFragment() {
         BaseApp.getComponent().inject(this);
     }
 
@@ -76,9 +81,16 @@ public class SearchFragment extends Fragment implements QueryTextListener.Listen
 
         configureSearchView();
         configureRecyclerView();
+
         setVisibleHint(true);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        setVisibilityProgressBar(false);
+        super.onResume();
     }
 
     private void configureSearchView() {
@@ -95,6 +107,7 @@ public class SearchFragment extends Fragment implements QueryTextListener.Listen
             public void onClick(View v) {
                 Timber.d("onClick: touch search view close button");
                 setVisibleHint(true);
+                setVisibilityProgressBar(false);
                 searchView.onActionViewCollapsed();
                 recyclerAdapter.clear();
             }
@@ -122,17 +135,17 @@ public class SearchFragment extends Fragment implements QueryTextListener.Listen
         }
     }
 
-    public void replaceHint(int resourceImageId,String hintNewText) {
-        imageView.setImageResource(resourceImageId);
-        hintText.setText(hintNewText);
+    public void setVisibilityProgressBar(boolean isVisible) {
+        if (isVisible) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
-    @Override
-    public void onCursorChanged(Cursor cursor) {
-        if (cursor == null)
-            clearSuggestion();
-
-        suggestionAdapter.changeCursor(cursor);
+    public void replaceHint(int resourceImageId, String hintNewText) {
+        imageView.setImageResource(resourceImageId);
+        hintText.setText(hintNewText);
     }
 
     private void clearSuggestion() {
@@ -143,10 +156,20 @@ public class SearchFragment extends Fragment implements QueryTextListener.Listen
     }
 
     @Override
+    public void onCursorChanged(Cursor cursor) {
+        if (cursor == null)
+            clearSuggestion();
+
+        setVisibilityProgressBar(false);
+        suggestionAdapter.changeCursor(cursor);
+    }
+
+    @Override
     public void onSubmit(final String toSearch) {
         if (toSearch != null && !toSearch.isEmpty()) {
             searchView.onActionViewExpanded();
             searchView.clearFocus();
+            setVisibilityProgressBar(true);
 
             searchServices.getRecipesByFullName(CACHE, toSearch, new NetworkCallback<SerchedRecipes>() {
                 @Override
@@ -156,19 +179,23 @@ public class SearchFragment extends Fragment implements QueryTextListener.Listen
                     if (body.getRecipes().size() == 0) {
                         replaceHint(R.drawable.error, String.format("Sorry, not found %s!", toSearch));
                         setVisibleHint(true);
+                        setVisibilityProgressBar(false);
                         recyclerAdapter.clear();
                         return;
                     }
 
                     List<Recipe> recipeList = body.getRecipes();
                     recyclerAdapter.setList(recipeList);
+
                     setVisibleHint(false);
+                    setVisibilityProgressBar(false);
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
                     recyclerAdapter.clear();
                     setVisibleHint(true);
+                    setVisibilityProgressBar(false);
                     Timber.e("onSubmit: exception %s", throwable.getMessage());
                 }
             });
@@ -176,9 +203,8 @@ public class SearchFragment extends Fragment implements QueryTextListener.Listen
     }
 
     @Override
-    public void clearSearchView() {
-        setVisibleHint(true);
-        recyclerAdapter.clear();
+    public void showProgressbar() {
+        setVisibilityProgressBar(true);
     }
 
 

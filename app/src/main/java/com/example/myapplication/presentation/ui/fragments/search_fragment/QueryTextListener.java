@@ -34,18 +34,22 @@ public class QueryTextListener implements SearchView.OnQueryTextListener {
     public boolean onQueryTextChange(String suggestionPartText) {
         Timber.d("onQueryTextChange: new text is: %s", suggestionPartText);
 
-        provider.getSuggestion(suggestionPartText, new SearchProvider.OnSuggestionCursorListener() {
-            @Override
-            public void onCursorReceived(Cursor cursor) {
-                listener.onCursorChanged(cursor);
-            }
-        });
-        return true;
+        if(suggestionPartText.length()>=3) {
+            listener.showProgressbar();
+            provider.getSuggestion(suggestionPartText, new SearchProvider.OnSuggestionCursorListener() {
+                @Override
+                public void onCursorReceived(Cursor cursor) {
+                    listener.onCursorChanged(cursor);
+                }
+            });
+            return true;
+        }
+        return false;
     }
 
     interface Listener{
         void onCursorChanged(@Nullable Cursor cursor);
         void onSubmit(String toSearch);
-        void clearSearchView();
+        void showProgressbar();
     }
 }

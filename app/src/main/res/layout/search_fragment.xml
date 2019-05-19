@@ -9,32 +9,50 @@
     <!--    Need set to anchor for search view    -->
     <ImageView
         android:id="@+id/anchor"
-        android:layout_below="@+id/search_view"
+        android:layout_below="@+id/search_view_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="20dp">
     </ImageView>
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/search_view"
+    <LinearLayout
+        android:id="@+id/search_view_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:clickable="true"
-        android:background="@drawable/find_view_background"
-        android:layout_marginVertical="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
-        android:focusedByDefault="false"
-        app:queryHint="@string/search_query_hint">
-    </android.support.v7.widget.SearchView>
+        android:orientation="vertical"
+        android:paddingTop="5dp">
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:clickable="true"
+            android:background="@drawable/find_view_background"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:focusedByDefault="false"
+            app:queryHint="@string/search_query_hint">
+        </android.support.v7.widget.SearchView>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:indeterminate="true"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+    </LinearLayout>
+
 
     <RelativeLayout
         android:id="@+id/search_relative_layout"
-        android:layout_below="@+id/search_view"
+        android:layout_below="@+id/search_view_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

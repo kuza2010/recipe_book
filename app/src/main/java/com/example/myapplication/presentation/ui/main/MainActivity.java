@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import com.example.myapplication.R;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
 import com.example.myapplication.presentation.ui.fragments.category_fragment.CategoryFeedFragment;
-import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchFragment;
+import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
 import com.example.myapplication.presentation.ui.fragments.TestFragments;
 
 import timber.log.Timber;
@@ -27,7 +27,7 @@ public class MainActivity extends BaseBottomNavigationActivity {
                 fragment = new CategoryFeedFragment();
                 break;
             case SEARCH:
-                fragment = new SearchFragment();
+                fragment = new SearchRecipeFragment();
                 break;
             case PROFILE:
                 Bundle b = new Bundle();
