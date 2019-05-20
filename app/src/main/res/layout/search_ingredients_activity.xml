@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BBackground">
+
+    <include
+        android:id="@+id/search_view_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/search_flow_search_view_base"/>
+
+    <include
+        android:layout_below="@id/search_view_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/search_flow_recycler_with_hint_base"/>
+
+</RelativeLayout>
