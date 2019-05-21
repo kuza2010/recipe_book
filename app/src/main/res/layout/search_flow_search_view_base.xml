@@ -11,8 +11,8 @@
         android:layout_below="@+id/search_view_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="20dp">
+        android:layout_marginStart="@dimen/anchor_start_margin"
+        android:layout_marginEnd="@dimen/search_view_horizontal_margin">
     </ImageView>
 
     <LinearLayout
@@ -26,11 +26,11 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/find_view_background"
+            android:layout_marginStart="@dimen/search_view_horizontal_margin"
+            android:layout_marginEnd="@dimen/search_view_horizontal_margin"
             android:inputType="text"
             android:clickable="true"
-            android:background="@drawable/find_view_background"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:focusableInTouchMode="true"
             android:focusable="true"
             android:focusedByDefault="false"
@@ -41,8 +41,8 @@
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="@dimen/search_view_horizontal_margin"
+            android:layout_marginEnd="@dimen/search_view_horizontal_margin"
             android:indeterminate="true"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 

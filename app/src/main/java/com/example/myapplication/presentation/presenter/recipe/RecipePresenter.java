@@ -11,6 +11,7 @@ public interface RecipePresenter<T> extends BasePresenter<T> {
     void refreshRecipeList(final String currentCategory);
 
     public interface RecipeContractView {
+        void setRecipeList(List<Recipe> recipeList);
         void updateRecipes(List<Recipe> recipeList);
     }
 }

@@ -2,11 +2,13 @@ package com.example.myapplication.framework.retrofit.services.search;
 
 import android.support.annotation.NonNull;
 
+import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.model.search.SearchedDishesName;
-import com.example.myapplication.framework.retrofit.model.search.recipe_search.SerchedRecipes;
 import com.example.myapplication.framework.retrofit.services.AWSException;
 import com.example.myapplication.framework.retrofit.services.AbstractServices;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -44,8 +46,13 @@ public class SearchServices extends AbstractServices {
         enqueue(call,callback);
     }
 
-    public void getRecipesByFullName(@Header("Cache-Control") String cache, String name, NetworkCallback<SerchedRecipes> callback) {
-        Call<SerchedRecipes> call = service.getRecipeByName(cache, name);
+    public void getRecipesByFullName(@Header("Cache-Control") String cache, String name, NetworkCallback<Recipes> callback) {
+        Call<Recipes> call = service.getRecipeByName(cache, name);
         enqueue(call, callback);
+    }
+
+    public void getRecipeByIngredients(@Header("Cache-Control") String cache, List<String> ingredients, NetworkCallback<Recipes> callback){
+        Call<Recipes> call = service.getRecipeByIngredient(cache,ingredients);
+        enqueue(call,callback);
     }
 }

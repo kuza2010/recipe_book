@@ -10,9 +10,12 @@
     <dimen name="recipe_activity_margin">5dp</dimen>
 
     <dimen name="search_section_main_icon_size">200dp</dimen>
-    <dimen name="search_view_horizontal_margin">20dp</dimen>
     <dimen name="search_popup_list_text_size">20sp</dimen>
     <dimen name="search_fragment_recycler_margin">5dp</dimen>
     <dimen name="recipe_element_margin">5dp</dimen>
+    <dimen name="search_view_horizontal_margin">20dp</dimen>
+    <!--    search_view_horizontal_margin *4   -->
+    <dimen name="anchor_start_margin">80dp</dimen>
+
 
 </resources>

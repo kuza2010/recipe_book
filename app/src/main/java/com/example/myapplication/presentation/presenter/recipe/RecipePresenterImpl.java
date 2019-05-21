@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
+import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 
 public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.RecipeContractView>
         implements RecipePresenter<RecipePresenter.RecipeContractView> {
@@ -41,7 +42,7 @@ public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.R
                 Timber.d("download %s recipes", recipes.getRecipes().size());
                 recipeList.addAll(recipes.getRecipes());
                 //notify view
-                view.updateRecipes(recipeList);
+                view.setRecipeList(recipeList);
             }
 
             @Override
@@ -56,13 +57,14 @@ public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.R
     public void refreshRecipeList(final String currentCategory) {
         Timber.d("recipe presenter start download recipes from category %s", currentCategory);
 
-        recipeServices.getRecipeByCategoryName(currentCategory, CACHE, new NetworkCallback<Recipes>() {
+        recipeServices.getRecipeByCategoryName(currentCategory, NO_CACHE, new NetworkCallback<Recipes>() {
             @Override
             public void onResponse(Recipes recipes) {
                 Timber.d("download %s recipes", recipes.getRecipes().size());
                 List<Recipe> different = Utils.getNewRecipes(recipeList, recipes.getRecipes());
-                Timber.d("added %s new record", different.size());
+                Timber.d("fetch %s new record", different.size());
                 recipeList.addAll(0,different);
+
                 //notify view
                 view.updateRecipes(different);
             }

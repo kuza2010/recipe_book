@@ -1,11 +1,9 @@
-package com.example.myapplication.presentation.ui.fragments.search_fragment;
+package com.example.myapplication.presentation.ui.search;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +12,6 @@ import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,88 +24,56 @@ import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
+import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
-import com.example.myapplication.presentation.ui.login.LogInActivity;
-import com.example.myapplication.presentation.ui.main.MainActivity;
-import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
-import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
+import com.example.myapplication.presentation.ui.fragments.search_fragment.QueryTextListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
-import static com.example.myapplication.RecepiesConstant.LIMIT_CHARACTERS_IN_SEARCH;
+import static com.example.myapplication.RecepiesConstant.LIMIT_CHARACTERS_IN_SEARCH_INGREDIENTS;
 
-public class SearchRecipeFragment extends Fragment implements QueryTextListener.Listener {
-    @Inject
-    ImageServices imageServices;
-    @Inject
-    SearchServices searchServices;
-
+public class SearchByIngredientActivity extends BaseToolbarActivity implements QueryTextListener.Listener{
     @BindView(R.id.recycle_view_searched_recipes)
     RecyclerView recyclerView;
     @BindView(R.id.search_view)
     SearchView searchView;
-    @BindView(R.id.image_view_smile)
-    ImageView imageView;
     @BindView(R.id.text_view_hint)
     TextView hintText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.image_view_smile)
+    ImageView imageView;
 
-    private CustomCursorAdapter suggestionAdapter;
+    @Inject
+    SearchServices searchServices;
+
     private RecipeAdapter recyclerAdapter;
-    private QueryTextListener queryListener;
-
-    public SearchRecipeFragment() {
-        BaseApp.getComponent().inject(this);
-    }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.search_ingredients_activity);
+        BaseApp.getComponent().inject(this);
+        ButterKnife.bind(this);
+        setTitle("Search by Ingredient");
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_fragment, container, false);
-        ButterKnife.bind(this, view);
-
-        //TODO: костыль для серч вью
-        SearchView.SearchAutoComplete autoComplete = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
-        autoComplete.setDropDownWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        autoComplete.setDropDownAnchor(R.id.anchor);
-
-        configureSearchView();
         configureRecyclerView();
-
-        setVisibleHint(true);
-
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        setVisibilityProgressBar(false);
-        super.onResume();
+        configureSearchView();
     }
 
     private void configureSearchView() {
-        suggestionAdapter = new CustomCursorAdapter(getContext(), null, searchView);
-        queryListener = new QueryTextListener(this);
-
         searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(queryListener);
-        searchView.setSuggestionsAdapter(suggestionAdapter);
+        searchView.setOnQueryTextListener(new ListenerSample(this));
 
         ImageView closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -123,13 +88,16 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
         });
 
         TextView query = ((TextView) searchView.findViewById(R.id.search_src_text));
-        query.setFilters(new InputFilter[]{new InputFilter.LengthFilter(LIMIT_CHARACTERS_IN_SEARCH)});
+        query.setFilters(new InputFilter[]{new InputFilter.LengthFilter(LIMIT_CHARACTERS_IN_SEARCH_INGREDIENTS)});
+
+        setVisibilityProgressBar(false);
     }
+
     private void configureRecyclerView() {
         recyclerAdapter = new RecipeAdapter();
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, Utils.dpToPx(getActivity(), 8), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, Utils.dpToPx(this, 8), true));
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -156,20 +124,9 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
         hintText.setText(hintNewText);
     }
 
-    private void clearSuggestion() {
-        if (searchView != null) {
-            Timber.d("clearSuggestion: clear search view");
-            searchView.setIconified(false);
-        }
-    }
-
     @Override
     public void onCursorChanged(Cursor cursor) {
-        if (cursor == null)
-            clearSuggestion();
-
-        setVisibilityProgressBar(false);
-        suggestionAdapter.changeCursor(cursor);
+        Timber.d("onCursorChanged: nothing");
     }
 
     @Override
@@ -179,7 +136,10 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
             searchView.clearFocus();
             setVisibilityProgressBar(true);
 
-            searchServices.getRecipesByFullName(CACHE, toSearch, new NetworkCallback<Recipes>() {
+            //Arrays.asList(toSearch.split(",")) - is no modified
+            List<String> toSearchList = new ArrayList<>(Arrays.asList(toSearch.split(",")));
+
+            searchServices.getRecipeByIngredients(CACHE,toSearchList , new NetworkCallback<Recipes>() {
                 @Override
                 public void onResponse(Recipes body) {
                     Timber.d("onResponse: get %s item", body.getRecipes().size());
@@ -191,6 +151,7 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
                         recyclerAdapter.clear();
                         return;
                     }
+
 
                     List<Recipe> recipeList = body.getRecipes();
                     recyclerAdapter.setList(recipeList);
@@ -215,8 +176,15 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
         setVisibilityProgressBar(true);
     }
 
-    @OnClick(R.id.search_by_ingredient_button)
-    public void onSearchByIngredientClick(Button button){
-        startActivity(new Intent(getActivity(), SearchByIngredientActivity.class));
+    class ListenerSample extends QueryTextListener{
+
+        public ListenerSample(QueryTextListener.Listener listener) {
+            super(listener);
+        }
+
+        @Override
+        public boolean onQueryTextChange(String suggestionPartText) {
+            return false;
+        }
     }
 }

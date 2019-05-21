@@ -1,4 +1,4 @@
-package com.example.myapplication.presentation.ui.fragments;
+package com.example.myapplication.presentation.ui;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

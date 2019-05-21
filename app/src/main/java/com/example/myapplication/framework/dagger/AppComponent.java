@@ -5,11 +5,13 @@ import com.example.myapplication.framework.dagger.modules.ApplicationModule;
 import com.example.myapplication.framework.dagger.modules.NetworkModule;
 import com.example.myapplication.framework.dagger.modules.PresenterModule;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
+import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
 import com.example.myapplication.presentation.ui.fragments.search_fragment.QueryTextListener;
 import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
 import com.example.myapplication.presentation.ui.fragments.category_fragment.CategoryFeedFragment;
 import com.example.myapplication.presentation.ui.login.LogInActivity;
 import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
+import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
 
 import javax.inject.Singleton;
 
@@ -24,6 +26,7 @@ public interface AppComponent {
     void inject (BaseBottomNavigationActivity activity);
     void inject (LogInActivity activity);
     void inject (RecipeActivity activity);
+    void inject (SearchByIngredientActivity activity);
 
     void inject(CategoryFeedFragment categoryFeedFragment);
     void inject(SearchRecipeFragment searchRecipeFragment);
@@ -31,4 +34,6 @@ public interface AppComponent {
     void inject(SearchProvider provider);
 
     void inject(QueryTextListener listener);
+
+    void inject(RecipeAdapter adapter);
 }

@@ -19,14 +19,14 @@ public class QueryTextListener implements SearchView.OnQueryTextListener {
     private Listener listener;
 
     public QueryTextListener(Listener listener) {
-        this.listener = listener;
         BaseApp.getComponent().inject(this);
+        this.listener = listener;
     }
 
     @Override
-    public boolean onQueryTextSubmit(String s) {
-        Timber.d("onQueryTextSubmit: %s", s);
-        listener.onSubmit(s);
+    public boolean onQueryTextSubmit(String query) {
+        Timber.d("onQueryTextSubmit: %s", query);
+        listener.onSubmit(query);
         return true;
     }
 
@@ -36,6 +36,7 @@ public class QueryTextListener implements SearchView.OnQueryTextListener {
 
         if(suggestionPartText.length()>=3) {
             listener.showProgressbar();
+
             provider.getSuggestion(suggestionPartText, new SearchProvider.OnSuggestionCursorListener() {
                 @Override
                 public void onCursorReceived(Cursor cursor) {
@@ -47,7 +48,7 @@ public class QueryTextListener implements SearchView.OnQueryTextListener {
         return false;
     }
 
-    interface Listener{
+    public interface Listener{
         void onCursorChanged(@Nullable Cursor cursor);
         void onSubmit(String toSearch);
         void showProgressbar();
