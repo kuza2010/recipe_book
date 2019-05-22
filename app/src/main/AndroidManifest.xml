@@ -59,6 +59,7 @@
 
         <activity android:name=".presentation.ui.recipe.RecipeActivity" />
         <activity android:name=".presentation.ui.search.SearchByIngredientActivity" />
+        <activity android:name=".presentation.ui.fragments.preferences.PreferencesFragment" />
 
     </application>
 

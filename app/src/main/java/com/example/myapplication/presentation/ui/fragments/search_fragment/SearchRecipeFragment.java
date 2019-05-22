@@ -29,12 +29,8 @@ import com.example.myapplication.framework.retrofit.services.image.ImageServices
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
-import com.example.myapplication.presentation.ui.login.LogInActivity;
-import com.example.myapplication.presentation.ui.main.MainActivity;
-import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
 import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -80,7 +76,7 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
 
         //TODO: костыль для серч вью

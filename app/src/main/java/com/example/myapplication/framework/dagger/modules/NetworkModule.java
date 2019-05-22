@@ -57,7 +57,7 @@ public class NetworkModule {
     public OkHttpClient provideRetrofitClient(@Named("cache-interceptor") Interceptor cacheInterceptor, @Named("retrofit-cache") Cache cache) {
         return new OkHttpClient.Builder()
                 .cache(cache)
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(cacheInterceptor)
                 .connectTimeout(CONNECTION_TIMEOUT,TimeUnit.SECONDS)
                 .callTimeout(CALL_TIMEOUT, TimeUnit.SECONDS)

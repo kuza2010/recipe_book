@@ -7,7 +7,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
 import com.example.myapplication.presentation.ui.fragments.category_fragment.CategoryFeedFragment;
 import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
-import com.example.myapplication.presentation.ui.fragments.TestFragments;
+import com.example.myapplication.presentation.ui.fragments.preferences.PreferencesFragment;
 
 import timber.log.Timber;
 
@@ -30,10 +30,7 @@ public class MainActivity extends BaseBottomNavigationActivity {
                 fragment = new SearchRecipeFragment();
                 break;
             case PROFILE:
-                Bundle b = new Bundle();
-                b.putString("Q", PROFILE);
-                fragment = new TestFragments();
-                fragment.setArguments(b);
+                fragment = new PreferencesFragment();
                 break;
             default:
                 throw new IllegalStateException("Illegal fragment tag " + tag);

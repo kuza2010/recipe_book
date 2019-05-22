@@ -76,7 +76,6 @@ public class RecipeActivity extends BaseToolbarActivity implements RecipePresent
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, Utils.dpToPx(this, 8), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void doInject() {

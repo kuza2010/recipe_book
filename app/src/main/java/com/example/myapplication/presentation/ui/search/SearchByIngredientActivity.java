@@ -145,7 +145,7 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
                     Timber.d("onResponse: get %s item", body.getRecipes().size());
 
                     if (body.getRecipes().size() == 0) {
-                        replaceHint(R.drawable.error, String.format("Sorry, not found %s!", toSearch));
+                        replaceHint(R.drawable.error, String.format("Sorry, not found recipes!"));
                         setVisibleHint(true);
                         setVisibilityProgressBar(false);
                         recyclerAdapter.clear();

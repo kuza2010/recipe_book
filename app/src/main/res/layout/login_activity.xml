@@ -10,10 +10,9 @@
     <ImageView
         android:id="@+id/logo_image_view"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_height="@dimen/logo_height"
+        android:layout_marginTop="@dimen/logo_margin_top"
+        android:layout_marginHorizontal="@dimen/logo_horizontal_margin"
         android:scaleType="fitXY"
         android:src="@drawable/logo"
         android:contentDescription="@string/main_logo_content_description" />
