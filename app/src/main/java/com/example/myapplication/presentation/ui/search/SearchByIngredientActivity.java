@@ -2,14 +2,12 @@ package com.example.myapplication.presentation.ui.search;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputFilter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,15 +17,16 @@ import android.widget.TextView;
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
 import com.example.myapplication.Utils;
+import com.example.myapplication.content_provider.SearchProvider;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
-import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
-import com.example.myapplication.presentation.ui.fragments.search_fragment.QueryTextListener;
+import com.example.myapplication.presentation.ui.CustomCursorAdapter;
+import com.example.myapplication.presentation.ui.QueryTextListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +42,8 @@ import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.LIMIT_CHARACTERS_IN_SEARCH_INGREDIENTS;
 
 public class SearchByIngredientActivity extends BaseToolbarActivity implements QueryTextListener.Listener{
+    public static final String TITLE = "Search by Ingredient";
+
     @BindView(R.id.recycle_view_searched_recipes)
     RecyclerView recyclerView;
     @BindView(R.id.search_view)
@@ -58,22 +59,37 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
     SearchServices searchServices;
 
     private RecipeAdapter recyclerAdapter;
+    private CustomCursorAdapter suggestionAdapter;
+    private QueryTextListener queryListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_ingredients_activity);
-        BaseApp.getComponent().inject(this);
-        ButterKnife.bind(this);
-        setTitle("Search by Ingredient");
+        doInject();
+        setTitle(TITLE);
+
+        //TODO: костыль для серч вью
+        SearchView.SearchAutoComplete autoComplete = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+        autoComplete.setDropDownWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        autoComplete.setDropDownAnchor(R.id.anchor);
 
         configureRecyclerView();
         configureSearchView();
     }
 
+    private void doInject(){
+        BaseApp.getComponent().inject(this);
+        ButterKnife.bind(this);
+    }
+
     private void configureSearchView() {
+        suggestionAdapter = new CustomCursorAdapter(this, null, searchView,SearchProvider.Type.INGREDIENT);
+        queryListener = new QueryTextListener(this, SearchProvider.Type.INGREDIENT);
+
         searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(new ListenerSample(this));
+        searchView.setOnQueryTextListener(queryListener);
+        searchView.setSuggestionsAdapter(suggestionAdapter);
 
         ImageView closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +108,6 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
 
         setVisibilityProgressBar(false);
     }
-
     private void configureRecyclerView() {
         recyclerAdapter = new RecipeAdapter();
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -124,9 +139,20 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
         hintText.setText(hintNewText);
     }
 
+    private void clearSuggestion() {
+        if (searchView != null) {
+            Timber.d("clearSuggestion: clear search view");
+            searchView.setIconified(false);
+        }
+    }
+
     @Override
     public void onCursorChanged(Cursor cursor) {
-        Timber.d("onCursorChanged: nothing");
+        if (cursor == null)
+            clearSuggestion();
+
+        setVisibilityProgressBar(false);
+        suggestionAdapter.changeCursor(cursor);
     }
 
     @Override
@@ -174,17 +200,5 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
     @Override
     public void showProgressbar() {
         setVisibilityProgressBar(true);
-    }
-
-    class ListenerSample extends QueryTextListener{
-
-        public ListenerSample(QueryTextListener.Listener listener) {
-            super(listener);
-        }
-
-        @Override
-        public boolean onQueryTextChange(String suggestionPartText) {
-            return false;
-        }
     }
 }

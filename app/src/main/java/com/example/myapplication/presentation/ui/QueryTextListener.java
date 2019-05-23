@@ -1,9 +1,10 @@
-package com.example.myapplication.presentation.ui.fragments.search_fragment;
+package com.example.myapplication.presentation.ui;
 
 import android.database.Cursor;
 import android.support.v7.widget.SearchView;
 
 import com.example.myapplication.BaseApp;
+import com.example.myapplication.Utils;
 import com.example.myapplication.content_provider.SearchProvider;
 
 import org.jetbrains.annotations.Nullable;
@@ -17,10 +18,12 @@ public class QueryTextListener implements SearchView.OnQueryTextListener {
     SearchProvider provider;
 
     private Listener listener;
+    private SearchProvider.Type type;
 
-    public QueryTextListener(Listener listener) {
+    public QueryTextListener(Listener listener, SearchProvider.Type type) {
         BaseApp.getComponent().inject(this);
         this.listener = listener;
+        this.type = type;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class QueryTextListener implements SearchView.OnQueryTextListener {
         if(suggestionPartText.length()>=3) {
             listener.showProgressbar();
 
-            provider.getSuggestion(suggestionPartText, new SearchProvider.OnSuggestionCursorListener() {
+            provider.getSuggestion(suggestionPartText, type, new SearchProvider.OnSuggestionCursorListener() {
                 @Override
                 public void onCursorReceived(Cursor cursor) {
                     listener.onCursorChanged(cursor);

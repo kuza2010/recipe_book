@@ -22,12 +22,15 @@ import android.widget.TextView;
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
 import com.example.myapplication.Utils;
+import com.example.myapplication.content_provider.SearchProvider;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
+import com.example.myapplication.presentation.ui.CustomCursorAdapter;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
+import com.example.myapplication.presentation.ui.QueryTextListener;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
 import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
 
@@ -99,8 +102,8 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     }
 
     private void configureSearchView() {
-        suggestionAdapter = new CustomCursorAdapter(getContext(), null, searchView);
-        queryListener = new QueryTextListener(this);
+        suggestionAdapter = new CustomCursorAdapter(getContext(), null, searchView,SearchProvider.Type.RECIPE);
+        queryListener = new QueryTextListener(this, SearchProvider.Type.RECIPE);
 
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(queryListener);
