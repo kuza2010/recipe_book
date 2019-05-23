@@ -3,14 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/BDarkTransparent">
+    android:paddingVertical="5dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@color/BDarkTransparent"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_marginStart="@dimen/search_view_horizontal_margin"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/baseline_account_box_white_48"/>
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
 
     <TextView
         android:id="@+id/title"

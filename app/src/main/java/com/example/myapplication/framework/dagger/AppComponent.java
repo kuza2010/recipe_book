@@ -6,7 +6,7 @@ import com.example.myapplication.framework.dagger.modules.NetworkModule;
 import com.example.myapplication.framework.dagger.modules.PresenterModule;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
-import com.example.myapplication.presentation.ui.fragments.search_fragment.QueryTextListener;
+import com.example.myapplication.presentation.ui.QueryTextListener;
 import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
 import com.example.myapplication.presentation.ui.fragments.category_fragment.CategoryFeedFragment;
 import com.example.myapplication.presentation.ui.login.LogInActivity;

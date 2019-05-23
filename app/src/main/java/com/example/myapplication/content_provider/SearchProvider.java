@@ -2,10 +2,13 @@ package com.example.myapplication.content_provider;
 
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.example.myapplication.BaseApp;
+import com.example.myapplication.Utils;
 import com.example.myapplication.framework.retrofit.model.search.SearchedDishesName;
+import com.example.myapplication.framework.retrofit.model.search.SearchedIngredientName;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
 
@@ -14,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.internal.Util;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
@@ -63,26 +67,47 @@ public class SearchProvider {
         }
     }
 
-    public void getSuggestion(String partOfName, final OnSuggestionCursorListener onSuggestionCursorListener) {
-        if (partOfName == null || partOfName.length() < 3) {   //Deny request
+    public void getSuggestion(String partOfName, Type type, final OnSuggestionCursorListener onSuggestionCursorListener) {
+        String namePart;
+        if (Type.RECIPE.equals(type)) namePart = partOfName;
+        else namePart = Utils.getLastSegmentText(partOfName);
+
+        if (namePart == null || namePart.length() < 3) {   //Deny request
             Timber.d("getSuggestion: deny request to get dishes, partOfName length is not correct.");
             return;
         }
 
         services.cancelOrSkip();
+        Timber.d("getSuggestion: type is %s",type);
 
-        services.getRecipesNameByPart(CACHE, partOfName, LIMIT_SUGGEST, new NetworkCallback<SearchedDishesName>() {
-            @Override
-            public void onResponse(SearchedDishesName body) {
-                Timber.i("onResponse: get dish size: %s", body.getDishes().size());
-                onSuggestionCursorListener.onCursorReceived(createCursor(body.getDishes()));
-            }
+        if (Type.RECIPE.equals(type)) {
+            services.getRecipesNameByPart(CACHE, namePart, LIMIT_SUGGEST, new NetworkCallback<SearchedDishesName>() {
+                @Override
+                public void onResponse(SearchedDishesName body) {
+                    Timber.i("onResponse: get dish size: %s", body.getDishes().size());
+                    onSuggestionCursorListener.onCursorReceived(createCursor(body.getDishes()));
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                Timber.e("onFailure: message %s", throwable.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Timber.e("onFailure: message %s", throwable.getMessage());
+                }
+            });
+        } else {
+            Handler handler = new Handler();
+            services.getIngredientNameByPart(CACHE, namePart, LIMIT_SUGGEST, new NetworkCallback<SearchedIngredientName>() {
+                @Override
+                public void onResponse(SearchedIngredientName body) {
+                    Timber.i("onResponse: get ingredient size: %s", body.getIngredients().size());
+                    onSuggestionCursorListener.onCursorReceived(createCursor(body.getIngredients()));
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Timber.e("onFailure: message %s", throwable.getMessage());
+                }
+            });
+        }
     }
 
     private Cursor createCursor(List<String> names) {
@@ -117,5 +142,9 @@ public class SearchProvider {
          *        null - no matches
          */
         void onCursorReceived(@Nullable Cursor cursor);
+    }
+
+    public enum Type{
+        INGREDIENT, RECIPE
     }
 }

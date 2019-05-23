@@ -13,6 +13,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static com.example.myapplication.RecepiesConstant.SPLIT_CHAR;
 import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.ERROR;
 import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.PROFILE;
 import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.RECIPES;
@@ -65,5 +66,37 @@ public class Utils {
         }
         Timber.w("into old list added %s records", different.size());
         return different;
+    }
+
+    public static String getText(CharSequence charSequence, @NonNull String append) {
+        String old = charSequence.toString();
+
+        if (old.isEmpty()) {
+            Timber.d("getText: old string is empty, return %s", append);
+        }
+
+        if (!old.contains(SPLIT_CHAR)) {
+            return append + SPLIT_CHAR;
+        }
+
+
+        int i = old.lastIndexOf(SPLIT_CHAR);
+        StringBuilder builder = new StringBuilder(old.substring(0, i + 1));
+
+        builder.append(append);
+        builder.append(SPLIT_CHAR);
+
+        Timber.d("getText: new string is %s", builder.toString());
+
+        return builder.toString();
+    }
+
+    public static String getLastSegmentText(@NonNull String searchedString) {
+        if(!searchedString.contains(SPLIT_CHAR))
+            return searchedString;
+
+        int i = searchedString.lastIndexOf(SPLIT_CHAR);
+
+        return searchedString.substring(i+1);
     }
 }

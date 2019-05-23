@@ -24,10 +24,13 @@ public class RecepiesConstant {
     public static final int CONNECTION_TIMEOUT = 10;
 
 
-
     //Limits
     public static final int LIMIT_SUGGEST = 4;
     public static final int LIMIT_CHARACTERS_IN_SEARCH = 20;
     public static final int LIMIT_CHARACTERS_IN_SEARCH_INGREDIENTS= 128;
+
+
+    //Split char
+    public static final String SPLIT_CHAR = ",";
 
 }

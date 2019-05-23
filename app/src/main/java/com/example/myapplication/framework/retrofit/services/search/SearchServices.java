@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.model.search.SearchedDishesName;
+import com.example.myapplication.framework.retrofit.model.search.SearchedIngredientName;
 import com.example.myapplication.framework.retrofit.services.AWSException;
 import com.example.myapplication.framework.retrofit.services.AbstractServices;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
@@ -22,7 +23,7 @@ import timber.log.Timber;
 public class SearchServices extends AbstractServices {
 
     private SearchService service;
-    private Call<SearchedDishesName>call;
+    private Call call;
 
     @Inject
     public SearchServices(@NonNull Retrofit retrofit) {
@@ -38,11 +39,16 @@ public class SearchServices extends AbstractServices {
 
     public SearchedDishesName getRecipesNameByPart(@Header("Cache-Control") String cache, String partOfName, int limit) throws AWSException {
         call = service.getDishesNameByPart(cache, partOfName, limit);
-        return execute(call);
+        return (SearchedDishesName) execute(call);
     }
 
     public void getRecipesNameByPart(@Header("Cache-Control") String cache, String partOfName, int limit, NetworkCallback<SearchedDishesName> callback) {
         call = service.getDishesNameByPart(cache, partOfName, limit);
+        enqueue(call,callback);
+    }
+
+    public void getIngredientNameByPart(@Header("Cache-Control") String cache, String partOfName, int limit, NetworkCallback<SearchedIngredientName> callback) {
+        call = service.getIngredientNameByPart(cache, partOfName, limit);
         enqueue(call,callback);
     }
 
