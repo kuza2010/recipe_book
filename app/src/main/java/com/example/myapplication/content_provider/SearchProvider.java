@@ -22,6 +22,7 @@ import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.LIMIT_SUGGEST;
+import static com.example.myapplication.RecepiesConstant.SUGGEST_LENGTH_MIN;
 
 @Singleton
 public class SearchProvider {
@@ -72,13 +73,13 @@ public class SearchProvider {
         if (Type.RECIPE.equals(type)) namePart = partOfName;
         else namePart = Utils.getLastSegmentText(partOfName);
 
-        if (namePart == null || namePart.length() < 3) {   //Deny request
-            Timber.d("getSuggestion: deny request to get dishes, partOfName length is not correct.");
+        if (namePart == null || namePart.length() < SUGGEST_LENGTH_MIN) {   //Deny request
+            Timber.d("getSuggestion: deny request to get suggestions, partOfName length is not correct.");
             return;
         }
 
         services.cancelOrSkip();
-        Timber.d("getSuggestion: type is %s",type);
+        Timber.d("getSuggestion: type is %s", type);
 
         if (Type.RECIPE.equals(type)) {
             services.getRecipesNameByPart(CACHE, namePart, LIMIT_SUGGEST, new NetworkCallback<SearchedDishesName>() {
@@ -94,7 +95,6 @@ public class SearchProvider {
                 }
             });
         } else {
-            Handler handler = new Handler();
             services.getIngredientNameByPart(CACHE, namePart, LIMIT_SUGGEST, new NetworkCallback<SearchedIngredientName>() {
                 @Override
                 public void onResponse(SearchedIngredientName body) {
@@ -111,7 +111,7 @@ public class SearchProvider {
     }
 
     private Cursor createCursor(List<String> names) {
-        if(names.isEmpty())
+        if (names.isEmpty())
             return null;
 
         MatrixCursor suggest = new MatrixCursor(matrixColumns);
@@ -139,12 +139,12 @@ public class SearchProvider {
          * Called when cursor received
          *
          * @param cursor - cursor with names
-         *        null - no matches
+         *               null - no matches
          */
         void onCursorReceived(@Nullable Cursor cursor);
     }
 
-    public enum Type{
+    public enum Type {
         INGREDIENT, RECIPE
     }
 }

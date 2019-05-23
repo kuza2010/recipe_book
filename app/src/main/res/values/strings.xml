@@ -11,6 +11,7 @@
     <!--    Navigation bar  -->
     <string name="navigation_bar_recipes">Recipes</string>
     <string name="navigation_bar_search">Search</string>
+    <string name="navigation_bar_fridge">Fridge</string>
     <string name="navigation_bar_profile">Profile</string>
     <string name="each_category_element">each_category_element</string>
 
@@ -20,5 +21,9 @@
     <!--    Search fragment     -->
     <string name="start_search">Start search</string>
     <string name="search_query_hint">Find…</string>
+
+    <!--    Refrigerator fragment     -->
+    <string name="add_product">Add</string>
+
 
 </resources>

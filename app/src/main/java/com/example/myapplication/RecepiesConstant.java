@@ -25,6 +25,7 @@ public class RecepiesConstant {
 
 
     //Limits
+    public static final int SUGGEST_LENGTH_MIN = 3;
     public static final int LIMIT_SUGGEST = 4;
     public static final int LIMIT_CHARACTERS_IN_SEARCH = 20;
     public static final int LIMIT_CHARACTERS_IN_SEARCH_INGREDIENTS= 128;
