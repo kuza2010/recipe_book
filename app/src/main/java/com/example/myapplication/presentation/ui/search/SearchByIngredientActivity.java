@@ -25,7 +25,7 @@ import com.example.myapplication.framework.retrofit.services.search.SearchServic
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
-import com.example.myapplication.presentation.ui.CustomCursorAdapter;
+import com.example.myapplication.presentation.ui.SuggestionCursorAdapter;
 import com.example.myapplication.presentation.ui.QueryTextListener;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
     SearchServices searchServices;
 
     private RecipeAdapter recyclerAdapter;
-    private CustomCursorAdapter suggestionAdapter;
+    private SuggestionCursorAdapter suggestionAdapter;
     private QueryTextListener queryListener;
 
     @Override
@@ -84,7 +84,7 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
     }
 
     private void configureSearchView() {
-        suggestionAdapter = new CustomCursorAdapter(this, null, searchView,SearchProvider.Type.INGREDIENT);
+        suggestionAdapter = new SuggestionCursorAdapter(this, null, searchView,SearchProvider.Type.INGREDIENT);
         queryListener = new QueryTextListener(this, SearchProvider.Type.INGREDIENT);
 
         searchView.setSubmitButtonEnabled(true);

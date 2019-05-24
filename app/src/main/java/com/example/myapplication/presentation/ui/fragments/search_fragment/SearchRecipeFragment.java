@@ -28,7 +28,7 @@ import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
-import com.example.myapplication.presentation.ui.CustomCursorAdapter;
+import com.example.myapplication.presentation.ui.SuggestionCursorAdapter;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.QueryTextListener;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
@@ -63,7 +63,7 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
-    private CustomCursorAdapter suggestionAdapter;
+    private SuggestionCursorAdapter suggestionAdapter;
     private RecipeAdapter recyclerAdapter;
     private QueryTextListener queryListener;
 
@@ -102,7 +102,7 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     }
 
     private void configureSearchView() {
-        suggestionAdapter = new CustomCursorAdapter(getContext(), null, searchView,SearchProvider.Type.RECIPE);
+        suggestionAdapter = new SuggestionCursorAdapter(getContext(), null, searchView,SearchProvider.Type.RECIPE);
         queryListener = new QueryTextListener(this, SearchProvider.Type.RECIPE);
 
         searchView.setSubmitButtonEnabled(true);

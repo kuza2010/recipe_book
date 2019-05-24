@@ -20,4 +20,7 @@
     <dimen name="logo_margin_top">40dp</dimen>
     <dimen name="logo_horizontal_margin">40dp</dimen>
 
+    <dimen name="horizontal_layout_margin_20">20dp</dimen>
+    <dimen name="standart_padding">5dp</dimen>
+
 </resources>
