@@ -2,7 +2,6 @@ package com.example.myapplication.content_provider;
 
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.example.myapplication.BaseApp;
@@ -17,11 +16,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import okhttp3.internal.Util;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
-import static com.example.myapplication.RecepiesConstant.LIMIT_SUGGEST;
+import static com.example.myapplication.RecepiesConstant.LIMIT_POPUP_SUGGEST;
 import static com.example.myapplication.RecepiesConstant.SUGGEST_LENGTH_MIN;
 
 @Singleton
@@ -48,7 +46,7 @@ public class SearchProvider {
 
         try {
             Timber.d("start getDishes name by part!");
-            SearchedDishesName names = services.getRecipesNameByPart(CACHE, partOfName, LIMIT_SUGGEST);
+            SearchedDishesName names = services.getRecipesNameByPart(CACHE, partOfName, LIMIT_POPUP_SUGGEST);
             Timber.d("get dishes names, size: %s", names.getDishes().size());
 
             Object[] mRow = new Object[2];
@@ -82,7 +80,7 @@ public class SearchProvider {
         Timber.d("getSuggestion: type is %s", type);
 
         if (Type.RECIPE.equals(type)) {
-            services.getRecipesNameByPart(CACHE, namePart, LIMIT_SUGGEST, new NetworkCallback<SearchedDishesName>() {
+            services.getRecipesNameByPart(CACHE, namePart, LIMIT_POPUP_SUGGEST, new NetworkCallback<SearchedDishesName>() {
                 @Override
                 public void onResponse(SearchedDishesName body) {
                     Timber.i("onResponse: get dish size: %s", body.getDishes().size());
@@ -95,7 +93,7 @@ public class SearchProvider {
                 }
             });
         } else {
-            services.getIngredientNameByPart(CACHE, namePart, LIMIT_SUGGEST, new NetworkCallback<SearchedIngredientName>() {
+            services.getIngredientNameByPart(CACHE, namePart, LIMIT_POPUP_SUGGEST, new NetworkCallback<SearchedIngredientName>() {
                 @Override
                 public void onResponse(SearchedIngredientName body) {
                     Timber.i("onResponse: get ingredient size: %s", body.getIngredients().size());

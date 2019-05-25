@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
 public class RecepiesConstant {
+    //User id
+    public static final int USER_ID = 1;
+
     //AWS
     public static final String BASE_URL="https://vy5trnewne.execute-api.eu-central-1.amazonaws.com/";
     public static final String IMAGE_API_URL="Prod/api/images/getimage";
@@ -26,9 +29,13 @@ public class RecepiesConstant {
 
     //Limits
     public static final int SUGGEST_LENGTH_MIN = 3;
-    public static final int LIMIT_SUGGEST = 4;
+    public static final int LIMIT_POPUP_SUGGEST = 4;
+    public static final int LIMIT_POPUP_SUGGEST_ADD_PRODUCT = 10;
+
     public static final int LIMIT_CHARACTERS_IN_SEARCH = 20;
     public static final int LIMIT_CHARACTERS_IN_SEARCH_INGREDIENTS= 128;
+
+    public static final int DELAY_CHARACTER_ENTERED = 500; //1.5 sec
 
 
     //Split char

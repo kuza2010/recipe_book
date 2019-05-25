@@ -25,5 +25,7 @@
     <!--    Refrigerator fragment     -->
     <string name="add_product">Add</string>
 
+    <!--    Add Product activity     -->
+    <string name="add_product_hint">Enter some ingredient</string>
 
 </resources>

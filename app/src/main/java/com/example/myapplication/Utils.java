@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.util.TypedValue;
 
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
-import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,7 @@ import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.SPLIT_CHAR;
 import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.ERROR;
+import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.PRODUCT;
 import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.PROFILE;
 import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.RECIPES;
 import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.SEARCH;
@@ -29,6 +29,8 @@ public class Utils {
                 return SEARCH;
             case R.id.navigation_profile:
                 return PROFILE;
+            case R.id.navigation_fridge:
+                return PRODUCT;
             default:
                 return ERROR;
         }
@@ -42,6 +44,8 @@ public class Utils {
                 return R.id.navigation_serach;
             case PROFILE:
                 return R.id.navigation_profile;
+            case PRODUCT:
+                return R.id.navigation_fridge;
             default:
                 return -1;  //ERROR
         }

@@ -3,7 +3,6 @@ package com.example.myapplication.presentation.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.example.myapplication.BaseApp;
@@ -21,6 +20,7 @@ public abstract class BaseBottomNavigationActivity extends BaseFragmentActivity 
     public static final String RECIPES = "Recipes";
     public static final String SEARCH = "Search";
     public static final String PROFILE = "Profile";
+    public static final String PRODUCT = "Product";
     public static final String ERROR = "ERROR";
 
     @BindView(R.id.navigation_bar)
@@ -56,6 +56,10 @@ public abstract class BaseBottomNavigationActivity extends BaseFragmentActivity 
                             case R.id.navigation_profile:
                                 setTitle(PROFILE);
                                 navigateFragment(PROFILE, selectedItem);
+                                return true;
+                            case R.id.navigation_fridge:
+                                setTitle(PRODUCT);
+                                navigateFragment(PRODUCT, selectedItem);
                                 return true;
                         }
                         return false;

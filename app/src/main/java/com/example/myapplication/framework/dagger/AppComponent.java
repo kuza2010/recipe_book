@@ -5,11 +5,13 @@ import com.example.myapplication.framework.dagger.modules.ApplicationModule;
 import com.example.myapplication.framework.dagger.modules.NetworkModule;
 import com.example.myapplication.framework.dagger.modules.PresenterModule;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
-import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
 import com.example.myapplication.presentation.ui.QueryTextListener;
-import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
+import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
 import com.example.myapplication.presentation.ui.fragments.category_fragment.CategoryFeedFragment;
+import com.example.myapplication.presentation.ui.fragments.refrigerator_fragment.RefrigeratorFragment;
+import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
 import com.example.myapplication.presentation.ui.login.LogInActivity;
+import com.example.myapplication.presentation.ui.product.AddProductActivity;
 import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
 import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
 
@@ -27,9 +29,11 @@ public interface AppComponent {
     void inject (LogInActivity activity);
     void inject (RecipeActivity activity);
     void inject (SearchByIngredientActivity activity);
+    void inject (AddProductActivity addProductActivity);
 
     void inject(CategoryFeedFragment categoryFeedFragment);
     void inject(SearchRecipeFragment searchRecipeFragment);
+    void inject(RefrigeratorFragment refrigeratorFragment);
 
     void inject(SearchProvider provider);
 

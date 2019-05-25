@@ -2,7 +2,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@color/BDarkTransparent">
 
     <GridLayout
         android:layout_width="match_parent"
@@ -21,10 +24,12 @@
             android:background="@color/BAccent" />
 
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/product_name"
             android:layout_gravity="center"
             android:text="Пример продукта"/>
 
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/product_unit"
             android:layout_gravity="center"
             android:text="150 гр"/>
 

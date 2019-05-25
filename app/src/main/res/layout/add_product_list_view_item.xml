@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@color/BDarkTransparent"
+    android:layout_marginHorizontal="5dp"
+    android:padding="@dimen/standart_padding"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/product_thumbnail_image_view"
+        android:layout_width="@dimen/icon_size_36"
+        android:layout_height="@dimen/icon_size_36"
+        android:background="@color/BAccent"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/product_name_app_compat_text_view"
+        android:layout_toEndOf="@+id/product_thumbnail_image_view"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/horizontal_layout_margin_20" />
+
+
+    <ImageButton
+        android:id="@+id/add_product_image_button"
+        android:layout_width="@dimen/icon_size_36"
+        android:layout_height="@dimen/icon_size_36"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/horizontal_layout_margin_20"
+        android:backgroundTint="@color/BTransparent"
+        android:src="@drawable/baseline_add_circle_24"/>
+
+</RelativeLayout>

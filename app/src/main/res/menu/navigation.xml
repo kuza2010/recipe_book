@@ -11,7 +11,7 @@
         android:title="@string/navigation_bar_search"/>
 
     <item
-        android:id="@+id/fridge"
+        android:id="@+id/navigation_fridge"
         android:icon="@drawable/refrigerator"
         android:title="@string/navigation_bar_profile"/>
 

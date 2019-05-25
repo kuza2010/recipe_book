@@ -27,11 +27,12 @@
 
     <color name="BPrimary">#947081</color>
     <color name="BDark">#3b1c2c</color>
-    <color name="BDarkTransparent">#463B1C2C</color>
+    <color name="BDarkTransparent">#193B1C2C</color>
     <color name="BError">#A74117</color>
     <color name="BAccent">#408fb4</color>
     <color name="BControlNormal">#64566e</color>
     <color name="BBlack">#27003A</color>
+    <color name="BTransparent">#00FFFFFF</color>
 
     <!--    Search    -->
     <color name="BSearchPopupBackground">#BAD2A7EC</color>

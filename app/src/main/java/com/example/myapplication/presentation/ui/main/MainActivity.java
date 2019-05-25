@@ -5,8 +5,9 @@ import android.support.v4.app.Fragment;
 
 import com.example.myapplication.R;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
-import com.example.myapplication.presentation.ui.fragments.TestFragments;
 import com.example.myapplication.presentation.ui.fragments.category_fragment.CategoryFeedFragment;
+import com.example.myapplication.presentation.ui.fragments.preferences.PreferencesFragment;
+import com.example.myapplication.presentation.ui.fragments.refrigerator_fragment.RefrigeratorFragment;
 import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
 
 import timber.log.Timber;
@@ -29,8 +30,11 @@ public class MainActivity extends BaseBottomNavigationActivity {
             case SEARCH:
                 fragment = new SearchRecipeFragment();
                 break;
+            case PRODUCT:
+                fragment = new RefrigeratorFragment();
+                break;
             case PROFILE:
-                fragment = new TestFragments();
+                fragment = new PreferencesFragment();
                 break;
             default:
                 throw new IllegalStateException("Illegal fragment tag " + tag);

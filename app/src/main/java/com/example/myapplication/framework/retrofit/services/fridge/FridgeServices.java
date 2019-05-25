@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.Header;
 
@@ -23,6 +24,11 @@ public class FridgeServices extends AbstractServices {
 
     public void getMyProducts(@Header("Cache-Control") String cache, int id, NetworkCallback<Products> callback){
         Call<Products> call = service.getMyProducts(cache,id);
+        enqueue(call,callback);
+    }
+
+    public void addIngredient(@Header("Cache-Control") String cache,int userId, int ingredientId,int countIngredient,NetworkCallback<Response> callback){
+        Call<Response> call = service.addProduct(cache,userId,ingredientId,countIngredient);
         enqueue(call,callback);
     }
 }

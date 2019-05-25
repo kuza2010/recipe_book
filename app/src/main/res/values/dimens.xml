@@ -22,5 +22,6 @@
 
     <dimen name="horizontal_layout_margin_20">20dp</dimen>
     <dimen name="standart_padding">5dp</dimen>
+    <dimen name="icon_size_36">36dp</dimen>
 
 </resources>

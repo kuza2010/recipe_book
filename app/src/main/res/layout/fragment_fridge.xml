@@ -14,7 +14,7 @@
     </android.support.v7.widget.RecyclerView>
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/login_btn"
+        android:id="@+id/add_app_compat_btn"
         android:layout_below="@+id/recycler_view_my_products"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"

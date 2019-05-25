@@ -24,7 +24,7 @@ public abstract class BaseToolbarActivity extends AppCompatActivity {
             toolbar.setTitle(title);
     }
 
-    protected void popupToast(String message, int time){
+    public void popupToast(String message, int time){
         Toast toast = Toast.makeText(this,message,time);
         toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
         toast.show();

@@ -4,23 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class Product {
 
-    @SerializedName("ingredient_id")
-    private String ingredientId;
+    @SerializedName("id_ingredient")
+    private int ingredientId;
 
     @SerializedName("ingredient_name")
     private String ingredientName;
 
     @SerializedName("ingredient_count")
-    private String ingredientCount;
+    private int ingredientCount;
 
-    @SerializedName("units")
+    @SerializedName("unit_measurement")
     private String units;
 
-    public String getIngredientId() {
+    public int getIngredientId() {
         return ingredientId;
     }
 
-    public void setIngredientId(String ingredientId) {
+    public void setIngredientId(int ingredientId) {
         this.ingredientId = ingredientId;
     }
 
@@ -32,11 +32,11 @@ public class Product {
         this.ingredientName = ingredientName;
     }
 
-    public String getIngredientCount() {
+    public int getIngredientCount() {
         return ingredientCount;
     }
 
-    public void setIngredientCount(String ingredientCount) {
+    public void setIngredientCount(int ingredientCount) {
         this.ingredientCount = ingredientCount;
     }
 

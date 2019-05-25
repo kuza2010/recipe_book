@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/horizontal_layout_margin_20">
+
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/search_app_compat_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/add_product_hint"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+        <ListView
+            android:id="@+id/ingredient_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/hint_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/image_view_smile"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/search_section_main_icon_size"
+            android:layout_height="@dimen/search_section_main_icon_size"
+            android:alpha="0.2"
+            android:src="@drawable/search_main"/>
+
+        <TextView
+            android:id="@+id/text_view_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_view_smile"
+            android:layout_centerHorizontal="true"
+            android:text="@string/start_search"/>
+    </RelativeLayout>
+
+</RelativeLayout>
