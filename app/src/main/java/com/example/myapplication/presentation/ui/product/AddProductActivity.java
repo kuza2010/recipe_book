@@ -1,16 +1,22 @@
 package com.example.myapplication.presentation.ui.product;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
@@ -32,7 +38,7 @@ import static com.example.myapplication.RecepiesConstant.DELAY_CHARACTER_ENTERED
 import static com.example.myapplication.RecepiesConstant.LIMIT_POPUP_SUGGEST_ADD_PRODUCT;
 import static com.example.myapplication.RecepiesConstant.SUGGEST_LENGTH_MIN;
 
-public class AddProductActivity extends BaseToolbarActivity {
+public class AddProductActivity extends BaseToolbarActivity implements AddProductAdapter.OnAddClickListener {
     public static final String TITLE = "Add product";
 
     @BindView(R.id.hint_layout)
@@ -53,6 +59,7 @@ public class AddProductActivity extends BaseToolbarActivity {
     @Inject
     SearchServices searchServices;
 
+    private InputMethodManager inputManager;
     private AddProductAdapter adapter;
     private Handler handler = new Handler();
     private SuggestionRunnable suggestionRunnable;
@@ -64,9 +71,10 @@ public class AddProductActivity extends BaseToolbarActivity {
 
         doInject();
 
+        inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         setTitle(TITLE);
 
-        adapter = new AddProductAdapter(this);
+        adapter = new AddProductAdapter(this,this);
         ingredientList.setAdapter(adapter);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -113,6 +121,56 @@ public class AddProductActivity extends BaseToolbarActivity {
         imageView.setImageResource(imageId);
         textView.setText(hintTitle);
         setHintLayoutVisible(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(String ingredientName) {
+        inputManager.hideSoftInputFromWindow(imageView.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+        View view = getLayoutInflater().inflate(R.layout.alter_diallog_view,null);
+
+        TextView title = (TextView)view.findViewById(R.id.title);
+        final SeekBar seekBar = (SeekBar)view.findViewById(R.id.seek_bar);
+        AppCompatButton negative = (AppCompatButton)view.findViewById(R.id.negative);
+        AppCompatButton positive = (AppCompatButton)view.findViewById(R.id.positive);
+        final AppCompatTextView count = (AppCompatTextView)view.findViewById(R.id.count_ingredient);
+
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(true)
+                .create();
+
+        title.setText("Added "+ingredientName);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                count.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timber.d("onClick: click positive button, ingredient count %s",seekBar.getProgress());
+                dialog.dismiss();
+            }
+        });
+
+       dialog.show();
     }
 
 

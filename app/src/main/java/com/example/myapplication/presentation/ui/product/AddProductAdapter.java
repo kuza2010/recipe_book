@@ -17,14 +17,15 @@ import timber.log.Timber;
 
 public class AddProductAdapter extends BaseAdapter {
 
-    private Context context;
+    private OnAddClickListener listener;
     private LayoutInflater inflater;
     private List<String> item;
 
 
-    public AddProductAdapter(Context context) {
+    public AddProductAdapter(Context context,OnAddClickListener listener) {
         item = new ArrayList<>();
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.listener = listener;
     }
 
     public void setItem(List<String>itemsToSet) {
@@ -71,22 +72,28 @@ public class AddProductAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View view = convertView;
-        if(view==null){
-            view = inflater.inflate(R.layout.add_product_list_view_item,parent,false);
+        if (view == null) {
+            view = inflater.inflate(R.layout.add_product_list_view_item, parent, false);
         }
 
-        String name = (String)getItem(position);
-        ((AppCompatTextView)view.findViewById(R.id.product_name_app_compat_text_view)).setText(name);
+        final String name = (String)getItem(position);
+        ((AppCompatTextView) view.findViewById(R.id.product_name_app_compat_text_view)).setText(name);
 
-        ((ImageButton)view.findViewById(R.id.add_product_image_button)).setOnClickListener(new View.OnClickListener() {
+        ((ImageButton) view.findViewById(R.id.add_product_image_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Timber.d("onClick button");
+                listener.onClick(name);
             }
         });
 
         return view;
+    }
+
+
+
+    public interface OnAddClickListener{
+        void onClick(String ingredientName);
     }
 }

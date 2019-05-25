@@ -37,4 +37,7 @@
     <!--    Search    -->
     <color name="BSearchPopupBackground">#BAD2A7EC</color>
 
+    <!--    AlterDialog    -->
+    <color name="AlterDialogBackground">@color/BImageViewPreloadBackground</color>
+
 </resources>

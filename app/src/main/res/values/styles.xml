@@ -66,5 +66,10 @@
         <item name="android:fontFamily">monospace</item>
     </style>
 
+    <!--    Alert Dialog flow    -->
+    <style name="AlterDialogTextViewBlueBerryStyle" parent="CategoryTextViewBlueBerryStyle">
+        <item name="android:textSize">20sp</item>
+    </style>
+
 
 </resources>
