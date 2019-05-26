@@ -28,9 +28,9 @@ import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
-import com.example.myapplication.presentation.ui.SuggestionCursorAdapter;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.QueryTextListener;
+import com.example.myapplication.presentation.ui.SuggestionCursorAdapter;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
 import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
 
@@ -113,7 +113,7 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onClick: touch search view close button");
+                Timber.d("onVariantClickClick: touch search view close button");
                 setVisibleHint(true);
                 setVisibilityProgressBar(false);
                 searchView.onActionViewCollapsed();

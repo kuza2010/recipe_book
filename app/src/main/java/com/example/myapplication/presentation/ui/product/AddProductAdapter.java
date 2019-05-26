@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 
 import com.example.myapplication.R;
+import com.example.myapplication.framework.retrofit.model.search.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class AddProductAdapter extends BaseAdapter {
 
     private OnAddClickListener listener;
     private LayoutInflater inflater;
-    private List<String> item;
+    private List<Ingredient> item;
 
 
     public AddProductAdapter(Context context,OnAddClickListener listener) {
@@ -28,7 +29,7 @@ public class AddProductAdapter extends BaseAdapter {
         this.listener = listener;
     }
 
-    public void setItem(List<String>itemsToSet) {
+    public void setItem(List<Ingredient>itemsToSet) {
         if (item != null) {
             Timber.d("setItem: clear items");
             item.clear();
@@ -65,6 +66,12 @@ public class AddProductAdapter extends BaseAdapter {
         return null;
     }
 
+    private Ingredient getIngredient(int position) {
+        if (item != null && !item.isEmpty())
+            return item.get(position);
+        return null;
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -77,14 +84,14 @@ public class AddProductAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.add_product_list_view_item, parent, false);
         }
 
-        final String name = (String)getItem(position);
-        ((AppCompatTextView) view.findViewById(R.id.product_name_app_compat_text_view)).setText(name);
+        final Ingredient currentIngredient = getIngredient(position);
+        ((AppCompatTextView) view.findViewById(R.id.product_name_app_compat_text_view)).setText(currentIngredient.getName());
 
         ((ImageButton) view.findViewById(R.id.add_product_image_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onClick button");
-                listener.onClick(name);
+                Timber.d("onVariantClickClick button");
+                listener.onVariantClickClick(currentIngredient);
             }
         });
 
@@ -94,6 +101,6 @@ public class AddProductAdapter extends BaseAdapter {
 
 
     public interface OnAddClickListener{
-        void onClick(String ingredientName);
+        void onVariantClickClick(Ingredient ingredient);
     }
 }

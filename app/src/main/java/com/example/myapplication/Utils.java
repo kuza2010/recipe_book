@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.util.TypedValue;
 
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
+import com.example.myapplication.framework.retrofit.model.search.Ingredient;
+import com.example.myapplication.framework.retrofit.model.search.SearchedIngredientName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,5 +104,18 @@ public class Utils {
         int i = searchedString.lastIndexOf(SPLIT_CHAR);
 
         return searchedString.substring(i+1);
+    }
+
+    public static List<String> getNames(SearchedIngredientName searchedIngredientNames){
+        if(searchedIngredientNames.getIngredients().isEmpty())
+            return null;
+
+        List<String> listName = new ArrayList<>();
+
+        for (Ingredient ingredient :searchedIngredientNames.getIngredients()) {
+            listName.add(ingredient.getName());
+        }
+
+        return listName;
     }
 }

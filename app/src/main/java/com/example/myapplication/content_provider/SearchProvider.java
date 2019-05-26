@@ -97,7 +97,7 @@ public class SearchProvider {
                 @Override
                 public void onResponse(SearchedIngredientName body) {
                     Timber.i("onResponse: get ingredient size: %s", body.getIngredients().size());
-                    onSuggestionCursorListener.onCursorReceived(createCursor(body.getIngredients()));
+                    onSuggestionCursorListener.onCursorReceived(createCursor(Utils.getNames(body)));
                 }
 
                 @Override
@@ -109,7 +109,7 @@ public class SearchProvider {
     }
 
     private Cursor createCursor(List<String> names) {
-        if (names.isEmpty())
+        if (names==null || names.isEmpty())
             return null;
 
         MatrixCursor suggest = new MatrixCursor(matrixColumns);

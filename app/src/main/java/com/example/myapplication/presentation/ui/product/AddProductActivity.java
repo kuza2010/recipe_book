@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
+import com.example.myapplication.framework.retrofit.model.search.Ingredient;
 import com.example.myapplication.framework.retrofit.model.search.SearchedIngredientName;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.fridge.FridgeServices;
@@ -31,12 +32,15 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.DELAY_CHARACTER_ENTERED;
 import static com.example.myapplication.RecepiesConstant.LIMIT_POPUP_SUGGEST_ADD_PRODUCT;
+import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 import static com.example.myapplication.RecepiesConstant.SUGGEST_LENGTH_MIN;
+import static com.example.myapplication.RecepiesConstant.USER_ID;
 
 public class AddProductActivity extends BaseToolbarActivity implements AddProductAdapter.OnAddClickListener {
     public static final String TITLE = "Add product";
@@ -124,22 +128,22 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
     }
 
     @Override
-    public void onClick(String ingredientName) {
-        inputManager.hideSoftInputFromWindow(imageView.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-        View view = getLayoutInflater().inflate(R.layout.alter_diallog_view,null);
+    public void onVariantClickClick(final Ingredient ingredient) {
+        inputManager.hideSoftInputFromWindow(imageView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        View view = getLayoutInflater().inflate(R.layout.alter_diallog_view, null);
 
-        TextView title = (TextView)view.findViewById(R.id.title);
-        final SeekBar seekBar = (SeekBar)view.findViewById(R.id.seek_bar);
-        AppCompatButton negative = (AppCompatButton)view.findViewById(R.id.negative);
-        AppCompatButton positive = (AppCompatButton)view.findViewById(R.id.positive);
-        final AppCompatTextView count = (AppCompatTextView)view.findViewById(R.id.count_ingredient);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
+        AppCompatButton negative = (AppCompatButton) view.findViewById(R.id.negative);
+        AppCompatButton positive = (AppCompatButton) view.findViewById(R.id.positive);
+        final AppCompatTextView count = (AppCompatTextView) view.findViewById(R.id.count_ingredient);
 
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .setCancelable(true)
                 .create();
 
-        title.setText("Added "+ingredientName);
+        title.setText("Added " + ingredient.getName());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -165,14 +169,25 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onClick: click positive button, ingredient count %s",seekBar.getProgress());
+                Timber.d("onVariantClickClick: click positive button, ingredient count %s", seekBar.getProgress());
+                services.addIngredient(NO_CACHE, USER_ID, ingredient.getIdIngredient(), LIMIT_POPUP_SUGGEST_ADD_PRODUCT, new NetworkCallback<Response>() {
+                    @Override
+                    public void onResponse(Response body) {
+                        Timber.d("onResponse: code: %s",body.code());
+                        AddProductActivity.this.popupToast("code = "+body.code(),3);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Timber.e("onFailure: add ingredient %s failure, message %s",ingredient.getName(),throwable.getMessage());
+                    }
+                });
                 dialog.dismiss();
             }
         });
 
-       dialog.show();
+        dialog.show();
     }
-
 
     class SuggestionRunnable implements Runnable {
 

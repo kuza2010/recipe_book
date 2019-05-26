@@ -24,9 +24,9 @@ import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
-import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
-import com.example.myapplication.presentation.ui.SuggestionCursorAdapter;
 import com.example.myapplication.presentation.ui.QueryTextListener;
+import com.example.myapplication.presentation.ui.SuggestionCursorAdapter;
+import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,7 +95,7 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onClick: touch search view close button");
+                Timber.d("onVariantClickClick: touch search view close button");
                 setVisibleHint(true);
                 setVisibilityProgressBar(false);
                 searchView.onActionViewCollapsed();

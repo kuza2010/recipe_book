@@ -37,7 +37,7 @@ public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapte
 
     @Override
     public void onBindViewHolder(@NonNull RefrigeratorViewHolder refrigeratorViewHolder, int i) {
-        refrigeratorViewHolder.units.setText(products.get(i).getUnits());
+        refrigeratorViewHolder.units.setText(products.get(i).getIngredientCount()+ " " + products.get(i).getUnits());
         refrigeratorViewHolder.name.setText(products.get(i).getIngredientName());
     }
 
