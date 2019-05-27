@@ -57,7 +57,7 @@ public class NetworkModule {
     public OkHttpClient provideRetrofitClient(@Named("cache-interceptor") Interceptor cacheInterceptor, @Named("retrofit-cache") Cache cache) {
         return new OkHttpClient.Builder()
                 .cache(cache)
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(cacheInterceptor)
                 .connectTimeout(CONNECTION_TIMEOUT,TimeUnit.SECONDS)
                 .callTimeout(CALL_TIMEOUT, TimeUnit.SECONDS)
@@ -103,24 +103,36 @@ public class NetworkModule {
                 Request originalRequest = chain.request();
                 Timber.d("===   Picasso interceptor begin   ===");
                 Timber.d("Intercept request! Method %s, url %s", originalRequest.method().toUpperCase(), originalRequest.url());
-                Timber.d("Start requests....");
+                Timber.d("Start original requests....");
 
                 Response response = chain.proceed(originalRequest);
-                Timber.d("Getting response!");
+                Timber.d("Getting original response!");
                 Timber.d("Response sent time %d", response.sentRequestAtMillis());
                 Timber.d("Response received time %d", response.receivedResponseAtMillis());
 
-                Timber.d("Decode response!");
-                MediaType contentType = response.body().contentType();
-                String base64String = response.body().string().replace("\"", "");
-                byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
-                Timber.d("Create a correct response body.");
-                ResponseBody body = ResponseBody.create(contentType, decodedString);
+                //Timber.d("Decode response!");
+                //MediaType contentType = response.body().contentType();
+                String imageUrl = response
+                        .body()
+                        .string()
+                        .replace("\"", "");
+
+                Timber.d("Create request to load image, url %s",imageUrl);
+                Request request = new Request.Builder()
+                        .url(imageUrl)
+                        .build();
+                Response newResponse = chain.proceed(request);
+                Timber.d("New response created!");
+
+                //String base64String = response.body().string().replace("\"", "");
+                //byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+                //Timber.d("Create a correct response body.");
+                //ResponseBody body = ResponseBody.create(contentType, decodedString);
 
                 Timber.d("===   Cache interceptor end   ===");
                 return response
                         .newBuilder()
-                        .body(body)
+                        .body(newResponse.body())
                         .build();
             }
         };

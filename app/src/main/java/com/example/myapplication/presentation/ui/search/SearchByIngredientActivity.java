@@ -95,7 +95,7 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onVariantClickClick: touch search view close button");
+                Timber.d("onAddClick: touch search view close button");
                 setVisibleHint(true);
                 setVisibilityProgressBar(false);
                 searchView.onActionViewCollapsed();

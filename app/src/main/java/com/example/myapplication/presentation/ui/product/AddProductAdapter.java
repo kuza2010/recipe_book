@@ -90,8 +90,8 @@ public class AddProductAdapter extends BaseAdapter {
         ((ImageButton) view.findViewById(R.id.add_product_image_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onVariantClickClick button");
-                listener.onVariantClickClick(currentIngredient);
+                Timber.d("onAddClick button");
+                listener.onAddClick(currentIngredient);
             }
         });
 
@@ -101,6 +101,6 @@ public class AddProductAdapter extends BaseAdapter {
 
 
     public interface OnAddClickListener{
-        void onVariantClickClick(Ingredient ingredient);
+        void onAddClick(Ingredient ingredient);
     }
 }

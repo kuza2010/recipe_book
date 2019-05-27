@@ -32,7 +32,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Response;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
@@ -65,8 +64,8 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
 
     private InputMethodManager inputManager;
     private AddProductAdapter adapter;
-    private Handler handler = new Handler();
     private SuggestionRunnable suggestionRunnable;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -128,26 +127,29 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
     }
 
     @Override
-    public void onVariantClickClick(final Ingredient ingredient) {
-        inputManager.hideSoftInputFromWindow(imageView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    public void onAddClick(final Ingredient ingredient) {
+        hideKeyboard();
         View view = getLayoutInflater().inflate(R.layout.alter_diallog_view, null);
 
         TextView title = (TextView) view.findViewById(R.id.title);
-        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
         AppCompatButton negative = (AppCompatButton) view.findViewById(R.id.negative);
         AppCompatButton positive = (AppCompatButton) view.findViewById(R.id.positive);
+        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
         final AppCompatTextView count = (AppCompatTextView) view.findViewById(R.id.count_ingredient);
+
+        seekBar.setProgress(1);
+        count.setText(seekBar.getProgress()+ ingredient.getMetric());
+        title.setText("Added " + ingredient.getName());
 
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .setCancelable(true)
                 .create();
 
-        title.setText("Added " + ingredient.getName());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                count.setText(String.valueOf(progress));
+                count.setText(progress+ ingredient.getMetric());
             }
 
             @Override
@@ -169,24 +171,32 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onVariantClickClick: click positive button, ingredient count %s", seekBar.getProgress());
-                services.addIngredient(NO_CACHE, USER_ID, ingredient.getIdIngredient(), LIMIT_POPUP_SUGGEST_ADD_PRODUCT, new NetworkCallback<Response>() {
-                    @Override
-                    public void onResponse(Response body) {
-                        Timber.d("onResponse: code: %s",body.code());
-                        AddProductActivity.this.popupToast("code = "+body.code(),3);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e("onFailure: add ingredient %s failure, message %s",ingredient.getName(),throwable.getMessage());
-                    }
-                });
+                Timber.d("onAddClick: click positive button, ingredient count %s", seekBar.getProgress());
+                addIngredient(ingredient,seekBar.getProgress());
                 dialog.dismiss();
             }
         });
 
         dialog.show();
+    }
+
+    private void addIngredient(final Ingredient ingredient, int count) {
+        services.addIngredient(NO_CACHE, USER_ID, ingredient.getIdIngredient(), count, new NetworkCallback<Void>() {
+            @Override
+            public void onResponse(Void body) {
+                Timber.d("onResponse: successful");
+                AddProductActivity.this.popupToast(ingredient.getName() + " was added!", 2);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Timber.e("onFailure: add ingredient %s failure, message %s", ingredient.getName(), throwable.getMessage());
+            }
+        });
+    }
+
+    private void hideKeyboard() {
+        inputManager.hideSoftInputFromWindow(imageView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     class SuggestionRunnable implements Runnable {

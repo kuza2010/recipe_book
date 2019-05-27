@@ -27,8 +27,8 @@ public class FridgeServices extends AbstractServices {
         enqueue(call, callback);
     }
 
-    public void addIngredient(@Header("Cache-Control") String cache, int userId, int ingredientId, int countIngredient, NetworkCallback<Response> callback) {
-        Call<Response> call = service.addProduct(cache, userId, ingredientId, countIngredient);
+    public void addIngredient(@Header("Cache-Control") String cache, int userId, int ingredientId, int countIngredient, NetworkCallback<Void> callback) {
+        Call<Void> call = service.addProduct(cache, userId, ingredientId, countIngredient);
         enqueue(call, callback);
     }
 }

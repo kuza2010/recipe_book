@@ -25,7 +25,7 @@ public abstract class AbstractServices {
     }
 
 
-    protected  <T> void enqueue(Call<T> call, final NetworkCallback<T> nCallback) {
+    protected <T> void enqueue(Call<T> call, final NetworkCallback<T> nCallback) {
         call.enqueue(new Callback<T>() {
             @Override
             public void onResponse(Call<T> call, Response<T> response) {
@@ -42,7 +42,4 @@ public abstract class AbstractServices {
             }
         });
     }
-
-
-
 }
