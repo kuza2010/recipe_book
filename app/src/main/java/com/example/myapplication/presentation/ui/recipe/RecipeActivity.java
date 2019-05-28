@@ -2,43 +2,28 @@ package com.example.myapplication.presentation.ui.recipe;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
 import com.example.myapplication.Utils;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
-import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
-import com.example.myapplication.framework.retrofit.services.NetworkCallback;
-import com.example.myapplication.framework.retrofit.services.image.ImageServices;
-import com.example.myapplication.framework.retrofit.services.recipe.RecipeServices;
 import com.example.myapplication.presentation.presenter.recipe.RecipePresenter;
 import com.example.myapplication.presentation.presenter.recipe.RecipePresenterImpl;
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
-
-import static com.example.myapplication.RecepiesConstant.CACHE;
 
 public class RecipeActivity extends BaseToolbarActivity implements RecipePresenter.RecipeContractView {
     public static final String TITLE = "toolbar_title";
@@ -72,7 +57,7 @@ public class RecipeActivity extends BaseToolbarActivity implements RecipePresent
     private void configureRecyclerView() {
         adapter = new RecipeAdapter();
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,1));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, Utils.dpToPx(this, 8), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);

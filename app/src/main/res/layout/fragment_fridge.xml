@@ -6,22 +6,33 @@
     android:layout_height="match_parent"
     android:background="@color/BBackground">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_my_products"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/add_app_compat_btn"
-        android:layout_below="@+id/recycler_view_my_products"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/BAccent"
-        android:layout_marginTop="@dimen/logo_margin_top"
-        android:text="@string/add_product"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_my_products"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/add_app_compat_btn"
+                android:layout_below="@+id/recycler_view_my_products"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/BAccent"
+                android:layout_marginTop="@dimen/logo_margin_top"
+                android:text="@string/add_product"
+                android:layout_marginBottom="@dimen/horizontal_layout_margin_20"/>
+        </RelativeLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/hint_layout"

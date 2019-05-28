@@ -47,4 +47,14 @@ public class Product {
     public void setUnits(String units) {
         this.units = units;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "ingredientId=" + ingredientId +
+                ", ingredientName='" + ingredientName + '\'' +
+                ", ingredientCount=" + ingredientCount +
+                ", units='" + units + '\'' +
+                '}';
+    }
 }

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
+import com.example.myapplication.Utils;
 import com.example.myapplication.framework.retrofit.model.search.Ingredient;
 import com.example.myapplication.framework.retrofit.model.search.SearchedIngredientName;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
@@ -138,6 +139,7 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
         final AppCompatTextView count = (AppCompatTextView) view.findViewById(R.id.count_ingredient);
 
         seekBar.setProgress(1);
+        seekBar.setMax(Utils.getMaxMetric(ingredient.getMetric()));
         count.setText(seekBar.getProgress()+ ingredient.getMetric());
         title.setText("Added " + ingredient.getName());
 

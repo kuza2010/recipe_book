@@ -118,4 +118,21 @@ public class Utils {
 
         return listName;
     }
+
+    public static int getMaxMetric(String metric){
+        switch (metric){
+            case "мл":
+                return 5000;
+            case "г":
+                return 5000;
+            case "шт":
+                return 100;
+            case "пуч":
+            case "зуб":
+            case "пач":
+                return 20;
+            default:
+                return 5;
+        }
+    }
 }

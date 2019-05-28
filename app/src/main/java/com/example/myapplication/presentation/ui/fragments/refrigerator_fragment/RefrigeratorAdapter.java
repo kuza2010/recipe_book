@@ -13,12 +13,17 @@ import com.example.myapplication.framework.retrofit.model.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapter.RefrigeratorViewHolder> {
+import timber.log.Timber;
+
+public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapter.RefrigeratorViewHolder>
+        implements SwipeTouchHelper.ItemTouchHelperAdapter{
 
     private List<Product> products;
+    private RefrigeratorListener listener;
 
-    public RefrigeratorAdapter() {
+    public RefrigeratorAdapter(RefrigeratorListener listener) {
         this.products = new ArrayList<>();
+        this.listener = listener;
     }
 
     public void updateProduct(List<Product> newList){
@@ -26,6 +31,35 @@ public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapte
        products.addAll(newList);
 
        notifyDataSetChanged();
+    }
+
+    public void updateAmountProduct(Product product, int totalAmount){
+        if(products.contains(product)) {
+            for (Product prod : products) {
+                if (prod.getIngredientName().equals(product.getIngredientName()))
+                    prod.setIngredientCount(totalAmount);
+            }
+
+            notifyItemChanged(products.indexOf(product));
+            return;
+        }
+        Timber.e("updateAmountProduct: adapter not contains %s",product.getIngredientName());
+    }
+
+    public void removeProduct(Product product) {
+        if (products.contains(product)) {
+            int index = products.indexOf(product);
+            products.remove(product);
+            notifyItemRemoved(index);
+            return;
+        }
+        Timber.e("removeProduct: adapter not contains %s", product.getIngredientName());
+    }
+
+    public int getIndex(Product product) {
+        if (products.contains(product))
+            return products.indexOf(product);
+        return 0;
     }
 
     @NonNull
@@ -49,6 +83,11 @@ public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapte
         return 0;
     }
 
+    @Override
+    public void onItemAttemptToDelete(int position) {
+        listener.onAttemptToDelete(products.get(position));
+    }
+
     public class RefrigeratorViewHolder extends RecyclerView.ViewHolder{
         AppCompatTextView name;
         AppCompatTextView units;
@@ -58,5 +97,10 @@ public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapte
             name = itemView.findViewById(R.id.product_name);
             units = itemView.findViewById(R.id.product_unit);
         }
+    }
+
+
+    public interface RefrigeratorListener{
+        void onAttemptToDelete(Product product);
     }
 }
