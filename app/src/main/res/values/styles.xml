@@ -79,4 +79,14 @@
     </style>
 
 
+    <!--    Recipe flow    -->
+    <style name="MainRecipeRecipeNameTextView">
+        <item name="android:textColor">@color/BTextViewCategoryNameTextColor</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">casual</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
 </resources>

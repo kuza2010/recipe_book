@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BBackground">
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/horizontal_layout_margin_20">
+
+        <ImageView
+            android:id="@+id/main_image_view"
+            android:layout_margin="@dimen/standart_margin"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/category_preload_background_gradient"
+            android:clickable="true"
+            android:layout_centerHorizontal="true"/>
+
+        <RelativeLayout
+            android:id="@+id/general_information_layout"
+            android:layout_below="@+id/main_image_view"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="@dimen/standart_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/recipe_name"
+                android:layout_marginHorizontal="@dimen/horizontal_layout_margin_20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                style="@style/MainRecipeRecipeNameTextView"
+                android:text="Recipe names !"/>
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:id="@+id/author_like_layout"
+                android:layout_below="@+id/recipe_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/avatar_stub"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/nickname"
+                    android:layout_toEndOf="@+id/avatar"
+                    android:layout_alignBottom="@+id/avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="@color/BAcceptWhite"
+                    android:text="Admin"/>
+
+                <ImageView
+                    android:id="@+id/like"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="30dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/favorite"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:id="@+id/additional_information_layout"
+                android:layout_below="@+id/author_like_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/cooking_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cooking_time"/>
+
+                <TextView
+                    android:id="@+id/recipe_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/rating"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/recipe_description"
+            android:layout_below="@id/general_information_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/description_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/BAcceptWhite"
+                android:text="@string/description"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/description_content"
+                android:layout_below="@+id/description_title"
+                android:layout_marginTop="@dimen/standart_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Recipe description Recipe description Recipe description Recipe description Recipe description"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/instrument_layout"
+            android:layout_below="@+id/recipe_description"
+            android:layout_marginTop="@dimen/standart_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/instrument_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/BAcceptWhite"
+                android:text="@string/instrument"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/instrument"
+                android:layout_below="@id/instrument_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ingredient_layout"
+            android:layout_below="@+id/instrument_layout"
+            android:layout_marginTop="@dimen/standart_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/ingredient_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/BAcceptWhite"
+                android:text="@string/ingredient"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ingredient"
+                android:layout_below="@id/ingredient_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/direction_layout"
+            android:layout_below="@+id/ingredient_layout"
+            android:layout_marginTop="@dimen/standart_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/horizontal_layout_margin_20">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/direction_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/BAcceptWhite"
+                android:text="@string/direction"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/direction"
+                android:layout_below="@id/direction_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -29,5 +29,11 @@
     <string name="add_product_hint">Enter some ingredient</string>
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
+    <string name="cooking_time">Cooking time:</string>
+    <string name="rating">Rating:</string>
+    <string name="description">Description:</string>
+    <string name="instrument">Instrument:</string>
+    <string name="ingredient">Ingredient:</string>
+    <string name="direction">Direction:</string>
 
 </resources>
