@@ -8,7 +8,7 @@
         android:id="@+id/category_element_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:contentDescription="@string/each_category_element"
         android:background="@drawable/category_preload_background_gradient"
         android:clickable="true"/>
@@ -17,7 +17,11 @@
         android:id="@+id/category_element_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        style="@style/CategoryTextViewBlueBerryStyle"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:textAlignment="center"
+        style="@style/CategoryTextViewBlueBerryStyle2"
+        android:text="Мясо с соусом терияки"/>
 
 </RelativeLayout>

@@ -41,9 +41,6 @@ import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 import static com.example.myapplication.RecepiesConstant.USER_ID;
 
 public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapter.RefrigeratorListener {
-    public static final int ADD_INGREDIENT = 1;
-    public static final int TAKE_AWAY_INGREDIENT = 2;
-
     @BindView(R.id.recycler_view_my_products)
     RecyclerView recyclerView;
     @BindView(R.id.add_app_compat_btn)
@@ -106,14 +103,14 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
 
     @OnClick(R.id.add_app_compat_btn)
     public void onAddClick() {
-        Timber.d("on add click");
+        Timber.d("onAddClick: start activity add product");
         startActivity(new Intent(getActivity(), AddProductActivity.class));
     }
 
-    @Override
-    public void onAttemptToDelete(final Product product) {
+
+    public void onProductChanged(final Product product, final RefrigeratorAdapter.InteractType type) {
         //TODO: Added LOADING!!!!!!!!
-        Timber.d("onAttempToDelete: delete product %s", product);
+        Timber.d("onProductChanged: product %s attempt change, mode '%s'", product, type.name);
 
         View view = getLayoutInflater().inflate(R.layout.alter_diallog_view, null);
 
@@ -123,11 +120,20 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
         final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
         final AppCompatTextView count = (AppCompatTextView) view.findViewById(R.id.count_ingredient);
 
-        positive.setText("Delete");
+        switch (type) {
+            case ADD_INGREDIENT:
+                seekBar.setMax(Utils.getMaxMetric(product.getUnits()));
+                break;
+            case TAKE_AWAY_INGREDIENT:
+                seekBar.setMax(product.getIngredientCount());
+                break;
+        }
+
         seekBar.setProgress(1);
-        seekBar.setMax(product.getIngredientCount());
+
+        positive.setText(type.name);
         count.setText(String.format("%s %s", seekBar.getProgress(), product.getUnits()));
-        title.setText("Delete " + product.getIngredientName());
+        title.setText(String.format("%s %s", type.name, product.getIngredientName()));
 
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(view)
@@ -137,74 +143,7 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                count.setText(progress + product.getUnits());
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        negative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-                adapter.notifyItemChanged(adapter.getIndex(product));
-            }
-        });
-        positive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timber.d("onDeleteClick: click positive button, ingredient count %s", seekBar.getProgress());
-
-                if (seekBar.getProgress() == product.getIngredientCount()) {
-                    //delete
-                    Timber.d("onClick: delete all product %s", product.getIngredientName());
-                    deleteIngredients(product);
-                } else {
-                    Timber.d("onClick: delete part (%s) product %s", seekBar.getProgress(), product.getIngredientName());
-                    updaterIngredients(product, seekBar.getProgress(),TAKE_AWAY_INGREDIENT);
-                }
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
-    @Override
-    public void onAttemptToAdd(final Product product) {
-        //TODO: Added LOADING!!!!!!!!
-        Timber.d("onAttempToAdd: delete product %s", product);
-
-        View view = getLayoutInflater().inflate(R.layout.alter_diallog_view, null);
-
-        TextView title = (TextView) view.findViewById(R.id.title);
-        AppCompatButton negative = (AppCompatButton) view.findViewById(R.id.negative);
-        AppCompatButton positive = (AppCompatButton) view.findViewById(R.id.positive);
-        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
-        final AppCompatTextView count = (AppCompatTextView) view.findViewById(R.id.count_ingredient);
-
-        positive.setText("Add");
-        seekBar.setProgress(1);
-        seekBar.setMax(Utils.getMaxMetric(product.getUnits()));
-        count.setText(String.format("%s %s", seekBar.getProgress(), product.getUnits()));
-        title.setText("Add " + product.getIngredientName());
-
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setView(view)
-                .setCancelable(true)
-                .create();
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                count.setText(progress + product.getUnits());
+                count.setText(String.format("%s %s", progress, product.getUnits()));
             }
 
             @Override
@@ -226,8 +165,8 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onAddClick: click positive button, ingredient count %s", seekBar.getProgress());
-                updaterIngredients(product,seekBar.getProgress(),ADD_INGREDIENT);
+                Timber.d("onClick: click positive button, seek bar ingredient count %s", seekBar.getProgress());
+                updaterIngredients(product, seekBar.getProgress(), type);
                 dialog.dismiss();
             }
         });
@@ -236,20 +175,28 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
     }
 
 
-    public void updaterIngredients(final Product productToUpdate, int takeAway,int mode) {
+    public void updaterIngredients(final Product productToUpdate, int takeAway, RefrigeratorAdapter.InteractType type) {
+        if (type == RefrigeratorAdapter.InteractType.TAKE_AWAY_INGREDIENT
+                && takeAway == productToUpdate.getIngredientCount()) {
+            Timber.d("delete %s ", productToUpdate);
+            deleteIngredients(productToUpdate);
+            return;
+        }
+
         int newCount = 0;
-        if(mode==TAKE_AWAY_INGREDIENT)
+        if (type == RefrigeratorAdapter.InteractType.TAKE_AWAY_INGREDIENT)
             newCount = productToUpdate.getIngredientCount() - takeAway;
         else
-            newCount =  productToUpdate.getIngredientCount() + takeAway;
+            newCount = productToUpdate.getIngredientCount() + takeAway;
 
-        services.updateIngredient(NO_CACHE, USER_ID,
+        services.updateIngredient(NO_CACHE,
+                USER_ID,
                 productToUpdate.getIngredientId(),
                 newCount,
                 new NetworkCallback<UpdateIngredient>() {
                     @Override
                     public void onResponse(UpdateIngredient body) {
-                        ((MainActivity) getActivity()).popupToast("Update successful!", 2);
+                        ((MainActivity) getActivity()).popupToast(String.format("Update %s successful!", productToUpdate.getIngredientName()), 2);
                         adapter.updateAmountProduct(productToUpdate, body.getCountIngredient());
                     }
 
@@ -270,7 +217,7 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
                     @Override
                     public void onResponse(RemoveIngredient body) {
                         if (body.getIngrdientId() == productToUpdate.getIngredientId()) {
-                            ((MainActivity) getActivity()).popupToast("Delete successful!", 2);
+                            ((MainActivity) getActivity()).popupToast("Delete successful!", 3);
                             adapter.removeProduct(productToUpdate);
                         } else {
                             Timber.e("onFailure: delete %s failure. Response id %s does not match delete id %s ",
@@ -285,7 +232,7 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
                     @Override
                     public void onFailure(Throwable throwable) {
                         Timber.e("onFailure: delete %s failure, message %s", productToUpdate.getIngredientName(), throwable.getMessage());
-                        ((MainActivity) getActivity()).popupToast("Delete failure!", 2);
+                        ((MainActivity) getActivity()).popupToast("Delete failure!", 4);
                     }
                 });
     }

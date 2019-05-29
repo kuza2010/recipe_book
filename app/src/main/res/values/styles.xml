@@ -25,6 +25,13 @@
     </style>
 
     <!--    Category flow    -->
+    <style name="CategoryTextViewBlueBerryStyle2">
+        <item name="android:textColor">@color/BAccent</item>
+        <item name="android:textSize">@dimen/category_element_text_view_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">casual</item>
+    </style>
+
     <style name="CategoryTextViewBlueBerryStyle">
         <item name="android:textColor">@color/BTextViewCategoryNameTextColor</item>
         <item name="android:textSize">@dimen/category_element_text_view_size</item>
