@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:useDefaultMargins="true"
         android:layout_marginHorizontal="@dimen/horizontal_layout_margin_20"
-        android:columnCount="3"
+        android:columnCount="4"
         android:rowCount="1">
 
         <ImageView
@@ -32,6 +32,14 @@
             android:id="@+id/product_unit"
             android:layout_gravity="center"
             android:text="150 гр"/>
+
+        <ImageButton
+            android:id="@+id/update_product_image_button"
+            android:layout_width="@dimen/icon_size_36"
+            android:layout_height="@dimen/icon_size_36"
+            android:layout_marginEnd="@dimen/horizontal_layout_margin_20"
+            android:backgroundTint="@color/BTransparent"
+            android:src="@drawable/baseline_add_circle_24"/>
 
 
     </GridLayout>

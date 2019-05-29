@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
+import com.example.myapplication.Utils;
 import com.example.myapplication.framework.retrofit.model.product.Product;
 import com.example.myapplication.framework.retrofit.model.product.Products;
 import com.example.myapplication.framework.retrofit.model.product.RemoveIngredient;
@@ -40,6 +41,9 @@ import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 import static com.example.myapplication.RecepiesConstant.USER_ID;
 
 public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapter.RefrigeratorListener {
+    public static final int ADD_INGREDIENT = 1;
+    public static final int TAKE_AWAY_INGREDIENT = 2;
+
     @BindView(R.id.recycler_view_my_products)
     RecyclerView recyclerView;
     @BindView(R.id.add_app_compat_btn)
@@ -164,7 +168,7 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
                     deleteIngredients(product);
                 } else {
                     Timber.d("onClick: delete part (%s) product %s", seekBar.getProgress(), product.getIngredientName());
-                    updaterIngredients(product, seekBar.getProgress());
+                    updaterIngredients(product, seekBar.getProgress(),TAKE_AWAY_INGREDIENT);
                 }
                 dialog.dismiss();
             }
@@ -173,24 +177,86 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
         dialog.show();
     }
 
+    @Override
+    public void onAttemptToAdd(final Product product) {
+        //TODO: Added LOADING!!!!!!!!
+        Timber.d("onAttempToAdd: delete product %s", product);
 
-    public void updaterIngredients(final Product productToUpdate, int takeAway) {
-        int different = productToUpdate.getIngredientCount() - takeAway;
+        View view = getLayoutInflater().inflate(R.layout.alter_diallog_view, null);
+
+        TextView title = (TextView) view.findViewById(R.id.title);
+        AppCompatButton negative = (AppCompatButton) view.findViewById(R.id.negative);
+        AppCompatButton positive = (AppCompatButton) view.findViewById(R.id.positive);
+        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
+        final AppCompatTextView count = (AppCompatTextView) view.findViewById(R.id.count_ingredient);
+
+        positive.setText("Add");
+        seekBar.setProgress(1);
+        seekBar.setMax(Utils.getMaxMetric(product.getUnits()));
+        count.setText(String.format("%s %s", seekBar.getProgress(), product.getUnits()));
+        title.setText("Add " + product.getIngredientName());
+
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setView(view)
+                .setCancelable(true)
+                .create();
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                count.setText(progress + product.getUnits());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timber.d("onAddClick: click positive button, ingredient count %s", seekBar.getProgress());
+                updaterIngredients(product,seekBar.getProgress(),ADD_INGREDIENT);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
+    public void updaterIngredients(final Product productToUpdate, int takeAway,int mode) {
+        int newCount = 0;
+        if(mode==TAKE_AWAY_INGREDIENT)
+            newCount = productToUpdate.getIngredientCount() - takeAway;
+        else
+            newCount =  productToUpdate.getIngredientCount() + takeAway;
 
         services.updateIngredient(NO_CACHE, USER_ID,
                 productToUpdate.getIngredientId(),
-                different,
+                newCount,
                 new NetworkCallback<UpdateIngredient>() {
                     @Override
                     public void onResponse(UpdateIngredient body) {
-                        ((MainActivity) getActivity()).popupToast("Delete successful!", 2);
+                        ((MainActivity) getActivity()).popupToast("Update successful!", 2);
                         adapter.updateAmountProduct(productToUpdate, body.getCountIngredient());
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Timber.e("onFailure: delete %s failure, message %s", productToUpdate.getIngredientName(), throwable.getMessage());
-                        ((MainActivity) getActivity()).popupToast("Delete failure!", 2);
+                        Timber.e("onFailure: update %s failure, message %s", productToUpdate.getIngredientName(), throwable.getMessage());
+                        ((MainActivity) getActivity()).popupToast("update failure!", 2);
                         adapter.notifyDataSetChanged();
                     }
                 });

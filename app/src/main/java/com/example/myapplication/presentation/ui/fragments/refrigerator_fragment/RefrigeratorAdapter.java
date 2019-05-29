@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.example.myapplication.R;
 import com.example.myapplication.framework.retrofit.model.product.Product;
@@ -13,6 +14,7 @@ import com.example.myapplication.framework.retrofit.model.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapter.RefrigeratorViewHolder>
@@ -64,7 +66,7 @@ public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapte
 
     @NonNull
     @Override
-    public RefrigeratorViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RefrigeratorViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.my_product_recycler_row, viewGroup, false);
         return new RefrigeratorViewHolder(view);
     }
@@ -73,6 +75,16 @@ public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapte
     public void onBindViewHolder(@NonNull RefrigeratorViewHolder refrigeratorViewHolder, int i) {
         refrigeratorViewHolder.units.setText(products.get(i).getIngredientCount()+ " " + products.get(i).getUnits());
         refrigeratorViewHolder.name.setText(products.get(i).getIngredientName());
+
+        //TODO: remove pos
+        final int pos = i;
+        refrigeratorViewHolder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timber.d("onClick: attempt to add product");
+                listener.onAttemptToAdd(products.get(pos));
+            }
+        });
     }
 
     @Override
@@ -91,16 +103,19 @@ public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapte
     public class RefrigeratorViewHolder extends RecyclerView.ViewHolder{
         AppCompatTextView name;
         AppCompatTextView units;
+        ImageButton button;
 
         public RefrigeratorViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.product_name);
             units = itemView.findViewById(R.id.product_unit);
+            button = itemView.findViewById(R.id.update_product_image_button);
         }
     }
 
 
     public interface RefrigeratorListener{
         void onAttemptToDelete(Product product);
+        void onAttemptToAdd(Product product);
     }
 }
