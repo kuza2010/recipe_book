@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:textAlignment="center"
-        style="@style/CategoryTextViewBlueBerryStyle2"
+        style="@style/CategoryTextViewBlueBerryStyle"
         android:text="Мясо с соусом терияки"/>
 
 </RelativeLayout>

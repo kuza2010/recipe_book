@@ -4,7 +4,6 @@ import com.example.myapplication.Utils;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
-import com.example.myapplication.framework.retrofit.services.recipe.RecipeService;
 import com.example.myapplication.framework.retrofit.services.recipe.RecipeServices;
 import com.example.myapplication.presentation.presenter.AbstractBasePresenter;
 
@@ -31,6 +30,8 @@ public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.R
         this.recipeServices = recipeService;
         this.recipeList = new ArrayList<>();
     }
+
+
 
     @Override
     public void init(final String currentCategory) {

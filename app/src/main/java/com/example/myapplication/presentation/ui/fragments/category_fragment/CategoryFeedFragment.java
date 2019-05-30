@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.category.CategoryServices;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 import com.example.myapplication.presentation.ui.OnVariantClick;
+import com.example.myapplication.presentation.ui.main.MainActivity;
 import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
 
 import java.util.ArrayList;
@@ -34,13 +36,14 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
+import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 
-public class CategoryFeedFragment extends Fragment implements OnVariantClick {
-
-    public static final String TAG = Fragment.class.getSimpleName();
-
+public class CategoryFeedFragment extends Fragment
+        implements OnVariantClick,SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.recycler_view_category)
     RecyclerView recyclerView;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
     @Inject
     CategoryServices categoryService;
@@ -65,6 +68,8 @@ public class CategoryFeedFragment extends Fragment implements OnVariantClick {
         View view = inflater.inflate(R.layout.fragment_main_activity_recepies, container, false);
         ButterKnife.bind(this, view);
 
+        refreshLayout.setOnRefreshListener(this);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
@@ -74,18 +79,25 @@ public class CategoryFeedFragment extends Fragment implements OnVariantClick {
         return view;
     }
 
-    public void fetch(String cacheControll) {
+    public void fetch(final String cacheControll) {
         Timber.d("categories download started! Cache control: \"%s\"",cacheControll);
         categoryService.getCategories(cacheControll, new NetworkCallback<Categories>() {
             @Override
             public void onResponse(Categories categories) {
                 Timber.d("download %s category", categories.getCategories().size());
-                adapter.setList(categories.getCategories());
+                if(cacheControll.equals(NO_CACHE)) {
+                    refreshLayout.setRefreshing(false);
+                    adapter.update(categories.getCategories());
+                }
+                else
+                    adapter.setList(categories.getCategories());
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 Timber.e("Failed get categories. Messages: %s",throwable.getMessage());
+                if(refreshLayout.isRefreshing())
+                    refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -96,6 +108,15 @@ public class CategoryFeedFragment extends Fragment implements OnVariantClick {
         startActivity(RecipeActivity.getInstance(getActivity(), category.getName()));
     }
 
+    @Override
+    public void onRefresh() {
+        Timber.d("refresh");
+        fetch(NO_CACHE);
+    }
+
+    public void attemptPopup(String message,int delay){
+        ((MainActivity)getActivity()).popupToast(message,delay);
+    }
 
     private class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
 
@@ -111,10 +132,16 @@ public class CategoryFeedFragment extends Fragment implements OnVariantClick {
         }
 
         public void update(List<Category> categoryList) {
+            boolean isUpdate = false;
             for (Category each : categoryList) {
-                if (!list.contains(each))
-                    list.add(each);
+                if (!list.contains(each)) {
+                    list.add(0, each);
+                    isUpdate = true;
+                }
             }
+
+            if(!isUpdate)
+                attemptPopup("No new category ;(",3);
 
             notifyDataSetChanged();
         }

@@ -15,42 +15,35 @@
 
 
     <!---   BLUE BERRY STYLE   -->
+
     <!--    Theme   -->
     <style name="AppThemeBlueBerry" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/BPrimary</item>
         <item name="colorPrimaryDark">@color/BDark</item>
-        <item name="colorAccent">@color/BAccent</item>
+        <item name="colorAccent">@color/BAcceptWhite</item>
         <item name="android:navigationBarColor">@color/BDark</item>
+        <item name="android:editTextColor">@color/BAcceptGray</item>
+        <item name="android:fontFamily">@font/ubuntu_medium</item>
     </style>
 
     <!--    Category flow    -->
-    <style name="CategoryTextViewBlueBerryStyle2">
-        <item name="android:textColor">@color/BAccent</item>
-        <item name="android:textSize">@dimen/category_element_text_view_size</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">casual</item>
-    </style>
-
     <style name="CategoryTextViewBlueBerryStyle">
-        <item name="android:textColor">@color/BTextViewCategoryNameTextColor</item>
-        <item name="android:textSize">@dimen/category_element_text_view_size</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/ubuntu_bold</item>
+        <item name="android:textColor">@color/BAcceptGray</item>
+        <item name="android:textSize">28sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:shadowColor">@color/BAcceptWhite</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
     </style>
 
     <!--    Recipe flow    -->
-    <style name="RecipeTitleTextViewBlueBerryStyle">
-        <item name="android:textColor">@color/BTextViewCategoryNameTextColor</item>
+    <style name="RecipeTitleTextViewBlueBerryStyle" parent="CategoryTextViewBlueBerryStyle">
         <item name="android:textSize">@dimen/category_element_text_view_size_normal</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">casual</item>
         <item name="android:gravity">center</item>
         <item name="android:lines">1</item>
         <item name="android:maxLines">1</item>
-        <item name="android:maxLength">20</item>
     </style>
 
     <style name="RecipeTitleTextViewBlueBerryStyleMinimum" parent="RecipeTitleTextViewBlueBerryStyle">

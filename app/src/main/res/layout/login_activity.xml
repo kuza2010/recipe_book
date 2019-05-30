@@ -13,7 +13,7 @@
         android:layout_height="@dimen/logo_height"
         android:layout_marginTop="@dimen/logo_margin_top"
         android:layout_marginHorizontal="@dimen/logo_horizontal_margin"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/logo"
         android:contentDescription="@string/main_logo_content_description" />
 
@@ -29,23 +29,28 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText android:id="@+id/input_email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:autofillHints="Email"
                 android:hint="@string/email"/>
+
         </android.support.design.widget.TextInputLayout>
+
         <!-- Password Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText android:id="@+id/input_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:autofillHints="Password"
                 android:hint="@string/password"/>
+
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.SwitchCompat
@@ -58,16 +63,18 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/login_btn"
+            android:layout_marginTop="5dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_btn_text"/>
+            android:text="@string/login_btn_text"
+            android:background="@color/loginBtnColor"/>
 
         <TextView
             android:id="@+id/create_account_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:text="@string/create_account_btn_text"/>
 
     </LinearLayout>

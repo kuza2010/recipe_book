@@ -19,12 +19,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-    private  RecipeClickListener listener;
     @Inject
     ImageServices imageServices;
+
+    private  RecipeClickListener listener;
 
     private List<Recipe> list;
 
@@ -67,14 +70,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder recipeViewHolder, int i) {
         final Recipe category = list.get(i);
+
         Timber.e("Start load image pos %s", i);
-        imageServices
-                .getPicasso()
-                .load(ImageServices.getUrlForImage(list.get(i).getImageId()))
+        imageServices.getPicasso()
+                .load(ImageServices.getUrlForImage(category.getImageId()))
                 .error(R.drawable.load_image_error)
                 .into(recipeViewHolder.image);
+        recipeViewHolder.cockTime.setText(category.getCoockingTime());
+        recipeViewHolder.rating.setText(String.format("%s",category.getRating()));
         recipeViewHolder.name.setText(category.getName());
-
         recipeViewHolder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,18 +91,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public int getItemCount() {
         if (list != null)
             return list.size();
-
         return 0;
     }
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
-        ImageView image;
-        TextView name;
+        @BindView(R.id.rating) TextView rating;
+        @BindView(R.id.cockingTime) TextView cockTime;
+        @BindView(R.id.recipe_image_view) ImageView image;
+        @BindView(R.id.recipe_name_text_view) TextView name;
 
         public RecipeViewHolder(View view) {
             super(view);
-            image = view.findViewById(R.id.recipe_image_view);
-            name = view.findViewById(R.id.recipe_name_text_view);
+            ButterKnife.bind(this, view);
         }
     }
 

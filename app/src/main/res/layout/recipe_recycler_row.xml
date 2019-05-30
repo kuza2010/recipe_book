@@ -51,32 +51,34 @@
                     android:paddingBottom="5dp">
 
                     <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="@dimen/icon_size_32"
+                        android:layout_height="@dimen/icon_size_32"
                         android:layout_gravity="center"
                         android:src="@drawable/star"/>
 
                     <TextView
+                        android:id="@+id/rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/recipe_element_margin"
-                        android:text="- 4,45"
+                        android:text="@string/oops"
                         style="@style/RecipeTitleTextViewBlueBerryStyleMinimum" />
 
                     <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="@dimen/icon_size_32"
+                        android:layout_height="@dimen/icon_size_32"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
                         android:src="@drawable/clock"/>
 
                     <TextView
+                        android:id="@+id/cockingTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/recipe_element_margin"
-                        android:text="- 35 min"
+                        android:text="@string/oops"
                         style="@style/RecipeTitleTextViewBlueBerryStyleMinimum"/>
 
                 </LinearLayout>

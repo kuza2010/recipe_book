@@ -12,6 +12,28 @@ public class Recipe {
     @SerializedName("name")
     private String name;
 
+    @SerializedName("rating")
+    private float rating;
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getCoockingTime() {
+        return coockingTime;
+    }
+
+    public void setCoockingTime(String coockingTime) {
+        this.coockingTime = coockingTime;
+    }
+
+    @SerializedName("total_time")
+    private String coockingTime;
+
     public Integer getIdRecipe() {
         return idRecipe;
     }

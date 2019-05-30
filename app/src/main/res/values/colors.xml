@@ -14,7 +14,6 @@
 
     <!-- blueberry -->
     <color name="BBackground">@color/BPrimary</color>
-
     <color name="BNavigationBarBackground">@color/BDark</color>
     <color name="BNavigationBarItemBackground">@color/BControlNormal</color>
     <color name="BNavigationBarItemSelectedStateBackground">@color/BError</color>
@@ -29,12 +28,15 @@
     <color name="BDark">#3b1c2c</color>
     <color name="BDarkTransparent">#193B1C2C</color>
     <color name="BError">#A74117</color>
-    <color name="BAccent">#408fb4</color>
     <color name="BControlNormal">#64566e</color>
     <color name="BBlack">#27003A</color>
     <color name="BTransparent">#00FFFFFF</color>
-
+    <color name="BAccent">#408fb4</color>
+    <color name="BAcceptGray">#363636</color>
     <color name="BAcceptWhite">#E9E9E9</color>
+
+    <!--   LOGIN   -->
+    <color name="loginBtnColor">#81FFFFFF</color>
 
     <!--    Search    -->
     <color name="BSearchPopupBackground">#BAD2A7EC</color>
