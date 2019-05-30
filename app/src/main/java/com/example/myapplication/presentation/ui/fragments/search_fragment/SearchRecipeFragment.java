@@ -46,7 +46,7 @@ import timber.log.Timber;
 import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.LIMIT_CHARACTERS_IN_SEARCH;
 
-public class SearchRecipeFragment extends Fragment implements QueryTextListener.Listener {
+public class SearchRecipeFragment extends Fragment implements QueryTextListener.Listener, RecipeAdapter.RecipeClickListener {
     @Inject
     ImageServices imageServices;
     @Inject
@@ -125,7 +125,7 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
         query.setFilters(new InputFilter[]{new InputFilter.LengthFilter(LIMIT_CHARACTERS_IN_SEARCH)});
     }
     private void configureRecyclerView() {
-        recyclerAdapter = new RecipeAdapter();
+        recyclerAdapter = new RecipeAdapter(this);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, Utils.dpToPx(getActivity(), 8), true));
@@ -217,5 +217,10 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     @OnClick(R.id.search_by_ingredient_button)
     public void onSearchByIngredientClick(Button button){
         startActivity(new Intent(getActivity(), SearchByIngredientActivity.class));
+    }
+
+    @Override
+    public void onClick() {
+
     }
 }

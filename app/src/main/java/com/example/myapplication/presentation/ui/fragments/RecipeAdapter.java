@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+    private  RecipeClickListener listener;
     @Inject
     ImageServices imageServices;
 
@@ -50,9 +51,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         notifyDataSetChanged();
     }
 
-    public RecipeAdapter() {
+    public RecipeAdapter(RecipeClickListener listener) {
         BaseApp.getComponent().inject(this);
         this.list = new ArrayList<>();
+        this.listener = listener;
     }
 
     @NonNull
@@ -72,6 +74,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 .error(R.drawable.load_image_error)
                 .into(recipeViewHolder.image);
         recipeViewHolder.name.setText(category.getName());
+
+        recipeViewHolder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClick();
+            }
+        });
     }
 
     @Override
@@ -91,5 +100,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             image = view.findViewById(R.id.recipe_image_view);
             name = view.findViewById(R.id.recipe_name_text_view);
         }
+    }
+
+    public interface RecipeClickListener{
+        void onClick();
     }
 }

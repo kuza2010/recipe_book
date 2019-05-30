@@ -61,6 +61,7 @@
         <activity android:name=".presentation.ui.search.SearchByIngredientActivity" />
         <activity android:name=".presentation.ui.fragments.preferences.PreferencesFragment" />
         <activity android:name=".presentation.ui.product.AddProductActivity" />
+        <activity android:name=".presentation.ui.recipe.MainRecipeActivity" />
 
     </application>
 

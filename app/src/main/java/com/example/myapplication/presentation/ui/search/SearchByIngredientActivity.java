@@ -41,7 +41,7 @@ import timber.log.Timber;
 import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.LIMIT_CHARACTERS_IN_SEARCH_INGREDIENTS;
 
-public class SearchByIngredientActivity extends BaseToolbarActivity implements QueryTextListener.Listener{
+public class SearchByIngredientActivity extends BaseToolbarActivity implements QueryTextListener.Listener, RecipeAdapter.RecipeClickListener {
     public static final String TITLE = "Search by Ingredient";
 
     @BindView(R.id.recycle_view_searched_recipes)
@@ -109,7 +109,7 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
         setVisibilityProgressBar(false);
     }
     private void configureRecyclerView() {
-        recyclerAdapter = new RecipeAdapter();
+        recyclerAdapter = new RecipeAdapter(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, Utils.dpToPx(this, 8), true));
@@ -200,5 +200,10 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
     @Override
     public void showProgressbar() {
         setVisibilityProgressBar(true);
+    }
+
+    @Override
+    public void onClick() {
+
     }
 }

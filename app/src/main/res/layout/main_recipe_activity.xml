@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     android:background="@color/BBackground">
 
     <RelativeLayout
@@ -114,14 +114,32 @@
                 android:textColor="@color/BAcceptWhite"
                 android:text="@string/description"/>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/description_content"
+            <com.ms.square.android.expandabletextview.ExpandableTextView
+                android:id="@+id/expandable_description_content"
                 android:layout_below="@+id/description_title"
                 android:layout_marginTop="@dimen/standart_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recipe description Recipe description Recipe description Recipe description Recipe description"/>
+                expandableTextView:maxCollapsedLines="2"
+                expandableTextView:animDuration="200"
+                expandableTextView:expandDrawable="@drawable/expand_button"
+                expandableTextView:collapseDrawable="@drawable/expand_arrow">
 
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@id/expandable_text"
+                    android:layout_marginTop="@dimen/standart_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ImageButton
+                    android:id="@id/expand_collapse"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="right"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"/>
+
+            </com.ms.square.android.expandabletextview.ExpandableTextView>
 
         </RelativeLayout>
 
