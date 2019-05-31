@@ -15,12 +15,14 @@ public abstract class AbstractServices {
             if (response.isSuccessful()) {
                 return response.body();
             } else {
-                Timber.e("response failed");
+                Timber.e("response %s failed", call);
+                if (null != response.errorBody())
+                    Timber.e("errorBody: %s", response.errorBody());
                 throw new AWSException("response failed");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new AWSException("response failed", e);
+            throw new AWSException(String.format("response failed: %s", e.getMessage()), e);
         }
     }
 
@@ -31,14 +33,17 @@ public abstract class AbstractServices {
             public void onResponse(Call<T> call, Response<T> response) {
                 if (response.isSuccessful())
                     nCallback.onResponse(response.body());
-                else
+                else {
+                    if (null != response.errorBody())
+                        Timber.e("errorBody: %s", response.errorBody());
                     nCallback.onFailure(new AWSException("response is not successful!"));
+                }
             }
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
                 Timber.e("Response is not successful! Throwable: %s", t.getMessage());
-                nCallback.onFailure(new AWSException("response is not successful!"));
+                nCallback.onFailure(new AWSException(String.format("response failed: %s", t.getMessage()), t));
             }
         });
     }

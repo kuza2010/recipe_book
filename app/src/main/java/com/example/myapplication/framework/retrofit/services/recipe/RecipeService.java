@@ -1,6 +1,7 @@
 package com.example.myapplication.framework.retrofit.services.recipe;
 
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
+import com.example.myapplication.framework.retrofit.model.recipe.main_recipe.ExpandableRecipes;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -9,5 +10,11 @@ import retrofit2.http.Query;
 
 public interface RecipeService {
     @GET("Prod/api/recipes/getrecipesbycategory")
-    Call<Recipes> getRecipeByCategoryName(@Header("Cache-Control")String header, @Query("category_name")String categoryName);
+    Call<Recipes> getRecipeByCategoryName(@Header("Cache-Control")String header,
+                                          @Query("category_name")String categoryName);
+
+    @GET("Prod/api/recipes/getrecipe")
+    Call<ExpandableRecipes> getRecipe(@Header("Cache-Control")String header,
+                                      @Query("id_user")Integer userId,
+                                      @Query("id_recipe")Integer recipeId);
 }
