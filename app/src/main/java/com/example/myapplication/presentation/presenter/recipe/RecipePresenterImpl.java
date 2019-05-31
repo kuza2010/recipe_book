@@ -20,7 +20,6 @@ import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.RecipeContractView>
         implements RecipePresenter<RecipePresenter.RecipeContractView> {
 
-    @Inject
     RecipeServices recipeServices;
 
     private List<Recipe> recipeList;
@@ -30,8 +29,6 @@ public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.R
         this.recipeServices = recipeService;
         this.recipeList = new ArrayList<>();
     }
-
-
 
     @Override
     public void init(final String currentCategory) {

@@ -10,7 +10,7 @@ public interface RecipePresenter<T> extends BasePresenter<T> {
     void init(String recipeName);
     void refreshRecipeList(final String currentCategory);
 
-    public interface RecipeContractView {
+    interface RecipeContractView {
         void setRecipeList(List<Recipe> recipeList);
         void updateRecipes(List<Recipe> recipeList);
     }

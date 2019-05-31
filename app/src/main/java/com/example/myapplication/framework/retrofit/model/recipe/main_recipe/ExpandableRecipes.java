@@ -64,4 +64,14 @@ public class ExpandableRecipes{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "ExpandableRecipes{" +
+                "idRecipe=" + idRecipe +
+                ", name='" + name + '\'' +
+                ", rating=" + rating +
+                ", totalTime='" + totalTime + '\'' +
+                '}';
+    }
 }

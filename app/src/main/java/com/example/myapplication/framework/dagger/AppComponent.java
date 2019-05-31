@@ -12,6 +12,7 @@ import com.example.myapplication.presentation.ui.fragments.refrigerator_fragment
 import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
 import com.example.myapplication.presentation.ui.login.LogInActivity;
 import com.example.myapplication.presentation.ui.product.AddProductActivity;
+import com.example.myapplication.presentation.ui.recipe.MainRecipeActivity;
 import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
 import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
 
@@ -30,6 +31,7 @@ public interface AppComponent {
     void inject (RecipeActivity activity);
     void inject (SearchByIngredientActivity activity);
     void inject (AddProductActivity addProductActivity);
+    void inject (MainRecipeActivity mainRecipeActivity);
 
     void inject(CategoryFeedFragment categoryFeedFragment);
     void inject(SearchRecipeFragment searchRecipeFragment);

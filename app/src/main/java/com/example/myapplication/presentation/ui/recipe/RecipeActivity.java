@@ -17,7 +17,6 @@ import com.example.myapplication.presentation.presenter.recipe.RecipePresenterIm
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
-import com.example.myapplication.presentation.ui.product.AddProductActivity;
 
 import java.util.List;
 
@@ -26,7 +25,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeActivity extends BaseToolbarActivity implements RecipePresenter.RecipeContractView, RecipeAdapter.RecipeClickListener {
+public class RecipeActivity extends BaseToolbarActivity
+        implements RecipePresenter.RecipeContractView, RecipeAdapter.RecipeClickListener {
     public static final String TITLE = "toolbar_title";
 
     @BindView(R.id.recycler_view_recipes)
