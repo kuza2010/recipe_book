@@ -165,7 +165,7 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onClick: click positive button, seek bar ingredient count %s", seekBar.getProgress());
+                Timber.d("onRecipeClick: click positive button, seek bar ingredient count %s", seekBar.getProgress());
                 updaterIngredients(product, seekBar.getProgress(), type);
                 dialog.dismiss();
             }

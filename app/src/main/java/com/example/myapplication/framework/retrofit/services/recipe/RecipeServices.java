@@ -3,7 +3,7 @@ package com.example.myapplication.framework.retrofit.services.recipe;
 import android.support.annotation.NonNull;
 
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
-import com.example.myapplication.framework.retrofit.model.recipe.main_recipe.ExpandableRecipes;
+import com.example.myapplication.framework.retrofit.model.recipe.main_recipe.GeneralRecipe;
 import com.example.myapplication.framework.retrofit.services.AbstractServices;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 
@@ -30,8 +30,8 @@ public class RecipeServices extends AbstractServices {
         enqueue(call, networkCallback);
     }
 
-    public void getRecipe(@Header("Cache-Control") String cacheControl, Integer userId, Integer recipeId, NetworkCallback<ExpandableRecipes> networkCallback) {
-        Call<ExpandableRecipes> call = recipeService.getRecipe(cacheControl, userId, recipeId);
+    public void getRecipe(@Header("Cache-Control") String cacheControl, Integer userId, Integer recipeId, NetworkCallback<GeneralRecipe> networkCallback) {
+        Call<GeneralRecipe> call = recipeService.getRecipe(cacheControl, userId, recipeId);
         enqueue(call, networkCallback);
     }
 }

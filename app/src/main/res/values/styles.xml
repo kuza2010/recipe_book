@@ -81,5 +81,17 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <!--    Main Recipe flow    -->
+    <style name="MainRecipeRecipeRecyclerViewTextViewTextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/ubuntu_light</item>
+    </style>
+
+    <style name="MainRecipeRecipeRecyclerViewTextViewNumberTextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/BAcceptWhite</item>
+        <item name="android:fontFamily">@font/ubuntu_bold</item>
+    </style>
+
 
 </resources>

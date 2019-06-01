@@ -220,7 +220,7 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     }
 
     @Override
-    public void onClick() {
+    public void onRecipeClick(int recipeId, String recipeName) {
 
     }
 }

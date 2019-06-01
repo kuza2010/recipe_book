@@ -3,8 +3,8 @@ package com.example.myapplication.framework.dagger.modules;
 import com.example.myapplication.framework.retrofit.services.recipe.RecipeServices;
 import com.example.myapplication.presentation.presenter.login.LoginPresenter;
 import com.example.myapplication.presentation.presenter.login.LoginPresenterImpl;
-import com.example.myapplication.presentation.presenter.recipe.ExpandableRecipePresenter;
-import com.example.myapplication.presentation.presenter.recipe.ExpandableRecipePresenterImpl;
+import com.example.myapplication.presentation.presenter.recipe.GeneralRecipePresenter;
+import com.example.myapplication.presentation.presenter.recipe.GeneralRecipePresenterImpl;
 import com.example.myapplication.presentation.presenter.recipe.RecipePresenter;
 import com.example.myapplication.presentation.presenter.recipe.RecipePresenterImpl;
 import com.example.myapplication.presentation.ui.NavigationToolbarHelper;
@@ -39,7 +39,7 @@ public class PresenterModule {
 
     @Provides
     @Singleton
-    public ExpandableRecipePresenter provideExpandableRecipePresenter(RecipeServices recipeService) {
-        return new ExpandableRecipePresenterImpl(recipeService);
+    public GeneralRecipePresenter provideExpandableRecipePresenter(RecipeServices recipeService) {
+        return new GeneralRecipePresenterImpl(recipeService);
     }
 }

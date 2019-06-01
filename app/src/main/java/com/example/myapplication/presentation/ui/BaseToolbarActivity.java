@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public abstract class BaseToolbarActivity extends AppCompatActivity {
 
-    private ActionBar toolbar;
+    protected ActionBar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,5 +28,10 @@ public abstract class BaseToolbarActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this,message,time);
         toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
         toast.show();
+    }
+
+
+    public void hideToolbar(){
+        toolbar.hide();
     }
 }

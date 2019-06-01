@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class GeneralRecipe {
-    @SerializedName("recipes")
+    @SerializedName("recipe")
     private ExpandableRecipes recipes;
     @SerializedName("is_favorite")
     private Boolean isFavorite;
-    @SerializedName("autor_name")
+    @SerializedName("author_name")
     private String autorName;
     @SerializedName("ingredients")
     private List<String> ingredients = null;
     @SerializedName("tools")
     private List<String> tools = null;
-    @SerializedName("all_steps")
+    @SerializedName("steps")
     private List<AllStep> allSteps = null;
     @SerializedName("total_comments")
     private Integer totalComments;

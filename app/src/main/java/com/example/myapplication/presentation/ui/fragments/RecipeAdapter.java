@@ -69,20 +69,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder recipeViewHolder, int i) {
-        final Recipe category = list.get(i);
+        final Recipe recipe = list.get(i);
 
         Timber.e("Start load image pos %s", i);
         imageServices.getPicasso()
-                .load(ImageServices.getUrlForImage(category.getImageId()))
+                .load(ImageServices.getUrlForImage(recipe.getImageId()))
                 .error(R.drawable.load_image_error)
                 .into(recipeViewHolder.image);
-        recipeViewHolder.cockTime.setText(category.getCoockingTime());
-        recipeViewHolder.rating.setText(String.format("%s",category.getRating()));
-        recipeViewHolder.name.setText(category.getName());
+        recipeViewHolder.cockTime.setText(recipe.getCoockingTime());
+        recipeViewHolder.rating.setText(String.format("%s",recipe.getRating()));
+        recipeViewHolder.name.setText(recipe.getName());
         recipeViewHolder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClick();
+                listener.onRecipeClick(recipe.getIdRecipe(),recipe.getName());
             }
         });
     }
@@ -107,6 +107,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     public interface RecipeClickListener{
-        void onClick();
+        void onRecipeClick(int recipeId, String recipeName);
     }
 }

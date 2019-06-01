@@ -20,7 +20,7 @@ public class RecepiesConstant {
     public static final String NO_CACHE = "no-cache";
     public static final String CACHE = "";
 
-    public static final long CACHE_IMAGE_SIZE = 10 * Mb;
+    public static final long CACHE_IMAGE_SIZE = 30 * Mb;
     public static final long CACHE_HTTP_SIZE = 10 * Mb;
 
     public static final int CALL_TIMEOUT = 60;

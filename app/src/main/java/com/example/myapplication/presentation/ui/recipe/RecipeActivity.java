@@ -91,7 +91,7 @@ public class RecipeActivity extends BaseToolbarActivity
     }
 
     @Override
-    public void onClick() {
-        startActivity(new Intent(this, MainRecipeActivity.class));
+    public void onRecipeClick(int id,String recipeName) {
+        startActivity(MainRecipeActivity.getInstance(this,id));
     }
 }

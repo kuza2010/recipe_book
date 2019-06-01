@@ -202,8 +202,9 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
         setVisibilityProgressBar(true);
     }
 
+
     @Override
-    public void onClick() {
+    public void onRecipeClick(int recipeId, String recipeName) {
 
     }
 }

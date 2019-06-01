@@ -1,7 +1,7 @@
 package com.example.myapplication.framework.retrofit.services.recipe;
 
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
-import com.example.myapplication.framework.retrofit.model.recipe.main_recipe.ExpandableRecipes;
+import com.example.myapplication.framework.retrofit.model.recipe.main_recipe.GeneralRecipe;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,7 +14,7 @@ public interface RecipeService {
                                           @Query("category_name")String categoryName);
 
     @GET("Prod/api/recipes/getrecipe")
-    Call<ExpandableRecipes> getRecipe(@Header("Cache-Control")String header,
-                                      @Query("id_user")Integer userId,
-                                      @Query("id_recipe")Integer recipeId);
+    Call<GeneralRecipe> getRecipe(@Header("Cache-Control")String header,
+                                  @Query("id_user")Integer userId,
+                                  @Query("id_recipe")Integer recipeId);
 }

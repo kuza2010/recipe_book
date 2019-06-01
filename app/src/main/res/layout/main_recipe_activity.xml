@@ -11,8 +11,17 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/horizontal_layout_margin_20">
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
         <ImageView
             android:id="@+id/main_image_view"
+            android:layout_below="@+id/progress_bar"
             android:layout_margin="@dimen/standart_margin"
             android:layout_width="300dp"
             android:layout_height="300dp"
@@ -37,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 style="@style/MainRecipeRecipeNameTextView"
-                android:text="Recipe names !"/>
+                android:text="@string/oops"/>
 
             <RelativeLayout
                 android:layout_marginTop="5dp"
@@ -70,6 +79,7 @@
                     android:layout_marginEnd="30dp"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
+                    android:clickable="true"
                     android:src="@drawable/favorite"/>
 
             </RelativeLayout>
@@ -204,7 +214,7 @@
             android:layout_marginBottom="@dimen/horizontal_layout_margin_20">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/direction_title"
+                android:id="@+id/steps_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -214,14 +224,13 @@
                 android:text="@string/direction"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/direction"
-                android:layout_below="@id/direction_title"
+                android:id="@+id/steps"
+                android:layout_below="@id/steps_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </android.support.v7.widget.RecyclerView>
 
         </RelativeLayout>
-
 
     </RelativeLayout>
 

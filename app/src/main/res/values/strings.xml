@@ -34,7 +34,7 @@
     <string name="description">Description:</string>
     <string name="instrument">Instrument:</string>
     <string name="ingredient">Ingredient:</string>
-    <string name="direction">Direction:</string>
+    <string name="direction">Steps:</string>
     <string name="wait_rating">...</string>
     <string name="oops">Oops...</string>
 

@@ -80,7 +80,7 @@ public class RefrigeratorAdapter extends RecyclerView.Adapter<RefrigeratorAdapte
         refrigeratorViewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("onClick: attempt to add product");
+                Timber.d("onRecipeClick: attempt to add product");
                 listener.onProductChanged(products.get(pos), InteractType.ADD_INGREDIENT);
             }
         });
