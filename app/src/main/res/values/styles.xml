@@ -58,12 +58,11 @@
     </style>
 
     <!--    Preferences flow    -->
-    <style name="PreferencesTextViewBlueBerryStyle" parent="RecipeTitleTextViewBlueBerryStyle">
-        <item name="android:textColor">@color/BError</item>
+    <style name="PreferencesTextViewBlueBerryStyle">
         <item name="android:textSize">20sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:maxLength">30</item>
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:fontFamily">@font/ubuntu_bold</item>
     </style>
 
     <!--    Alert Dialog flow    -->

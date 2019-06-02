@@ -1,9 +1,13 @@
 package com.example.myapplication.framework.dagger.modules;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import com.example.myapplication.RecepiesPreferences;
+import com.example.myapplication.database.AppDataBase;
 
 import javax.inject.Singleton;
 
@@ -28,6 +32,15 @@ public class ApplicationModule {
     @Provides
     @Singleton
     public RecepiesPreferences providePreferences(Context context){
-        return new RecepiesPreferences(context);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return new RecepiesPreferences(preferences, context);
+    }
+
+    @Provides
+    @Singleton
+    public AppDataBase provideDataBase(Context context){
+        return Room
+                .databaseBuilder(context,AppDataBase.class,"recipe_database")
+                .build();
     }
 }

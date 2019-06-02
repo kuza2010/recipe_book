@@ -25,6 +25,8 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        getPreferences(MODE_PRIVATE);
         doInject();
     }
 
