@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,8 @@ import com.example.myapplication.R;
 import com.example.myapplication.Utils;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
+import com.example.myapplication.presentation.ui.SimpleAnimator;
+import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,14 +71,27 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipeViewHolder recipeViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final RecipeViewHolder recipeViewHolder, int i) {
         final Recipe recipe = list.get(i);
 
         Timber.e("Start load image pos %s", i);
+        SimpleAnimator.setDefaultAnimation(Animation.REVERSE,400,recipeViewHolder.image);
         imageServices.getPicasso()
                 .load(ImageServices.getUrlForImage(recipe.getImageId()))
                 .error(R.drawable.load_image_error)
-                .into(recipeViewHolder.image);
+                .into(recipeViewHolder.image, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        recipeViewHolder.image.clearAnimation();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Timber.d("onError img %s",recipe.getImageId());
+                        recipeViewHolder.image.clearAnimation();
+                    }
+                });
+
         recipeViewHolder.cockTime.setText(recipe.getCoockingTime());
         recipeViewHolder.rating.setText(String.format("%s",recipe.getRating()));
         recipeViewHolder.name.setText(recipe.getName());

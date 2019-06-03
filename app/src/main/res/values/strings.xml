@@ -39,5 +39,13 @@
     <string name="oops">Oops...</string>
     <string name="sign_in">Sign - in...</string>
     <string name="logout">Logout</string>
+    <string name="your_name">Your name:</string>
+    <string name="your_surname">Your surname:</string>
+    <string name="name_and_surname">Name and surname:</string>
+    <string name="login_and_password">Login and password:</string>
+    <string name="think_up_login">Think up login:</string>
+    <string name="and_think_up_password">And think up password:</string>
+    <string name="repeat_password">Repeat password:</string>
+    <string name="register">Register</string>
 
 </resources>

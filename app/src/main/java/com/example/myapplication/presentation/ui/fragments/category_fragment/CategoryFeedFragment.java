@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,8 +24,10 @@ import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.category.CategoryServices;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
 import com.example.myapplication.presentation.ui.OnVariantClick;
+import com.example.myapplication.presentation.ui.SimpleAnimator;
 import com.example.myapplication.presentation.ui.main.MainActivity;
 import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
+import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,14 +162,25 @@ public class CategoryFeedFragment extends Fragment
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int i) {
+        public void onBindViewHolder(@NonNull final CategoryViewHolder categoryViewHolder, int i) {
             final Category category = list.get(i);
             Timber.e("Start load image pos %s", i);
+            SimpleAnimator.setDefaultAnimation(Animation.REVERSE,400,categoryViewHolder.image);
             imageServices
                     .getPicasso()
                     .load(ImageServices.getUrlForImage(list.get(i).getImageId()))
                     .error(R.drawable.load_image_error)
-                    .into(categoryViewHolder.image);
+                    .into(categoryViewHolder.image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            categoryViewHolder.image.clearAnimation();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            categoryViewHolder.image.clearAnimation();
+                        }
+                    });
             categoryViewHolder.name.setText(category.getName());
 
             if (listener != null) {

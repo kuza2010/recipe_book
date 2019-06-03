@@ -3,11 +3,11 @@ package com.example.myapplication.presentation.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -17,6 +17,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.RecipesPreferences;
 import com.example.myapplication.presentation.presenter.login.LoginPresenter;
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
+import com.example.myapplication.presentation.ui.SimpleAnimator;
 import com.example.myapplication.presentation.ui.main.MainActivity;
 
 import javax.inject.Inject;
@@ -46,6 +47,8 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
     FrameLayout frameLayout;
     @BindView(R.id.main_layout)
     RelativeLayout mainLayout;
+    @BindView(R.id.signin_hint)
+    AppCompatTextView signInHint;
 
     private Bundle bundle;
     private boolean remember;
@@ -91,6 +94,7 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
             hideToolbar();
             mainLayout.setVisibility(View.INVISIBLE);
             frameLayout.setVisibility(VISIBLE);
+            SimpleAnimator.setDefaultAnimation(Animation.REVERSE,300,signInHint);
         } else {
             showtoolbar();
             mainLayout.setVisibility(VISIBLE);

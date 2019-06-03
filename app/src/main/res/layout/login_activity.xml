@@ -109,6 +109,7 @@
                 android:contentDescription="@string/main_logo_content_description" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/signin_hint"
                 android:layout_below="@+id/logo_image_view2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
