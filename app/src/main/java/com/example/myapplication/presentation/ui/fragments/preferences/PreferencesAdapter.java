@@ -3,21 +3,26 @@ package com.example.myapplication.presentation.ui.fragments.preferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
 
 import java.util.List;
+import java.util.prefs.Preferences;
 
 public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.PreferencesViewHolder>{
 
     private List<Preferences> content;
+    private MenuListener listener;
 
-    public PreferencesAdapter(List<Preferences> content) {
+    public PreferencesAdapter(List<Preferences> content, MenuListener listener) {
         this.content = content;
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,6 +36,14 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     public void onBindViewHolder(@NonNull PreferencesAdapter.PreferencesViewHolder preferencesViewHolder, int i) {
         preferencesViewHolder.textView.setText(content.get(i).title);
         preferencesViewHolder.imageView.setImageResource(content.get(i).resId);
+
+        if (content.get(i).title.equals(Preferences.LOGOUT.title))
+            preferencesViewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.logout();
+                }
+            });
     }
 
     @Override
@@ -44,11 +57,14 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     class PreferencesViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
         TextView textView;
+        LinearLayout layout;
+
 
         public PreferencesViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.title);
             imageView = itemView.findViewById(R.id.icon);
+            layout = itemView.findViewById(R.id.layout);
         }
     }
 
@@ -56,7 +72,8 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     public enum Preferences{
         MY_RECIPE("My recipe",R.drawable.cake),
         FAVORITE ("Favorite",R.drawable.favorites),
-        ADD_RECIPE("Add recipe", R.drawable.add_recipe);
+        ADD_RECIPE("Add recipe", R.drawable.add_recipe),
+        LOGOUT("Log out",R.drawable.logout);
 
         public String title;
         public int resId;
@@ -65,5 +82,9 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
             this.title = title;
             this.resId= resId;
         }
+    }
+
+    interface MenuListener{
+        void logout();
     }
 }

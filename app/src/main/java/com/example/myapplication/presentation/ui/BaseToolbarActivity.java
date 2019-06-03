@@ -34,4 +34,8 @@ public abstract class BaseToolbarActivity extends AppCompatActivity {
     public void hideToolbar(){
         toolbar.hide();
     }
+
+    public void showtoolbar(){
+        toolbar.show();
+    }
 }

@@ -37,5 +37,7 @@
     <string name="direction">Steps:</string>
     <string name="wait_rating">...</string>
     <string name="oops">Oops...</string>
+    <string name="sign_in">Sign - in...</string>
+    <string name="logout">Logout</string>
 
 </resources>

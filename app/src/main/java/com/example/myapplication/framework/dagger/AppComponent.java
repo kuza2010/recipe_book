@@ -4,10 +4,12 @@ import com.example.myapplication.content_provider.SearchProvider;
 import com.example.myapplication.framework.dagger.modules.ApplicationModule;
 import com.example.myapplication.framework.dagger.modules.NetworkModule;
 import com.example.myapplication.framework.dagger.modules.PresenterModule;
+import com.example.myapplication.presentation.presenter.login.LoginPresenterImpl;
 import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
 import com.example.myapplication.presentation.ui.QueryTextListener;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
 import com.example.myapplication.presentation.ui.fragments.category_fragment.CategoryFeedFragment;
+import com.example.myapplication.presentation.ui.fragments.preferences.PreferencesFragment;
 import com.example.myapplication.presentation.ui.fragments.refrigerator_fragment.RefrigeratorFragment;
 import com.example.myapplication.presentation.ui.fragments.search_fragment.SearchRecipeFragment;
 import com.example.myapplication.presentation.ui.login.LogInActivity;
@@ -36,10 +38,13 @@ public interface AppComponent {
     void inject(CategoryFeedFragment categoryFeedFragment);
     void inject(SearchRecipeFragment searchRecipeFragment);
     void inject(RefrigeratorFragment refrigeratorFragment);
+    void inject(PreferencesFragment preferencesFragment);
 
     void inject(SearchProvider provider);
 
     void inject(QueryTextListener listener);
 
     void inject(RecipeAdapter adapter);
+
+    void inject(LoginPresenterImpl loginPresenter);
 }

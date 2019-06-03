@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
-import com.example.myapplication.RecepiesPreferences;
+import com.example.myapplication.RecipesPreferences;
 import com.example.myapplication.database.AppDataBase;
 
 import javax.inject.Singleton;
@@ -31,9 +31,9 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public RecepiesPreferences providePreferences(Context context){
+    public RecipesPreferences providePreferences(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return new RecepiesPreferences(preferences, context);
+        return new RecipesPreferences(preferences, context);
     }
 
     @Provides

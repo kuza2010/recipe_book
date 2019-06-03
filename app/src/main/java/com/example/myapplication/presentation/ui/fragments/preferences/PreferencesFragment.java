@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.ui.fragments.preferences;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,19 +12,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
+import com.example.myapplication.RecipesPreferences;
+import com.example.myapplication.presentation.ui.login.LogInActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PreferencesFragment extends Fragment {
+public class PreferencesFragment extends Fragment implements PreferencesAdapter.MenuListener {
     @BindView(R.id.preferences_recycler_view)
     RecyclerView recyclerView;
 
+    @Inject
+    RecipesPreferences preferences;
+
     private PreferencesAdapter adapter;
+
+    public PreferencesFragment() {
+        BaseApp.getComponent().inject(this);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +55,7 @@ public class PreferencesFragment extends Fragment {
     }
 
     public void configureRecyclerView(){
-        adapter = new PreferencesAdapter(getPrefList());
+        adapter = new PreferencesAdapter(getPrefList(),this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -52,10 +65,17 @@ public class PreferencesFragment extends Fragment {
     private List<PreferencesAdapter.Preferences> getPrefList(){
         List<PreferencesAdapter.Preferences> preferences = new ArrayList<>();
 
-        preferences.add(PreferencesAdapter.Preferences.ADD_RECIPE);
         preferences.add(PreferencesAdapter.Preferences.MY_RECIPE);
         preferences.add(PreferencesAdapter.Preferences.FAVORITE);
+        preferences.add(PreferencesAdapter.Preferences.LOGOUT);
 
         return preferences;
+    }
+
+    @Override
+    public void logout() {
+        preferences.logOut();
+        startActivity(new Intent(getActivity(), LogInActivity.class));
+        getActivity().finish();
     }
 }
