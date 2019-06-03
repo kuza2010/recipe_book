@@ -2,6 +2,7 @@ package com.example.myapplication.framework.dagger;
 
 import com.example.myapplication.content_provider.SearchProvider;
 import com.example.myapplication.framework.dagger.modules.ApplicationModule;
+import com.example.myapplication.framework.dagger.modules.DatabaseModule;
 import com.example.myapplication.framework.dagger.modules.NetworkModule;
 import com.example.myapplication.framework.dagger.modules.PresenterModule;
 import com.example.myapplication.presentation.presenter.login.LoginPresenterImpl;
@@ -23,9 +24,11 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {PresenterModule.class,
+@Component(modules = {
+        PresenterModule.class,
         ApplicationModule.class,
-        NetworkModule.class})
+        NetworkModule.class,
+        DatabaseModule.class})
 public interface AppComponent {
 
     void inject (BaseBottomNavigationActivity activity);

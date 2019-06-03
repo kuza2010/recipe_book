@@ -36,7 +36,8 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
     public void tryToLogin(String login, String password, boolean rememberMe) {
         Timber.d("loginClick: loginClick - %s, pass - %s", login, password);
 
-        if (login == null || login.isEmpty() || password == null || password.isEmpty()) {
+        if (login == null || login.isEmpty()
+                || password == null || password.isEmpty()) {
             view.showMessage("Password or login empty!");
             return;
         }
@@ -47,7 +48,7 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
         view.showSignInLayout();
         loginServices.signIn(login, password, new NetworkCallback<SignIn>() {
             @Override
-            public void onResponse(SignIn body) {
+            public void onResponse(final SignIn body) {
                 Timber.d("onResponse: body - %s", body);
                 preferences.saveCredentials(body, login, password,rememberMe);
                 view.login();
