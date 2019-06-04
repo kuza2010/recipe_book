@@ -17,6 +17,8 @@ public class RecipesPreferences {
     public static final String IS_LOG_OUT = "logout";
     public static final String TOKEN = "token";
 
+    public static final String IS_REGISTRED_USER = "unregistred";
+
     private Context context;
     private SharedPreferences preferences;
 
@@ -26,6 +28,8 @@ public class RecipesPreferences {
     }
 
     public void saveSingle(String key, String value) {
+        Timber.d("saveSingle: key - %s, value - %s", key, value);
+
         preferences.
                 edit().
                 putString(key, value).
@@ -63,6 +67,7 @@ public class RecipesPreferences {
                 putString(LOGIN, login).
                 putString(PASS, password).
                 putBoolean(IS_LOG_OUT,false).
+                putBoolean(IS_REGISTRED_USER,true).
                 putBoolean(REMEMBER_ME,rememberMe).
                 apply();
 
@@ -72,15 +77,19 @@ public class RecipesPreferences {
     public void logOut() {
         preferences.
                 edit().
-                remove(TOKEN).
-                remove(NAME).
-                remove(SURNAME).
-                remove(USER_ID).
-                remove(LOGIN).
-                remove(PASS).
+                clear().
                 putBoolean(IS_LOG_OUT,true).
                 apply();
 
         Timber.d("remove: details removed!");
+    }
+
+    public void clearAll() {
+        preferences.
+                edit().
+                clear().
+                apply();
+
+        Timber.d("clear: preferences cleaning!");
     }
 }

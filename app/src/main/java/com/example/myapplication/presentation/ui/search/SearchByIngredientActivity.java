@@ -27,6 +27,7 @@ import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.QueryTextListener;
 import com.example.myapplication.presentation.ui.SuggestionCursorAdapter;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
+import com.example.myapplication.presentation.ui.recipe.MainRecipeActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -205,6 +206,6 @@ public class SearchByIngredientActivity extends BaseToolbarActivity implements Q
 
     @Override
     public void onRecipeClick(int recipeId, String recipeName) {
-
+        startActivity(MainRecipeActivity.getInstance(this,recipeId));
     }
 }

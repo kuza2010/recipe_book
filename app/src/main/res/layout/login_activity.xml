@@ -82,6 +82,14 @@
                 android:layout_marginTop="30dp"
                 android:text="@string/create_account_btn_text"/>
 
+            <TextView
+                android:id="@+id/without_registration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/continue_without_registration"/>
+
         </LinearLayout>
 
     </RelativeLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
+import com.example.myapplication.RecipesPreferences;
 import com.example.myapplication.Utils;
 import com.example.myapplication.content_provider.SearchProvider;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
@@ -32,6 +34,7 @@ import com.example.myapplication.presentation.ui.GridSpacingItemDecoration;
 import com.example.myapplication.presentation.ui.QueryTextListener;
 import com.example.myapplication.presentation.ui.SuggestionCursorAdapter;
 import com.example.myapplication.presentation.ui.fragments.RecipeAdapter;
+import com.example.myapplication.presentation.ui.recipe.MainRecipeActivity;
 import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
 
 import java.util.List;
@@ -51,6 +54,8 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     ImageServices imageServices;
     @Inject
     SearchServices searchServices;
+    @Inject
+    RecipesPreferences preferences;
 
     @BindView(R.id.recycle_view_searched_recipes)
     RecyclerView recyclerView;
@@ -62,6 +67,8 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     TextView hintText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.search_by_frozen_button)
+    AppCompatButton byFrozen;
 
     private SuggestionCursorAdapter suggestionAdapter;
     private RecipeAdapter recyclerAdapter;
@@ -74,6 +81,7 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BaseApp.getComponent().inject(this);
     }
 
     @Nullable
@@ -81,6 +89,12 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
+
+        boolean isRegisterUser = preferences.getValue(RecipesPreferences.IS_REGISTRED_USER, false);
+        if (!isRegisterUser) {
+            Timber.d("hide by frozen button");
+            byFrozen.setVisibility(View.GONE);
+        }
 
         //TODO: костыль для серч вью
         SearchView.SearchAutoComplete autoComplete = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
@@ -214,13 +228,18 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
         setVisibilityProgressBar(true);
     }
 
+    @Override
+    public void onRecipeClick(int recipeId, String recipeName) {
+        startActivity(MainRecipeActivity.getInstance(getContext(),recipeId));
+    }
+
     @OnClick(R.id.search_by_ingredient_button)
     public void onSearchByIngredientClick(Button button){
         startActivity(new Intent(getActivity(), SearchByIngredientActivity.class));
     }
 
-    @Override
-    public void onRecipeClick(int recipeId, String recipeName) {
+    @OnClick(R.id.search_by_frozen_button)
+    public void onSearchByFrozenClick(){
 
     }
 }

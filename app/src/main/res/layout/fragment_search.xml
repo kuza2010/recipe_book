@@ -29,11 +29,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:layout_gravity="center"
                 android:text="by Ingredient"/>
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/search_by_frozen_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="0.5"
                 android:text="by frozen"/>
 

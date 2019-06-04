@@ -4,6 +4,7 @@ import com.example.myapplication.presentation.presenter.BasePresenter;
 
 public interface LoginPresenter<T> extends BasePresenter<T> {
     void tryToLogin(String login, String password,boolean rememberMe);
+    void skipLogin();
     void checkRememberMeCredentials();
 
     /**
@@ -13,7 +14,7 @@ public interface LoginPresenter<T> extends BasePresenter<T> {
      */
     interface LoginContractView {
         void login();
-        void initBundle(boolean rmbme,boolean isLogOut,String login, String password);
+        void initBundle(boolean rmbme,boolean isLogOut,boolean isRegister,String login, String password);
         void showMessage(String message);
         void showSignInLayout();
     }
