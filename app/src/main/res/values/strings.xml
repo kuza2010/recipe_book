@@ -47,5 +47,6 @@
     <string name="and_think_up_password">And think up password:</string>
     <string name="repeat_password">Repeat password:</string>
     <string name="register">Register</string>
+    <string name="continue_without_registration">Continue without registration</string>
 
 </resources>

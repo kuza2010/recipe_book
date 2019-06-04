@@ -5,4 +5,8 @@ public interface NavigationToolbarHelper {
     void addToHistory(String newToolbarTitle);
 
     int getAndNavigateBack();
+
+    boolean historyIsEmpty();
+
+    void clearHistory();
 }

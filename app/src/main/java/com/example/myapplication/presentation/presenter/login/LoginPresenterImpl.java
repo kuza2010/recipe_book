@@ -25,11 +25,12 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
     public void checkRememberMeCredentials() {
         boolean rememberMe = preferences.getValue(RecipesPreferences.REMEMBER_ME, false);
         boolean isLogOut = preferences.getValue(RecipesPreferences.IS_LOG_OUT, true);
+        boolean isRegistered = preferences.getValue(RecipesPreferences.IS_REGISTRED_USER,false);
         String login = preferences.getValue(RecipesPreferences.LOGIN, null);
         String pass = preferences.getValue(RecipesPreferences.PASS, null);
         Timber.d("checkRememberCredentials: remember = %s, logout = %s", rememberMe, isLogOut);
 
-        view.initBundle(rememberMe, isLogOut, login, pass);
+        view.initBundle(rememberMe, isLogOut,isRegistered, login, pass);
     }
 
     @Override
@@ -44,6 +45,17 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
         login(login, password, rememberMe);
     }
 
+    @Override
+    public void skipLogin() {
+        Timber.d("skipLogin: login skipped");
+
+        preferences.clearAll();
+        preferences.saveSingle(RecipesPreferences.IS_LOG_OUT, true);
+        preferences.saveSingle(RecipesPreferences.IS_REGISTRED_USER, false);
+
+        view.login(false);
+    }
+
     private void login(final String login, final String password, final boolean rememberMe) {
         view.showSignInLayout();
         loginServices.signIn(login, password, new NetworkCallback<SignIn>() {
@@ -51,7 +63,7 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
             public void onResponse(final SignIn body) {
                 Timber.d("onResponse: body - %s", body);
                 preferences.saveCredentials(body, login, password,rememberMe);
-                view.login();
+                view.login(true);
             }
 
             @Override

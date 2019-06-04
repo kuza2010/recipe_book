@@ -37,6 +37,19 @@ public class NavigationToolbarHelperImpl implements NavigationToolbarHelper {
         }
     }
 
+    @Override
+    public boolean historyIsEmpty() {
+        return toolbarHistory.isEmpty();
+    }
+
+    @Override
+    public void clearHistory() {
+        if(!historyIsEmpty()){
+            Timber.d("clearHistory: clean history!");
+            toolbarHistory.clear();
+        }
+    }
+
     private String popElement() {
         Timber.d("popElement %s", toolbarHistory.peek());
         return toolbarHistory.pop();

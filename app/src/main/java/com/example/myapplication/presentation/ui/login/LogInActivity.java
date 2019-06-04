@@ -3,6 +3,7 @@ package com.example.myapplication.presentation.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
@@ -32,10 +33,10 @@ import static android.view.View.VISIBLE;
 public class LogInActivity extends BaseToolbarActivity implements LoginPresenter.LoginContractView {
     public static final int DELAY = 3;
 
+    public static final String IS_FROM_PREFERENCES_SCREEN = "is_preferences";
+
     @Inject
     LoginPresenter presenter;
-    @Inject
-    RecipesPreferences preferences;
 
     @BindView(R.id.input_email_edit_text)
     EditText login;
@@ -49,10 +50,19 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
     RelativeLayout mainLayout;
     @BindView(R.id.signin_hint)
     AppCompatTextView signInHint;
+    @BindView(R.id.without_registration)
+    AppCompatTextView skipRegistration;
 
     private Bundle bundle;
+
     private boolean remember;
     private boolean isLogOut;
+
+    public static Intent getInstance(Context packageContext,boolean isFromPreferences) {
+        Intent intent = new Intent(packageContext, LogInActivity.class);
+        intent.putExtra(IS_FROM_PREFERENCES_SCREEN, isFromPreferences);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +71,29 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
         doInject();
 
         presenter.checkRememberMeCredentials();
+
         remember = bundle.getBoolean(RecipesPreferences.REMEMBER_ME, false);
         isLogOut = bundle.getBoolean(RecipesPreferences.IS_LOG_OUT, true);
-
+        skipRegistration.setVisibility(fromPrefScreen() ? INVISIBLE : VISIBLE);
         rememberMe.setChecked(remember);
+    }
+
+    @Override
+    public void initBundle(boolean rmbme, boolean isLogOut, boolean isRegiser, @Nullable String login,@Nullable String password) {
+        //TODO: нормальная инифиализация бандлов
+        bundle = new Bundle();
+
+        bundle.putBoolean(RecipesPreferences.IS_REGISTRED_USER, isRegiser);
+        bundle.putBoolean(RecipesPreferences.IS_LOG_OUT, isLogOut);
+        bundle.putBoolean(RecipesPreferences.REMEMBER_ME, rmbme);
+        bundle.putString(RecipesPreferences.LOGIN, login);
+        bundle.putString(RecipesPreferences.PASS, password);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         if (remember && !isLogOut)
             tryLogin();
     }
@@ -103,18 +127,9 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
     }
 
     @Override
-    public void login() {
-        startActivity(new Intent(LogInActivity.this, MainActivity.class));
+    public void login(boolean isRegister) {
+        startActivity(MainActivity.getInstance(this, isRegister).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         finish();
-    }
-
-    @Override
-    public void initBundle(boolean rmbme, boolean isLogOut,String login, String password) {
-        bundle = new Bundle();
-        bundle.putBoolean(RecipesPreferences.IS_LOG_OUT, isLogOut);
-        bundle.putBoolean(RecipesPreferences.REMEMBER_ME, rmbme);
-        bundle.putString(RecipesPreferences.LOGIN, login);
-        bundle.putString(RecipesPreferences.PASS, password);
     }
 
     @Override
@@ -134,5 +149,14 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
         inputManager.hideSoftInputFromWindow(mainLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         presenter.tryToLogin(login.getText().toString(), pass.getText().toString(), rememberMe.isChecked());
+    }
+
+    @OnClick(R.id.without_registration)
+    public void skipRegistrationClick() {
+        presenter.skipLogin();
+    }
+
+    private boolean fromPrefScreen() {
+        return getIntent().getBooleanExtra(IS_FROM_PREFERENCES_SCREEN, false);
     }
 }

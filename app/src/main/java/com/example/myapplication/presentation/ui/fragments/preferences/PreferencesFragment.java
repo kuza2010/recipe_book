@@ -75,7 +75,7 @@ public class PreferencesFragment extends Fragment implements PreferencesAdapter.
     @Override
     public void logout() {
         preferences.logOut();
-        startActivity(new Intent(getActivity(), LogInActivity.class));
         getActivity().finish();
+        startActivity(new Intent(getContext(), LogInActivity.class));
     }
 }
