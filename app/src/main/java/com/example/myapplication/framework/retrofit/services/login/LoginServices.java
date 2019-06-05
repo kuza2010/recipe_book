@@ -22,8 +22,8 @@ public class LoginServices extends AbstractServices {
     }
 
 
-    public void registration(Registration.RegistrationBody credentials, NetworkCallback<Registration> callback){
-        Call<Registration> call = loginService.registration(credentials);
+    public void registration(Registration.RegistrationBody credentials, NetworkCallback<Void> callback){
+        Call<Void> call = loginService.registration(credentials);
         enqueue(call,callback);
     }
 

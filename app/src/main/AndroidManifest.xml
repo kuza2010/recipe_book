@@ -41,11 +41,13 @@
             <!--android:authorities="com.example.myapplication.content_provider.SearchProvider" />-->
 
         <!--<meta-data android:name="android.app.default_searchable"-->
-            <!--android:value=".Main" />-->
+            <!--android:value=".Main" />
+
+
+            android:noHistory="true"-->
 
         <activity
-            android:name=".presentation.ui.login.LogInActivity"
-            android:noHistory="true">
+            android:name=".presentation.ui.login.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -63,6 +65,9 @@
         <activity android:name=".presentation.ui.fragments.preferences.PreferencesFragment" />
         <activity android:name=".presentation.ui.product.AddProductActivity" />
         <activity android:name=".presentation.ui.recipe.MainRecipeActivity" />
+        <activity
+            android:name=".presentation.ui.registration.RegistrationActivity"
+            android:noHistory="true"/>
 
     </application>
 

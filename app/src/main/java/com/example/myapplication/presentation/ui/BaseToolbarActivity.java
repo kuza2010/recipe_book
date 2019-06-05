@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 public abstract class BaseToolbarActivity extends AppCompatActivity {
+    protected static int STANDART_DELAY=3;
 
     protected ActionBar toolbar;
 
@@ -35,7 +36,7 @@ public abstract class BaseToolbarActivity extends AppCompatActivity {
         toolbar.hide();
     }
 
-    public void showtoolbar(){
+    public void showToolbar(){
         toolbar.show();
     }
 }

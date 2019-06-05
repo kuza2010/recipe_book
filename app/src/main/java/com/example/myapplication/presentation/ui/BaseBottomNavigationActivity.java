@@ -18,7 +18,8 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public abstract class BaseBottomNavigationActivity extends BaseFragmentActivity {
-    protected static final String IS_REGISTER = "is_register";
+    public static final String IS_REGISTER = "is_register";
+    public static final String USER_ID = "user_id";
 
     //Menu items aka tags
     public static final String RECIPES = "Recipes";
@@ -42,42 +43,40 @@ public abstract class BaseBottomNavigationActivity extends BaseFragmentActivity 
         BaseApp.getComponent().inject(this);
 
         navigation.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        int menuItemId = menuItem.getItemId();
-                        String selectedItem = Utils.getStringFromResId(navigation.getSelectedItemId());
+                menuItem -> {
+                    int menuItemId = menuItem.getItemId();
+                    String selectedItem = Utils.getStringFromResId(navigation.getSelectedItemId());
 
-                        switch (menuItemId) {
-                            case R.id.navigation_recipes:
-                                setTitle(RECIPES);
-                                navigateFragment(RECIPES, selectedItem);
-                                break;
-                            case R.id.navigation_serach:
-                                setTitle(SEARCH);
-                                navigateFragment(SEARCH, selectedItem);
-                                break;
-                            case R.id.navigation_profile:
-                                if (isRegister()) {
-                                    setTitle(PROFILE);
-                                    navigateFragment(PROFILE, selectedItem);
-                                } else {
-                                    startActivity(LogInActivity.getInstance(BaseBottomNavigationActivity.this, true));
-                                    return false;
-                                }
-                                break;
-                            case R.id.navigation_fridge:
-                                setTitle(PRODUCT);
-                                navigateFragment(PRODUCT, selectedItem);
-                                break;
-                            default:
-                                Timber.e("BREAK");
-                                throw new IllegalStateException("onNavigationItemSelected: navigate failed. Indefinite id!");
-                    }
+                    switch (menuItemId) {
+                        case R.id.navigation_recipes:
+                            setTitle(RECIPES);
+                            navigateFragment(RECIPES, selectedItem);
+                            break;
+                        case R.id.navigation_serach:
+                            setTitle(SEARCH);
+                            navigateFragment(SEARCH, selectedItem);
+                            break;
+                        case R.id.navigation_profile:
+                            if (isRegister()) {
+                                setTitle(PROFILE);
+                                navigateFragment(PROFILE, selectedItem);
+                            } else {
+                                Timber.d("Unauthorized user attempt to open preferences -> redirect login");
+                                startActivity(LogInActivity.getInstance(BaseBottomNavigationActivity.this, true));
+                                return false;
+                            }
+                            break;
+                        case R.id.navigation_fridge:
+                            setTitle(PRODUCT);
+                            navigateFragment(PRODUCT, selectedItem);
+                            break;
+                        default:
+                            Timber.e("BREAK");
+                            throw new IllegalStateException("onNavigationItemSelected: navigate failed. Indefinite id!");
+                }
 
-                        navigationHelper.addToHistory(Utils.getStringFromResId(menuItemId));
-                        return true;
-                    }
+                    navigationHelper.addToHistory(Utils.getStringFromResId(menuItemId));
+                    return true;
                 });
         navigation.setSelectedItemId(R.id.navigation_recipes);
     }

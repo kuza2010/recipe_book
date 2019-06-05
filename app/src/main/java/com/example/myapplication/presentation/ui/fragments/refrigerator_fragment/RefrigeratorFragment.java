@@ -1,7 +1,6 @@
 package com.example.myapplication.presentation.ui.fragments.refrigerator_fragment;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +14,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import com.example.myapplication.framework.retrofit.model.product.RemoveIngredie
 import com.example.myapplication.framework.retrofit.model.product.UpdateIngredient;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.fridge.FridgeServices;
+import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
 import com.example.myapplication.presentation.ui.main.MainActivity;
 import com.example.myapplication.presentation.ui.product.AddProductActivity;
 
@@ -38,19 +40,26 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.NO_CACHE;
-import static com.example.myapplication.RecepiesConstant.USER_ID;
+import static com.example.myapplication.RecepiesConstant.USER_UNAUTHORIZED_ID;
 
 public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapter.RefrigeratorListener {
     @BindView(R.id.recycler_view_my_products)
     RecyclerView recyclerView;
     @BindView(R.id.add_app_compat_btn)
     AppCompatButton addBtn;
+    @BindView(R.id.hint_layout)
+    RelativeLayout hintLayout;
+    @BindView(R.id.image_view_smile)
+    ImageView imageHint;
+    @BindView(R.id.text_view_hint)
+    TextView hint;
 
     @Inject
     FridgeServices services;
 
     private RefrigeratorAdapter adapter;
     private SwipeTouchHelper callback;
+    private int userId;
 
     public RefrigeratorFragment() {
         BaseApp.getComponent().inject(this);
@@ -62,16 +71,11 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
         View view = inflater.inflate(R.layout.fragment_fridge, container, false);
         ButterKnife.bind(this, view);
 
-        // configure recycler view
-        adapter = new RefrigeratorAdapter(this);
+        userId = getUserId();
+        Timber.d("onCreateView: user id set in value: %s", userId);
 
-        callback = new SwipeTouchHelper(adapter);
-        ItemTouchHelper helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView(recyclerView);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        configureRecyclerView();
+        configureLayout();
 
         return view;
     }
@@ -79,13 +83,13 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
     @Override
     public void onResume() {
         super.onResume();
-        fetch();
+        if (userId != USER_UNAUTHORIZED_ID)
+            fetch();
     }
 
     private void fetch() {
         Timber.d("Start update user product");
-
-        services.getMyProducts(NO_CACHE, USER_ID, new NetworkCallback<Products>() {
+        services.getMyProducts(NO_CACHE, getUserId(), new NetworkCallback<Products>() {
             @Override
             public void onResponse(Products body) {
                 Timber.d("onResponse: get %s product", body.getIngredients().size());
@@ -101,12 +105,37 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
         });
     }
 
+    private void configureRecyclerView() {
+        if (userId != USER_UNAUTHORIZED_ID) {
+            adapter = new RefrigeratorAdapter(this);
+
+            callback = new SwipeTouchHelper(adapter);
+            ItemTouchHelper helper = new ItemTouchHelper(callback);
+            helper.attachToRecyclerView(recyclerView);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+    private void configureLayout() {
+        if (userId == USER_UNAUTHORIZED_ID) {
+            //btn off
+            addBtn.setEnabled(false);
+            addBtn.setAlpha(0.5f);
+            //hint visible
+            hintLayout.setVisibility(View.VISIBLE);
+            imageHint.setImageResource(R.drawable.registration_form);
+            hint.setText("Sorry, this func available only to authorized users");
+        }
+    }
+
     @OnClick(R.id.add_app_compat_btn)
     public void onAddClick() {
         Timber.d("onAddClick: start activity add product");
-        startActivity(new Intent(getActivity(), AddProductActivity.class));
+        startActivity(AddProductActivity.getInstance(getContext(),userId));
     }
-
 
     public void onProductChanged(final Product product, final RefrigeratorAdapter.InteractType type) {
         //TODO: Added LOADING!!!!!!!!
@@ -174,7 +203,6 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
         dialog.show();
     }
 
-
     public void updaterIngredients(final Product productToUpdate, int takeAway, RefrigeratorAdapter.InteractType type) {
         if (type == RefrigeratorAdapter.InteractType.TAKE_AWAY_INGREDIENT
                 && takeAway == productToUpdate.getIngredientCount()) {
@@ -190,7 +218,7 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
             newCount = productToUpdate.getIngredientCount() + takeAway;
 
         services.updateIngredient(NO_CACHE,
-                USER_ID,
+               userId,
                 productToUpdate.getIngredientId(),
                 newCount,
                 new NetworkCallback<UpdateIngredient>() {
@@ -211,7 +239,7 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
 
     public void deleteIngredients(final Product productToUpdate) {
         services.removeIngredient(NO_CACHE,
-                USER_ID,
+                userId,
                 productToUpdate.getIngredientId(),
                 new NetworkCallback<RemoveIngredient>() {
                     @Override
@@ -235,5 +263,12 @@ public class RefrigeratorFragment extends Fragment implements RefrigeratorAdapte
                         ((MainActivity) getActivity()).popupToast("Delete failure!", 4);
                     }
                 });
+    }
+
+    private int getUserId() {
+        if (getArguments() == null)
+            return USER_UNAUTHORIZED_ID;
+        else
+            return getArguments().getInt(BaseBottomNavigationActivity.USER_ID, USER_UNAUTHORIZED_ID);
     }
 }

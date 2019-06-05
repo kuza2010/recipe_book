@@ -43,6 +43,7 @@ import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 
 public class CategoryFeedFragment extends Fragment
         implements OnVariantClick,SwipeRefreshLayout.OnRefreshListener {
+
     @BindView(R.id.recycler_view_category)
     RecyclerView recyclerView;
     @BindView(R.id.refresh_layout)

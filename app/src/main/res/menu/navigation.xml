@@ -13,7 +13,7 @@
     <item
         android:id="@+id/navigation_fridge"
         android:icon="@drawable/refrigerator"
-        android:title="@string/navigation_bar_profile"/>
+        android:title="@string/product"/>
 
     <item
         android:id="@+id/navigation_profile"

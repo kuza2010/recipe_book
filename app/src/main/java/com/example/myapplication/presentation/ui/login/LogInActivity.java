@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
@@ -20,6 +21,7 @@ import com.example.myapplication.presentation.presenter.login.LoginPresenter;
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.example.myapplication.presentation.ui.SimpleAnimator;
 import com.example.myapplication.presentation.ui.main.MainActivity;
+import com.example.myapplication.presentation.ui.registration.RegistrationActivity;
 
 import javax.inject.Inject;
 
@@ -52,13 +54,15 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
     AppCompatTextView signInHint;
     @BindView(R.id.without_registration)
     AppCompatTextView skipRegistration;
+    @BindView(R.id.create_account_text_view)
+    TextView createAccount;
 
     private Bundle bundle;
 
     private boolean remember;
     private boolean isLogOut;
 
-    public static Intent getInstance(Context packageContext,boolean isFromPreferences) {
+    public static Intent getInstance(Context packageContext, boolean isFromPreferences) {
         Intent intent = new Intent(packageContext, LogInActivity.class);
         intent.putExtra(IS_FROM_PREFERENCES_SCREEN, isFromPreferences);
         return intent;
@@ -120,15 +124,17 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
             frameLayout.setVisibility(VISIBLE);
             SimpleAnimator.setDefaultAnimation(Animation.REVERSE,300,signInHint);
         } else {
-            showtoolbar();
+            showToolbar();
             mainLayout.setVisibility(VISIBLE);
             frameLayout.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
-    public void login(boolean isRegister) {
-        startActivity(MainActivity.getInstance(this, isRegister).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    public void login(boolean isRegister,int userId) {
+        Intent mainIntent = MainActivity.getInstance(this, isRegister, userId);
+        mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(mainIntent);
         finish();
     }
 
@@ -154,6 +160,11 @@ public class LogInActivity extends BaseToolbarActivity implements LoginPresenter
     @OnClick(R.id.without_registration)
     public void skipRegistrationClick() {
         presenter.skipLogin();
+    }
+
+    @OnClick(R.id.create_account_text_view)
+    public void createAccountClick(){
+        startActivity(new Intent(this, RegistrationActivity.class));
     }
 
     private boolean fromPrefScreen() {

@@ -3,6 +3,7 @@ package com.example.myapplication;
 public class RecepiesConstant {
     //User id
     public static final int USER_ID = 1;
+    public static final int USER_UNAUTHORIZED_ID = -1;
 
     //AWS
     public static final String BASE_URL="https://vy5trnewne.execute-api.eu-central-1.amazonaws.com/";

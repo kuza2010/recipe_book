@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
-import com.example.myapplication.RecipesPreferences;
 import com.example.myapplication.Utils;
 import com.example.myapplication.content_provider.SearchProvider;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
@@ -48,6 +47,7 @@ import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.LIMIT_CHARACTERS_IN_SEARCH;
+import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.IS_REGISTER;
 
 public class SearchRecipeFragment extends Fragment implements QueryTextListener.Listener, RecipeAdapter.RecipeClickListener {
     @Inject
@@ -136,7 +136,6 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
         TextView query = ((TextView) searchView.findViewById(R.id.search_src_text));
         query.setFilters(new InputFilter[]{new InputFilter.LengthFilter(LIMIT_CHARACTERS_IN_SEARCH)});
     }
-
     private void configureRecyclerView() {
         recyclerAdapter = new RecipeAdapter(this);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -247,6 +246,6 @@ public class SearchRecipeFragment extends Fragment implements QueryTextListener.
         if (null == b)
             return false;
 
-        return b.getBoolean(RecipesPreferences.IS_REGISTRED_USER, false);
+        return b.getBoolean(IS_REGISTER, false);
     }
 }

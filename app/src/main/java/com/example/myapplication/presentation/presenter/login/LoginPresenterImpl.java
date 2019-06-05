@@ -11,8 +11,11 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
+import static com.example.myapplication.RecepiesConstant.USER_UNAUTHORIZED_ID;
+
 public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.LoginContractView>
         implements LoginPresenter<LoginPresenter.LoginContractView> {
+
     @Inject
     RecipesPreferences preferences;
     @Inject
@@ -25,12 +28,12 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
     public void checkRememberMeCredentials() {
         boolean rememberMe = preferences.getValue(RecipesPreferences.REMEMBER_ME, false);
         boolean isLogOut = preferences.getValue(RecipesPreferences.IS_LOG_OUT, true);
-        boolean isRegistered = preferences.getValue(RecipesPreferences.IS_REGISTRED_USER,false);
+        boolean isRegistered = preferences.getValue(RecipesPreferences.IS_REGISTRED_USER, false);
         String login = preferences.getValue(RecipesPreferences.LOGIN, null);
         String pass = preferences.getValue(RecipesPreferences.PASS, null);
         Timber.d("checkRememberCredentials: remember = %s, logout = %s", rememberMe, isLogOut);
 
-        view.initBundle(rememberMe, isLogOut,isRegistered, login, pass);
+        view.initBundle(rememberMe, isLogOut, isRegistered, login, pass);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
         preferences.saveSingle(RecipesPreferences.IS_LOG_OUT, true);
         preferences.saveSingle(RecipesPreferences.IS_REGISTRED_USER, false);
 
-        view.login(false);
+        view.login(false, USER_UNAUTHORIZED_ID);
     }
 
     private void login(final String login, final String password, final boolean rememberMe) {
@@ -62,8 +65,8 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
             @Override
             public void onResponse(final SignIn body) {
                 Timber.d("onResponse: body - %s", body);
-                preferences.saveCredentials(body, login, password,rememberMe);
-                view.login(true);
+                preferences.saveCredentials(body, login, password, rememberMe);
+                view.login(true, body.userId);
             }
 
             @Override
@@ -73,5 +76,4 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
             }
         });
     }
-
 }

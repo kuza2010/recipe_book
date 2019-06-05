@@ -22,7 +22,7 @@ public interface LoginPresenter<T> extends BasePresenter<T> {
          *                   if value equals true - user is register
          *                   otherwise - not registered
          */
-        void login(boolean isRegister);
+        void login(boolean isRegister,int userId);
 
         /**
          * Initializes invoking activity with required values

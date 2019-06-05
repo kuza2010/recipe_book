@@ -48,5 +48,6 @@
     <string name="repeat_password">Repeat password:</string>
     <string name="register">Register</string>
     <string name="continue_without_registration">Continue without registration</string>
+    <string name="product">Product</string>
 
 </resources>

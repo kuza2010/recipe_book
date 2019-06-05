@@ -19,11 +19,14 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
+import static com.example.myapplication.RecepiesConstant.USER_UNAUTHORIZED_ID;
+
 public class MainActivity extends BaseBottomNavigationActivity {
 
-    public static Intent getInstance(Context packageContext,boolean isRegister) {
+    public static Intent getInstance(Context packageContext,boolean isRegister,int userId) {
         Intent intent = new Intent(packageContext, MainActivity.class);
         intent.putExtra(IS_REGISTER, isRegister);
+        intent.putExtra(USER_ID,userId);
         return intent;
     }
 
@@ -35,6 +38,7 @@ public class MainActivity extends BaseBottomNavigationActivity {
 
     @Override
     protected void createFragment(String tag) {
+        //TODO: Изменить бандлы
         Fragment fragment;
         switch (tag) {
             case RECIPES:
@@ -43,11 +47,14 @@ public class MainActivity extends BaseBottomNavigationActivity {
             case SEARCH:
                 fragment = new SearchRecipeFragment();
                 Bundle bundle = new Bundle();
-                bundle.putBoolean(RecipesPreferences.IS_REGISTRED_USER, preferences.getValue(RecipesPreferences.IS_REGISTRED_USER,false));
+                bundle.putBoolean(IS_REGISTER,getIntent().getBooleanExtra(IS_REGISTER,false));
                 fragment.setArguments(bundle);
                 break;
             case PRODUCT:
                 fragment = new RefrigeratorFragment();
+                bundle = new Bundle();
+                bundle.putInt(USER_ID,getIntent().getIntExtra(USER_ID,USER_UNAUTHORIZED_ID));
+                fragment.setArguments(bundle);
                 break;
             case PROFILE:
                 fragment = new PreferencesFragment();

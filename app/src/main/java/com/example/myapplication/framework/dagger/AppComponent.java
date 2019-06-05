@@ -17,6 +17,7 @@ import com.example.myapplication.presentation.ui.login.LogInActivity;
 import com.example.myapplication.presentation.ui.product.AddProductActivity;
 import com.example.myapplication.presentation.ui.recipe.MainRecipeActivity;
 import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
+import com.example.myapplication.presentation.ui.registration.RegistrationActivity;
 import com.example.myapplication.presentation.ui.search.SearchByIngredientActivity;
 
 import javax.inject.Singleton;
@@ -37,6 +38,7 @@ public interface AppComponent {
     void inject (SearchByIngredientActivity activity);
     void inject (AddProductActivity addProductActivity);
     void inject (MainRecipeActivity mainRecipeActivity);
+    void inject (RegistrationActivity registrationActivity);
 
     void inject(CategoryFeedFragment categoryFeedFragment);
     void inject(SearchRecipeFragment searchRecipeFragment);

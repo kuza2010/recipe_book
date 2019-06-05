@@ -18,8 +18,8 @@ import com.example.myapplication.R;
 import com.example.myapplication.framework.retrofit.model.recipe.main_recipe.AllStep;
 import com.example.myapplication.framework.retrofit.model.recipe.main_recipe.GeneralRecipe;
 import com.example.myapplication.framework.retrofit.services.image.ImageServices;
-import com.example.myapplication.presentation.presenter.recipe.GeneralRecipePresenter;
-import com.example.myapplication.presentation.presenter.recipe.GeneralRecipePresenterImpl;
+import com.example.myapplication.presentation.presenter.recipe.general_recipe.GeneralRecipePresenter;
+import com.example.myapplication.presentation.presenter.recipe.general_recipe.GeneralRecipePresenterImpl;
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
@@ -34,6 +34,7 @@ import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.RecepiesConstant.USER_ID;
+import static com.example.myapplication.RecepiesConstant.USER_UNAUTHORIZED_ID;
 
 public class MainRecipeActivity extends BaseToolbarActivity
         implements GeneralRecipePresenter.RecipeContractView {
@@ -114,7 +115,7 @@ public class MainRecipeActivity extends BaseToolbarActivity
     }
 
     private int getId() {
-        return getIntent().getIntExtra(RECIPE_ID, -1);
+        return getIntent().getIntExtra(RECIPE_ID, USER_UNAUTHORIZED_ID);
     }
 
     @Override
@@ -125,8 +126,8 @@ public class MainRecipeActivity extends BaseToolbarActivity
     }
 
     @Override
-    public void setContent(GeneralRecipe recipe) {
-        Timber.d("setContent: set %s ",recipe);
+    public void setRecipeContent(GeneralRecipe recipe) {
+        Timber.d("setRecipeContent: set %s ",recipe);
 
         imageServices.getPicasso()
                 .load(ImageServices.getUrlForImage(recipe.getRecipes().getIdImage()))

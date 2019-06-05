@@ -16,5 +16,5 @@ public interface LoginService {
                         @Query("password")String password);
 
     @POST("Prod/api/users/registration")
-    Call<Registration> registration(@Body Registration.RegistrationBody credentials);
+    Call<Void> registration(@Body Registration.RegistrationBody credentials);
 }

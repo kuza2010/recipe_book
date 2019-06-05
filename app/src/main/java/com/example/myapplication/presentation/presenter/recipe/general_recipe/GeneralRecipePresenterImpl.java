@@ -1,4 +1,4 @@
-package com.example.myapplication.presentation.presenter.recipe;
+package com.example.myapplication.presentation.presenter.recipe.general_recipe;
 
 import com.example.myapplication.framework.retrofit.model.recipe.main_recipe.GeneralRecipe;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
@@ -22,7 +22,7 @@ public class GeneralRecipePresenterImpl extends AbstractBasePresenter<GeneralRec
             public void onResponse(GeneralRecipe body) {
                 Timber.d("onResponse: get expandable recipe %s", generalRecipe);
                 generalRecipe = body;
-                view.setContent(generalRecipe);
+                view.setRecipeContent(generalRecipe);
             }
 
             @Override

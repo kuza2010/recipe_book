@@ -2,6 +2,7 @@ package com.example.myapplication.presentation.ui.product;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.example.myapplication.framework.retrofit.model.search.SearchedIngredi
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.fridge.FridgeServices;
 import com.example.myapplication.framework.retrofit.services.search.SearchServices;
+import com.example.myapplication.presentation.ui.BaseBottomNavigationActivity;
 import com.example.myapplication.presentation.ui.BaseToolbarActivity;
 
 import javax.inject.Inject;
@@ -40,7 +42,7 @@ import static com.example.myapplication.RecepiesConstant.DELAY_CHARACTER_ENTERED
 import static com.example.myapplication.RecepiesConstant.LIMIT_POPUP_SUGGEST_ADD_PRODUCT;
 import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 import static com.example.myapplication.RecepiesConstant.SUGGEST_LENGTH_MIN;
-import static com.example.myapplication.RecepiesConstant.USER_ID;
+import static com.example.myapplication.RecepiesConstant.USER_UNAUTHORIZED_ID;
 
 public class AddProductActivity extends BaseToolbarActivity implements AddProductAdapter.OnAddClickListener {
     public static final String TITLE = "Add product";
@@ -67,6 +69,13 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
     private AddProductAdapter adapter;
     private SuggestionRunnable suggestionRunnable;
     private Handler handler = new Handler();
+    private int userId;
+
+    public static Intent getInstance(Context context,int user_id){
+        Intent intent = new Intent(context,AddProductActivity.class);
+        intent.putExtra(BaseBottomNavigationActivity.USER_ID,user_id);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +83,9 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
         setContentView(R.layout.add_product_activity);
 
         doInject();
+        userId = getIntent().getIntExtra(BaseBottomNavigationActivity.USER_ID,USER_UNAUTHORIZED_ID);
+        if(userId == USER_UNAUTHORIZED_ID)
+            throw new IllegalStateException("AddProductActivity.onCreate: User id = -1.");
 
         inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         setTitle(TITLE);
@@ -183,7 +195,7 @@ public class AddProductActivity extends BaseToolbarActivity implements AddProduc
     }
 
     private void addIngredient(final Ingredient ingredient, int count) {
-        services.addIngredient(NO_CACHE, USER_ID, ingredient.getIdIngredient(), count, new NetworkCallback<Void>() {
+        services.addIngredient(NO_CACHE, userId, ingredient.getIdIngredient(), count, new NetworkCallback<Void>() {
             @Override
             public void onResponse(Void body) {
                 Timber.d("onResponse: successful");

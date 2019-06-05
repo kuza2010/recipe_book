@@ -17,7 +17,7 @@ public class RecipesPreferences {
     public static final String IS_LOG_OUT = "logout";
     public static final String TOKEN = "token";
 
-    public static final String IS_REGISTRED_USER = "unregistred";
+    public static final String IS_REGISTRED_USER = "current_user_is_registered";
 
     private Context context;
     private SharedPreferences preferences;
@@ -60,6 +60,7 @@ public class RecipesPreferences {
     public void saveCredentials(SignIn user, String login, String password, boolean rememberMe) {
         preferences.
                 edit().
+                clear().
                 putString(TOKEN,user.getToken()).
                 putString(NAME, user.getName()).
                 putString(SURNAME, user.getSurname()).
