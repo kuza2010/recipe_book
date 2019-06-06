@@ -31,7 +31,7 @@ public class LoginPresenterImpl extends AbstractBasePresenter<LoginPresenter.Log
         boolean isRegistered = preferences.getValue(RecipesPreferences.IS_REGISTRED_USER, false);
         String login = preferences.getValue(RecipesPreferences.LOGIN, null);
         String pass = preferences.getValue(RecipesPreferences.PASS, null);
-        Timber.d("checkRememberCredentials: remember = %s, logout = %s", rememberMe, isLogOut);
+        Timber.d("checkRememberCredentials: remember = %s, onVariantClick = %s", rememberMe, isLogOut);
 
         view.initBundle(rememberMe, isLogOut, isRegistered, login, pass);
     }

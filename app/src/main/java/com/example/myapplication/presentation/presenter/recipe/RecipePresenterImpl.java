@@ -1,6 +1,5 @@
 package com.example.myapplication.presentation.presenter.recipe;
 
-import com.example.myapplication.Utils;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
 import com.example.myapplication.framework.retrofit.services.NetworkCallback;
@@ -15,7 +14,6 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 import static com.example.myapplication.RecepiesConstant.CACHE;
-import static com.example.myapplication.RecepiesConstant.NO_CACHE;
 
 public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.RecipeContractView>
         implements RecipePresenter<RecipePresenter.RecipeContractView> {
@@ -31,7 +29,7 @@ public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.R
     }
 
     @Override
-    public void init(final String currentCategory) {
+    public void initByCategory(final String currentCategory) {
         Timber.d("recipe presenter start download recipes from category %s",currentCategory);
 
         recipeServices.getRecipeByCategoryName(currentCategory, CACHE, new NetworkCallback<Recipes>() {
@@ -52,27 +50,34 @@ public class RecipePresenterImpl extends AbstractBasePresenter<RecipePresenter.R
     }
 
     @Override
+    public void initByRecipe(final List<Recipe> list) {
+        this.recipeList.addAll(list);
+        view.setRecipeList(recipeList);
+    }
+
+    @Override
     public void refreshRecipeList(final String currentCategory) {
         Timber.d("recipe presenter start download recipes from category %s", currentCategory);
 
-        recipeServices.getRecipeByCategoryName(currentCategory, NO_CACHE, new NetworkCallback<Recipes>() {
-            @Override
-            public void onResponse(Recipes recipes) {
-                Timber.d("download %s recipes", recipes.getRecipes().size());
-                List<Recipe> different = Utils.getNewRecipes(recipeList, recipes.getRecipes());
-                Timber.d("fetch %s new record", different.size());
-                recipeList.addAll(0,different);
-
-                //notify view
-                view.updateRecipes(different);
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Timber.e("Failed to refresh list recipe for categories \"%s\"", currentCategory);
-                Timber.e("Error message %s", throwable.getMessage());
-            }
-        });
+        throw new RuntimeException("not implemented");
+//        recipeServices.getRecipeByCategoryName(currentCategory, NO_CACHE, new NetworkCallback<Recipes>() {
+//            @Override
+//            public void onResponse(Recipes recipes) {
+//                Timber.d("download %s recipes", recipes.getRecipes().size());
+//                List<Recipe> different = Utils.getNewRecipes(recipeList, recipes.getRecipes());
+//                Timber.d("fetch %s new record", different.size());
+//                recipeList.addAll(0,different);
+//
+//                //notify view
+//                view.updateRecipes(different);
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable throwable) {
+//                Timber.e("Failed to refresh list recipe for categories \"%s\"", currentCategory);
+//                Timber.e("Error message %s", throwable.getMessage());
+//            }
+//        });
     }
 
     @Override

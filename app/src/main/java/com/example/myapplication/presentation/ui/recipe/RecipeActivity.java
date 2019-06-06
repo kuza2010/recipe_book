@@ -69,7 +69,7 @@ public class RecipeActivity extends BaseToolbarActivity
         BaseApp.getComponent().inject(this);
         presenter.bind(this);
 
-        presenter.init(currentCategory);
+        presenter.initByCategory(currentCategory);
     }
 
     @Override

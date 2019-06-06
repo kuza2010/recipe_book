@@ -30,6 +30,16 @@ public class RecipeServices extends AbstractServices {
         enqueue(call, networkCallback);
     }
 
+    public void getFavoriteRecipe(@Header("Cache-Control") String cacheControl, Integer userId, NetworkCallback<Recipes> networkCallback) {
+        Call<Recipes> call = recipeService.getFavoriteRecipe(cacheControl, userId);
+        enqueue(call, networkCallback);
+    }
+
+    public void getMyRecipe(@Header("Cache-Control") String cacheControl, Integer userId, NetworkCallback<Recipes> networkCallback) {
+        Call<Recipes> call = recipeService.getCreatedRecipe(cacheControl, userId);
+        enqueue(call, networkCallback);
+    }
+
     public void getRecipe(@Header("Cache-Control") String cacheControl, Integer userId, Integer recipeId, NetworkCallback<GeneralRecipe> networkCallback) {
         Call<GeneralRecipe> call = recipeService.getRecipe(cacheControl, userId, recipeId);
         enqueue(call, networkCallback);

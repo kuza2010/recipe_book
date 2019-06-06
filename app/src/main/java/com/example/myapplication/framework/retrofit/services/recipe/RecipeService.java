@@ -17,4 +17,13 @@ public interface RecipeService {
     Call<GeneralRecipe> getRecipe(@Header("Cache-Control")String header,
                                   @Query("id_user")Integer userId,
                                   @Query("id_recipe")Integer recipeId);
+
+
+    @GET("Prod/api/users/getfavoriterecipes")
+    Call<Recipes> getFavoriteRecipe(@Header("Cache-Control")String header,
+                                  @Query("id_user")Integer userId);
+
+    @GET("Prod/api/users/getcreatedrecipes")
+    Call<Recipes> getCreatedRecipe(@Header("Cache-Control")String header,
+                                          @Query("id_user")Integer userId);
 }

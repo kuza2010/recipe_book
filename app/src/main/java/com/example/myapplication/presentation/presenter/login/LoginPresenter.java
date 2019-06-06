@@ -28,7 +28,7 @@ public interface LoginPresenter<T> extends BasePresenter<T> {
          * Initializes invoking activity with required values
          *
          * @param rmbme - remember me indicator
-         * @param isLogOut - logout indicator
+         * @param isLogOut - onVariantClick indicator
          * @param isRegister - user registration indicator
          * @param login - user login, null if user not register
          * @param password - user password, null if user not register

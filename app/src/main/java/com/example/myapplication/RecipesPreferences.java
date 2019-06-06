@@ -14,7 +14,7 @@ public class RecipesPreferences {
     public static final String LOGIN = "tryToLogin";
     public static final String PASS = "pass";
     public static final String REMEMBER_ME = "rmbme";
-    public static final String IS_LOG_OUT = "logout";
+    public static final String IS_LOG_OUT = "onVariantClick";
     public static final String TOKEN = "token";
 
     public static final String IS_REGISTRED_USER = "current_user_is_registered";

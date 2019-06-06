@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface RecipePresenter<T> extends BasePresenter<T> {
 
-    void init(String recipeName);
+    void initByCategory(String recipeName);
+    void initByRecipe(final List<Recipe> recipeList);
     void refreshRecipeList(final String currentCategory);
 
     interface RecipeContractView {

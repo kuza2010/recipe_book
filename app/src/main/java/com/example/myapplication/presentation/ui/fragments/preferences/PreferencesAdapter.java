@@ -3,7 +3,6 @@ package com.example.myapplication.presentation.ui.fragments.preferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 
 import java.util.List;
-import java.util.prefs.Preferences;
 
 public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.PreferencesViewHolder>{
 
@@ -34,16 +32,16 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull PreferencesAdapter.PreferencesViewHolder preferencesViewHolder, int i) {
-        preferencesViewHolder.textView.setText(content.get(i).title);
-        preferencesViewHolder.imageView.setImageResource(content.get(i).resId);
+        final Preferences current = content.get(i);
+        preferencesViewHolder.textView.setText(current.title);
+        preferencesViewHolder.imageView.setImageResource(current.resId);
 
-        if (content.get(i).title.equals(Preferences.LOGOUT.title))
-            preferencesViewHolder.layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.logout();
-                }
-            });
+        preferencesViewHolder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onVariantClick(current);
+            }
+        });
     }
 
     @Override
@@ -85,6 +83,6 @@ public class PreferencesAdapter extends RecyclerView.Adapter<PreferencesAdapter.
     }
 
     interface MenuListener{
-        void logout();
+        void onVariantClick(Preferences preferences);
     }
 }

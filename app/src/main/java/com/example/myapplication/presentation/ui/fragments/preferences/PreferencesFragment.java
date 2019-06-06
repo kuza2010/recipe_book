@@ -15,7 +15,12 @@ import android.view.ViewGroup;
 import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
 import com.example.myapplication.RecipesPreferences;
+import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
+import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
+import com.example.myapplication.framework.retrofit.services.NetworkCallback;
+import com.example.myapplication.framework.retrofit.services.recipe.RecipeServices;
 import com.example.myapplication.presentation.ui.login.LogInActivity;
+import com.example.myapplication.presentation.ui.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +29,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
+
+import static com.example.myapplication.RecepiesConstant.CACHE;
+import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.USER_ID;
+import static com.example.myapplication.presentation.ui.BaseToolbarActivity.STANDART_DELAY;
+import static com.example.myapplication.presentation.ui.fragments.preferences.PreferencesAdapter.Preferences.FAVORITE;
+import static com.example.myapplication.presentation.ui.fragments.preferences.PreferencesAdapter.Preferences.LOGOUT;
 
 public class PreferencesFragment extends Fragment implements PreferencesAdapter.MenuListener {
     @BindView(R.id.preferences_recycler_view)
@@ -31,6 +43,8 @@ public class PreferencesFragment extends Fragment implements PreferencesAdapter.
 
     @Inject
     RecipesPreferences preferences;
+    @Inject
+    RecipeServices services;
 
     private PreferencesAdapter adapter;
 
@@ -73,9 +87,32 @@ public class PreferencesFragment extends Fragment implements PreferencesAdapter.
     }
 
     @Override
-    public void logout() {
-        preferences.logOut();
-        getActivity().finish();
-        startActivity(new Intent(getContext(), LogInActivity.class));
+    public void onVariantClick(PreferencesAdapter.Preferences preferences) {
+        Timber.d("onVariantClick: click %s",preferences.title);
+        if(preferences.equals(LOGOUT)){
+            this.preferences.logOut();
+            startActivity(new Intent(getContext(), LogInActivity.class));
+            getActivity().finish();
+        }else if(preferences.equals(FAVORITE)){
+            int userId = ((MainActivity)getActivity()).getIntent().getIntExtra(USER_ID,-1);
+
+            services.getFavoriteRecipe(CACHE, userId, new NetworkCallback<Recipes>() {
+                @Override
+                public void onResponse(Recipes body) {
+                    startFavoriteActivity(body.getRecipes());
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Timber.d("onFailure: getFavoriteRecipe fail: %S",throwable.getMessage());
+                    ((MainActivity)getActivity()).popupToast("Favorite recipe error",STANDART_DELAY);
+                }
+            });
+        }
     }
+
+    private void startFavoriteActivity(List<Recipe>list){
+
+    }
+
 }

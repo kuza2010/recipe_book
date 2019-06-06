@@ -1,32 +1,22 @@
 package com.example.myapplication.framework.dagger.modules;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 
-import com.example.myapplication.framework.retrofit.services.image.ImageServices;
-import com.squareup.picasso.OkHttp3Downloader;
+import com.example.myapplication.RecipesPreferences;
 
 import java.io.IOException;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import butterknife.internal.Utils;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,7 +28,6 @@ import static com.example.myapplication.RecepiesConstant.CACHE_HTTP_SIZE;
 import static com.example.myapplication.RecepiesConstant.CACHE_IMAGE_SIZE;
 import static com.example.myapplication.RecepiesConstant.CALL_TIMEOUT;
 import static com.example.myapplication.RecepiesConstant.CONNECTION_TIMEOUT;
-import static com.example.myapplication.RecepiesConstant.Mb;
 
 @Module
 public class NetworkModule {
@@ -64,29 +53,41 @@ public class NetworkModule {
                 .build();
     }
 
+
     @Named("cache-interceptor")
     @Singleton
     @Provides
-    public Interceptor provideCacheInterceptor() {
-        Interceptor interceptor = new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request originalRequest = chain.request();
-                Timber.d("===   Cache interceptor begin   ===");
+    public Interceptor provideCacheInterceptor(RecipesPreferences preferences) {
+        Interceptor interceptor = chain -> {
+            Request originalRequest = chain.request();
+            Timber.d("===   Cache interceptor begin   ===");
 
-                Timber.d("Intercept request! Method %s, url %s", originalRequest.method().toUpperCase(), originalRequest.url());
-                Timber.d("Request header: %s", originalRequest.headers());
-                Timber.d("Start requests....");
+            Timber.d("Intercept request! Method %s, url %s", originalRequest.method().toUpperCase(), originalRequest.url());
+            Timber.d("Request header: %s", originalRequest.headers());
+            Timber.d("Start requests....");
 
-                Response response = chain.proceed(originalRequest);
-                Timber.d("Getting response! Response cache header %s", response.header(CACHE_CONTROL_HEADER));
-                Timber.d("Response sent time %d", response.sentRequestAtMillis());
-                Timber.d("Response received time %d", response.receivedResponseAtMillis());
+            Response response = chain.proceed(originalRequest);
 
-                Timber.d("===   Cache interceptor end   ===");
-                return response;
+            //  A   U   T   H
+            if (response.code() == 401) {
+                Request request = originalRequest.newBuilder()
+                        .addHeader("Authorization", "Bearer " + preferences.getValue(RecipesPreferences.TOKEN, " "))
+                        .build();
 
+                Timber.d("auth header: %s", request.headers());
+
+                Response response1 = chain.proceed(request);
+                return response1;
             }
+
+
+            Timber.d("Getting response! Response cache header %s", response.header(CACHE_CONTROL_HEADER));
+            Timber.d("Response sent time %d", response.sentRequestAtMillis());
+            Timber.d("Response received time %d", response.receivedResponseAtMillis());
+
+            Timber.d("===   Cache interceptor end   ===");
+            return response;
+
         };
 
         Timber.d("Cache interceptor created!");

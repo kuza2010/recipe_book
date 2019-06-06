@@ -1,8 +1,11 @@
 package com.example.myapplication.framework.retrofit.model.recipe;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Recipe {
+public class Recipe implements Parcelable {
     @SerializedName("id_recipe")
     private Integer idRecipe;
 
@@ -14,6 +17,9 @@ public class Recipe {
 
     @SerializedName("rating")
     private float rating;
+
+    @SerializedName("total_time")
+    private String coockingTime;
 
     public float getRating() {
         return rating;
@@ -30,9 +36,6 @@ public class Recipe {
     public void setCoockingTime(String coockingTime) {
         this.coockingTime = coockingTime;
     }
-
-    @SerializedName("total_time")
-    private String coockingTime;
 
     public Integer getIdRecipe() {
         return idRecipe;
@@ -57,4 +60,57 @@ public class Recipe {
     public void setName(String name) {
         this.name = name;
     }
+
+
+    protected Recipe(Parcel in) {
+        if (in.readByte() == 0) {
+            idRecipe = null;
+        } else {
+            idRecipe = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            imageId = null;
+        } else {
+            imageId = in.readInt();
+        }
+        name = in.readString();
+        rating = in.readFloat();
+        coockingTime = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (idRecipe == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(idRecipe);
+        }
+        if (imageId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(imageId);
+        }
+        dest.writeString(name);
+        dest.writeFloat(rating);
+        dest.writeString(coockingTime);
+    }
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }
