@@ -20,4 +20,28 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/hint_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/image_view_smile"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/search_section_main_icon_size"
+            android:layout_height="@dimen/search_section_main_icon_size"
+            android:alpha="0.2"
+            android:src="@drawable/search_main"/>
+
+        <TextView
+            android:id="@+id/text_view_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_view_smile"
+            android:layout_centerHorizontal="true"
+            android:text="@string/start_search"/>
+    </RelativeLayout>
+
 </RelativeLayout>

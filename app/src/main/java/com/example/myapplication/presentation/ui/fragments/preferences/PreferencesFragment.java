@@ -16,11 +16,10 @@ import com.example.myapplication.BaseApp;
 import com.example.myapplication.R;
 import com.example.myapplication.RecipesPreferences;
 import com.example.myapplication.framework.retrofit.model.recipe.Recipe;
-import com.example.myapplication.framework.retrofit.model.recipe.Recipes;
-import com.example.myapplication.framework.retrofit.services.NetworkCallback;
 import com.example.myapplication.framework.retrofit.services.recipe.RecipeServices;
 import com.example.myapplication.presentation.ui.login.LogInActivity;
 import com.example.myapplication.presentation.ui.main.MainActivity;
+import com.example.myapplication.presentation.ui.recipe.RecipeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +30,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.example.myapplication.RecepiesConstant.CACHE;
 import static com.example.myapplication.presentation.ui.BaseBottomNavigationActivity.USER_ID;
-import static com.example.myapplication.presentation.ui.BaseToolbarActivity.STANDART_DELAY;
 import static com.example.myapplication.presentation.ui.fragments.preferences.PreferencesAdapter.Preferences.FAVORITE;
 import static com.example.myapplication.presentation.ui.fragments.preferences.PreferencesAdapter.Preferences.LOGOUT;
+import static com.example.myapplication.presentation.ui.fragments.preferences.PreferencesAdapter.Preferences.MY_RECIPE;
 
 public class PreferencesFragment extends Fragment implements PreferencesAdapter.MenuListener {
     @BindView(R.id.preferences_recycler_view)
@@ -95,20 +93,12 @@ public class PreferencesFragment extends Fragment implements PreferencesAdapter.
             getActivity().finish();
         }else if(preferences.equals(FAVORITE)){
             int userId = ((MainActivity)getActivity()).getIntent().getIntExtra(USER_ID,-1);
-
-            services.getFavoriteRecipe(CACHE, userId, new NetworkCallback<Recipes>() {
-                @Override
-                public void onResponse(Recipes body) {
-                    startFavoriteActivity(body.getRecipes());
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    Timber.d("onFailure: getFavoriteRecipe fail: %S",throwable.getMessage());
-                    ((MainActivity)getActivity()).popupToast("Favorite recipe error",STANDART_DELAY);
-                }
-            });
-        }
+            startActivity(RecipeActivity.getInstanceById(getContext(),userId, RecipeActivity.TypePage.FAVORITE));
+        }else if(preferences.equals(MY_RECIPE)){
+            int userId = ((MainActivity)getActivity()).getIntent().getIntExtra(USER_ID,-1);
+            startActivity(RecipeActivity.getInstanceById(getContext(),userId, RecipeActivity.TypePage.BY_ME));
+        }else
+            return;
     }
 
     private void startFavoriteActivity(List<Recipe>list){

@@ -8,11 +8,12 @@ import java.util.List;
 public interface RecipePresenter<T> extends BasePresenter<T> {
 
     void initByCategory(String recipeName);
-    void initByRecipe(final List<Recipe> recipeList);
+    void init(final int userId, String type,String recipeName);
     void refreshRecipeList(final String currentCategory);
 
     interface RecipeContractView {
         void setRecipeList(List<Recipe> recipeList);
         void updateRecipes(List<Recipe> recipeList);
+        void showHint();
     }
 }
